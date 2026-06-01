@@ -10,8 +10,9 @@ export function middleware(request: NextRequest) {
   const windowMs = 60 * 1000; // 1 minute
   const maxRequests = 60; // 60 requêtes/minute max
 
-  // Nettoyage des anciennes entrées
-  for (const [key, value] of rateLimitMap.entries()) {
+  // Nettoyage des anciennes entrées (convertir en array pour éviter l'erreur TypeScript)
+  const entries = Array.from(rateLimitMap.entries());
+  for (const [key, value] of entries) {
     if (now - value.timestamp > windowMs) {
       rateLimitMap.delete(key);
     }
