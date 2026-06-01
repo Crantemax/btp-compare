@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { ThemeToggle } from '../../../components/theme-toggle';
 import { AffiliateDisclosure } from '../../../components/affiliate-disclosure';
+import { TransparencyBanner } from '../../../components/transparency-banner';
 import { logiciels } from '../../../data/logiciels';
 import { 
   ArrowLeft, Check, X, Star, ExternalLink, 
@@ -27,6 +28,9 @@ export function LogicielPageClient({ logicielSlug }: LogicielPageClientProps) {
     );
   }
 
+  // Récupération de la source principale (Trustpilot en priorité, sinon G2)
+  const sourcePrincipale = data.sources.trustpilot || data.sources.g2;
+
   return (
     <div className="min-h-screen gradient-subtle">
       
@@ -39,9 +43,9 @@ export function LogicielPageClient({ logicielSlug }: LogicielPageClientProps) {
               <div className="text-lg font-semibold text-foreground tracking-tight">BTP-Compare</div>
             </a>
             <nav className="hidden md:flex items-center space-x-8">
-              <a href={`/${logicielSlug}#tarifs`} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-smooth">Tarifs</a>
-              <a href={`/${logicielSlug}#fonctionnalites`} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-smooth">Fonctionnalités</a>
-              <a href={`/${logicielSlug}#avis`} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-smooth">Avis</a>
+              <a href={`#${data.slug}-tarifs`} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-smooth">Tarifs</a>
+              <a href={`#${data.slug}-fonctionnalites`} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-smooth">Fonctionnalités</a>
+              <a href={`#${data.slug}-avis`} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-smooth">Avis</a>
             </nav>
             <ThemeToggle />
           </div>
@@ -54,7 +58,9 @@ export function LogicielPageClient({ logicielSlug }: LogicielPageClientProps) {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
             <div className="inline-flex items-center space-x-2 glass-subtle px-4 py-2 rounded-full mb-6">
               <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-              <span className="text-sm font-medium text-foreground">Testé pendant 6 mois • {data.nombreUtilisateurs} utilisateurs</span>
+              <span className="text-sm font-medium text-foreground">
+                {data.nombreUtilisateurs} utilisateurs • {data.pays}
+              </span>
             </div>
           </motion.div>
 
@@ -71,10 +77,17 @@ export function LogicielPageClient({ logicielSlug }: LogicielPageClientProps) {
               <Shield className="w-4 h-4" />
               <span>{data.pays} • Depuis {data.anneeCreation}</span>
             </div>
-            <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-              <Star className="w-4 h-4 text-yellow-500" fill="currentColor" />
-              <span>{data.avis.noteGlobale} ({data.avis.nombreAvis} avis)</span>
-            </div>
+            {sourcePrincipale && (
+              <a 
+                href={sourcePrincipale.url} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center space-x-2 text-sm text-muted-foreground hover:text-foreground transition-smooth"
+              >
+                <Star className="w-4 h-4 text-yellow-500" fill="currentColor" />
+                <span>{sourcePrincipale.note} sur {sourcePrincipale.plateforme} ({sourcePrincipale.nombreAvis} avis)</span>
+              </a>
+            )}
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="flex flex-col sm:flex-row gap-4">
@@ -109,17 +122,42 @@ export function LogicielPageClient({ logicielSlug }: LogicielPageClientProps) {
           <p className="text-lg text-muted-foreground leading-relaxed">{data.descriptionLongue}</p>
         </motion.section>
 
+        {/* MÉTHODOLOGIE */}
+        <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-16 bg-accent rounded-xl border border-border p-6">
+          <h3 className="text-lg font-bold text-foreground mb-3 flex items-center">
+            <Zap className="w-5 h-5 mr-2" />
+            Notre méthodologie d'analyse
+          </h3>
+          <p className="text-sm text-muted-foreground mb-3">
+            Cette analyse est basée sur les sources suivantes :
+          </p>
+          <ul className="space-y-2">
+            {data.methodologie.baseAnalyse.map((source, i) => (
+              <li key={i} className="flex items-start text-sm text-muted-foreground">
+                <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
+                <span>{source}</span>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-3 pt-3 border-t border-border text-xs text-muted-foreground">
+            Dernière mise à jour : {new Date(data.methodologie.dateDerniereMAJ).toLocaleDateString('fr-FR')}
+          </div>
+        </motion.section>
+
         {/* TARIFICATION */}
-        <motion.section id="tarifs" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
+        <motion.section id={`${data.slug}-tarifs`} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
           <div className="mb-8">
             <h2 className="text-4xl font-bold tracking-tight text-foreground mb-4">Tarification</h2>
             <div className="flex items-center space-x-2 text-sm text-muted-foreground">
               <Clock className="w-4 h-4" />
               <span>{data.tarification.modele} • {data.tarification.essaiGratuit}</span>
             </div>
+            <div className="mt-2 text-xs text-muted-foreground">
+              Source : <a href={data.tarification.sourceTarifs} target="_blank" rel="noopener noreferrer" className="underline hover:text-foreground">{data.tarification.sourceTarifs}</a> • Vérifié le {new Date(data.tarification.dateVerification).toLocaleDateString('fr-FR')}
+            </div>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 gap-6">
             {data.tarification.formules.map((formule, i) => (
               <motion.div
                 key={i}
@@ -130,7 +168,7 @@ export function LogicielPageClient({ logicielSlug }: LogicielPageClientProps) {
                 className="bg-card rounded-xl border border-border p-6 hover-lift"
               >
                 <h3 className="text-xl font-bold text-foreground mb-2">{formule.nom}</h3>
-                <div className="text-3xl font-bold text-foreground mb-1">{formule.prix}</div>
+                <div className="text-2xl font-bold text-foreground mb-1">{formule.prix}</div>
                 <div className="text-sm text-muted-foreground mb-6">{formule.idealPour}</div>
                 <ul className="space-y-2">
                   {formule.fonctionnalites.map((f, j) => (
@@ -145,12 +183,12 @@ export function LogicielPageClient({ logicielSlug }: LogicielPageClientProps) {
           </div>
         </motion.section>
 
-        {/* FONCTIONNALITÉS */}
-        <motion.section id="fonctionnalites" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
-          <h2 className="text-4xl font-bold tracking-tight text-foreground mb-8">Fonctionnalités</h2>
+        {/* ÉVALUATIONS */}
+        <motion.section id={`${data.slug}-fonctionnalites`} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
+          <h2 className="text-4xl font-bold tracking-tight text-foreground mb-8">Évaluations</h2>
           
           <div className="space-y-8">
-            {data.fonctionnalites.map((cat, i) => (
+            {data.evaluations.map((cat, i) => (
               <div key={i}>
                 <h3 className="text-2xl font-bold text-foreground mb-4">{cat.categorie}</h3>
                 <div className="space-y-3">
@@ -159,17 +197,33 @@ export function LogicielPageClient({ logicielSlug }: LogicielPageClientProps) {
                       <div className="flex items-start justify-between mb-2">
                         <div className="flex-1">
                           <h4 className="font-semibold text-foreground mb-1">{item.nom}</h4>
-                          <p className="text-sm text-muted-foreground">{item.description}</p>
+                          <p className="text-sm text-muted-foreground mb-2">{item.description}</p>
                         </div>
-                        <div className="flex items-center space-x-1 ml-4">
-                          {Array.from({ length: 5 }, (_, k) => (
-                            <Star
-                              key={k}
-                              className={`w-4 h-4 ${k < item.note ? 'text-yellow-500' : 'text-muted-foreground/30'}`}
-                              fill={k < item.note ? 'currentColor' : 'none'}
-                            />
-                          ))}
+                        <div className="ml-4 flex-shrink-0">
+                          <span className={`text-xs font-semibold px-3 py-1 rounded-full ${
+                            item.evaluation === 'Excellent' ? 'bg-green-500/10 text-green-600' :
+                            item.evaluation === 'Bon' ? 'bg-blue-500/10 text-blue-600' :
+                            item.evaluation === 'Moyen' ? 'bg-yellow-500/10 text-yellow-600' :
+                            item.evaluation === 'Limité' ? 'bg-orange-500/10 text-orange-600' :
+                            'bg-red-500/10 text-red-600'
+                          }`}>
+                            {item.evaluation}
+                          </span>
                         </div>
+                      </div>
+                      <p className="text-sm text-muted-foreground mb-3 italic">{item.justification}</p>
+                      <div className="flex flex-wrap gap-2">
+                        {item.sources.map((source, k) => (
+                          <a
+                            key={k}
+                            href={source}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-xs text-muted-foreground hover:text-foreground underline"
+                          >
+                            Source {k + 1}
+                          </a>
+                        ))}
                       </div>
                     </div>
                   ))}
@@ -190,19 +244,11 @@ export function LogicielPageClient({ logicielSlug }: LogicielPageClientProps) {
                 href={`/${metier.slug}`}
                 className="group bg-card rounded-xl border border-border p-6 hover-lift block"
               >
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-lg font-bold text-foreground">{metier.nom}</h3>
-                  <div className="flex items-center space-x-1">
-                    {Array.from({ length: 5 }, (_, k) => (
-                      <Star
-                        key={k}
-                        className={`w-4 h-4 ${k < metier.note ? 'text-yellow-500' : 'text-muted-foreground/30'}`}
-                        fill={k < metier.note ? 'currentColor' : 'none'}
-                      />
-                    ))}
-                  </div>
+                <h3 className="text-lg font-bold text-foreground mb-2">{metier.nom}</h3>
+                <p className="text-sm text-muted-foreground mb-3">{metier.pourquoi}</p>
+                <div className="text-xs text-muted-foreground mb-4 italic">
+                  Base : {metier.baseAnalyse}
                 </div>
-                <p className="text-sm text-muted-foreground mb-4">{metier.pourquoi}</p>
                 <div className="flex items-center text-sm font-medium text-foreground group-hover:text-primary transition-colors">
                   Voir le comparatif
                   <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
@@ -225,9 +271,17 @@ export function LogicielPageClient({ logicielSlug }: LogicielPageClientProps) {
                   <div key={i} className="bg-card rounded-xl border border-border p-4">
                     <div className="flex items-start space-x-3">
                       <div className="text-2xl">{point.icone}</div>
-                      <div>
+                      <div className="flex-1">
                         <h4 className="font-semibold text-foreground mb-1">{point.titre}</h4>
-                        <p className="text-sm text-muted-foreground">{point.description}</p>
+                        <p className="text-sm text-muted-foreground mb-2">{point.description}</p>
+                        <a 
+                          href={point.source} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-xs text-muted-foreground hover:text-foreground underline"
+                        >
+                          Source
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -245,9 +299,17 @@ export function LogicielPageClient({ logicielSlug }: LogicielPageClientProps) {
                   <div key={i} className="bg-card rounded-xl border border-border p-4">
                     <div className="flex items-start space-x-3">
                       <div className="text-2xl">{point.icone}</div>
-                      <div>
+                      <div className="flex-1">
                         <h4 className="font-semibold text-foreground mb-1">{point.titre}</h4>
-                        <p className="text-sm text-muted-foreground">{point.description}</p>
+                        <p className="text-sm text-muted-foreground mb-2">{point.description}</p>
+                        <a 
+                          href={point.source} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-xs text-muted-foreground hover:text-foreground underline"
+                        >
+                          Source
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -257,21 +319,47 @@ export function LogicielPageClient({ logicielSlug }: LogicielPageClientProps) {
           </div>
         </motion.section>
 
-        {/* AVIS UTILISATEURS */}
-        <motion.section id="avis" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
+        {/* AVIS VÉRIFIÉS */}
+        <motion.section id={`${data.slug}-avis`} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
           <div className="mb-8">
-            <h2 className="text-4xl font-bold tracking-tight text-foreground mb-4">Avis utilisateurs</h2>
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
-                <Star className="w-6 h-6 text-yellow-500" fill="currentColor" />
-                <span className="text-2xl font-bold text-foreground">{data.avis.noteGlobale}</span>
+            <h2 className="text-4xl font-bold tracking-tight text-foreground mb-4">Avis vérifiés</h2>
+            {sourcePrincipale && (
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-2">
+                  <Star className="w-6 h-6 text-yellow-500" fill="currentColor" />
+                  <span className="text-2xl font-bold text-foreground">{sourcePrincipale.note}</span>
+                </div>
+                <span className="text-muted-foreground">
+                  sur {sourcePrincipale.plateforme} ({sourcePrincipale.nombreAvis} avis)
+                </span>
               </div>
-              <span className="text-muted-foreground">sur {data.avis.plateforme} ({data.avis.nombreAvis} avis)</span>
+            )}
+            <div className="mt-3 flex flex-wrap gap-3">
+              {data.sources.trustpilot && (
+                <a 
+                  href={data.sources.trustpilot.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-muted-foreground hover:text-foreground underline"
+                >
+                  Voir sur Trustpilot
+                </a>
+              )}
+              {data.sources.g2 && (
+                <a 
+                  href={data.sources.g2.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-muted-foreground hover:text-foreground underline"
+                >
+                  Voir sur G2
+                </a>
+              )}
             </div>
           </div>
 
           <div className="space-y-4">
-            {data.avis.temoignages.map((temoignage, i) => (
+            {data.avisVerifies.map((avis, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 20 }}
@@ -284,15 +372,25 @@ export function LogicielPageClient({ logicielSlug }: LogicielPageClientProps) {
                   {Array.from({ length: 5 }, (_, k) => (
                     <Star
                       key={k}
-                      className={`w-4 h-4 ${k < temoignage.note ? 'text-yellow-500' : 'text-muted-foreground/30'}`}
-                      fill={k < temoignage.note ? 'currentColor' : 'none'}
+                      className={`w-4 h-4 ${k < avis.note ? 'text-yellow-500' : 'text-muted-foreground/30'}`}
+                      fill={k < avis.note ? 'currentColor' : 'none'}
                     />
                   ))}
                 </div>
-                <p className="text-foreground leading-relaxed mb-4 italic">"{temoignage.texte}"</p>
-                <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                  <Users className="w-4 h-4" />
-                  <span>{temoignage.auteur} • {temoignage.metier}</span>
+                <p className="text-foreground leading-relaxed mb-4 italic">"{avis.texte}"</p>
+                <div className="flex items-center justify-between text-sm text-muted-foreground">
+                  <div className="flex items-center space-x-2">
+                    <Users className="w-4 h-4" />
+                    <span>{avis.auteur} • {avis.source} • {new Date(avis.date).toLocaleDateString('fr-FR')}</span>
+                  </div>
+                  <a 
+                    href={avis.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline hover:text-foreground"
+                  >
+                    Vérifier
+                  </a>
                 </div>
               </motion.div>
             ))}
