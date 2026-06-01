@@ -846,7 +846,7 @@ export const metiers: Metier[] = [
         pointFaible: 'Compte prorata pas natif, bibliothèque de prix moins riche que ProGBat'
       }
     ]
-  }
+  },
   // ═══════════════════════════════════════════════════════
   // 4. COUVREUR
   // ═══════════════════════════════════════════════════════
