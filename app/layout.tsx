@@ -1,6 +1,7 @@
 import './globals.css';
 import { ThemeProvider } from './theme-provider';
 import { Analytics } from '../components/analytics';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export const metadata = {
   metadataBase: new URL('https://btp-compare.fr'),
@@ -84,6 +85,7 @@ export default function RootLayout({
         <ThemeProvider defaultTheme="system" storageKey="btp-compare-theme">
           <Analytics />
           {children}
+          <SpeedInsights />
         </ThemeProvider>
       </body>
     </html>
