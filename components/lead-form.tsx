@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 import { Mail, Check, AlertCircle, Loader } from 'lucide-react';
 
 interface LeadFormProps {
-  source: 'roiCalculator' | 'comparaison' | 'page_metier' | 'sidebar';
+  source: 'roiCalculator' | 'comparaison' | 'page_metier' | 'sidebar' | 'exit_intent';
   metier?: string;
   yearlySavings?: number;
   onSuccess?: () => void;
