@@ -481,10 +481,10 @@ export default function HomePage() {
           </p>
         </motion.div>
         <ROICalculator
-          tauxHoraireDefaut={50}
-          tempsAdminParSemaine={5}
-          metierNom="Artisan"
-        />
+  tauxHoraireDefaut={50}
+  tempsAdminDefaut={5}        ← ✅ BON NOM
+  metierNom="Artisan"
+/>
       </section>
 
       {/* ═══════════════════════════════════════════════════════
