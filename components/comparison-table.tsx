@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, X, Minus, Info, ChevronDown, ChevronUp, Users, Calculator } from 'lucide-react';
+import { Check, X, Minus, Info, ChevronDown, ChevronUp, Users, Calculator, ExternalLink } from 'lucide-react';
 import { logiciels } from '../data/metiers';
 
 interface CritereComparatif {
@@ -36,14 +36,14 @@ interface ComparisonTableProps {
 }
 
 function NoteDisplay({ note }: { note: number }) {
-  if (note === 0) return <X className="w-5 h-5 text-red-500 mx-auto" />;
-  if (note === 5) return <Check className="w-5 h-5 text-green-500 mx-auto" />;
+  if (note === 0) return <X className="w-5 h-5 text-destructive mx-auto" />;
+  if (note === 5) return <Check className="w-5 h-5 text-success mx-auto" />;
   
   const circles = Array.from({ length: 5 }, (_, i) => (
     <div
       key={i}
       className={`w-2 h-2 rounded-full mx-0.5 ${
-        i < note ? 'bg-foreground' : 'bg-muted-foreground/30'
+        i < note ? 'bg-primary' : 'bg-border'
       }`}
     />
   ));
@@ -56,11 +56,10 @@ export function ComparisonTable({ criteres, alternatives, metierNom }: Compariso
   const [expandedCriteres, setExpandedCriteres] = useState<number[]>([]);
   const [showAlternatives, setShowAlternatives] = useState(false);
 
-  // Calcul du coût mensuel réel
-  const obatPrixBase = 39; // Prix de base estimé
-  const axonautPrixBase = 49; // Prix par utilisateur
+  const obatPrixBase = 39;
+  const axonautPrixBase = 49;
   
-  const obatCoutMensuel = Math.round(obatPrixBase + (teamSize - 1) * 15); // +15€ par utilisateur supp
+  const obatCoutMensuel = Math.round(obatPrixBase + (teamSize - 1) * 15);
   const axonautCoutMensuel = axonautPrixBase * teamSize;
   
   const toggleCritere = (index: number) => {
@@ -73,119 +72,108 @@ export function ComparisonTable({ criteres, alternatives, metierNom }: Compariso
   const criteresImportants = criteres.filter(c => c.categorie === 'important');
   const criteresConfort = criteres.filter(c => c.categorie === 'confort');
 
-  // Calcul du score global
   const scoreObat = Math.round((criteres.reduce((sum, c) => sum + c.obat.note, 0) / (criteres.length * 5)) * 10) / 10;
   const scoreAxonaut = Math.round((criteres.reduce((sum, c) => sum + c.axonaut.note, 0) / (criteres.length * 5)) * 10) / 10;
 
   return (
     <div className="space-y-8">
       
-      {/* ═══════════════════════════════════════════════════
-          SÉLECTEUR TAILLE D'ÉQUIPE
-      ═══════════════════════════════════════════════════ */}
-      <div className="bg-accent rounded-xl p-6 border border-border">
+      {/* SÉLECTEUR TAILLE D'ÉQUIPE */}
+      <div className="card-base p-6">
         <div className="flex items-center space-x-3 mb-4">
-          <Users className="w-5 h-5 text-foreground" />
-          <h3 className="font-semibold text-foreground">Taille de votre équipe</h3>
+          <Users className="w-5 h-5 text-primary" />
+          <h3 className="heading-editorial text-2xl">Taille de votre équipe</h3>
         </div>
-        <div className="flex items-center space-x-3 mb-4">
+        <div className="flex items-center space-x-3 mb-6">
           <input
             type="range"
             min="1"
             max="15"
             value={teamSize}
             onChange={(e) => setTeamSize(Number(e.target.value))}
-            className="flex-1 h-2 bg-background rounded-lg appearance-none cursor-pointer accent-foreground"
+            className="flex-1 h-2 bg-secondary rounded-lg appearance-none cursor-pointer accent-primary"
           />
-          <div className="text-2xl font-bold text-foreground w-16 text-center">
-            {teamSize}
-          </div>
+          <div className="stat-number text-4xl w-16 text-center">{teamSize}</div>
         </div>
         
         <div className="grid md:grid-cols-2 gap-4">
-          <div className="bg-background rounded-lg p-4 border-2 border-green-500">
-            <div className="flex items-center justify-between mb-2">
-              <span className="font-semibold text-foreground">🟢 Obat</span>
-              <span className="text-xs bg-green-500/10 text-green-600 px-2 py-1 rounded">Forfait + utilisateurs</span>
+          <div className="card-base p-5 border-2 border-success">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center space-x-2">
+                <span className="text-2xl">{logiciels.obat.logo}</span>
+                <span className="font-semibold text-foreground">{logiciels.obat.nom}</span>
+              </div>
+              <span className="pill badge-excellent text-xs">Forfait + utilisateurs</span>
             </div>
-            <div className="text-2xl font-bold text-foreground">{obatCoutMensuel}€<span className="text-sm text-muted-foreground font-normal">/mois</span></div>
-            <div className="text-xs text-muted-foreground mt-1">
+            <div className="stat-number text-3xl mb-1">{obatCoutMensuel}€<span className="text-base text-muted-foreground font-sans">/mois</span></div>
+            <div className="text-xs text-muted-foreground mt-2">
               {teamSize === 1 ? 'Forfait solo' : `${obatPrixBase}€ de base + ${(teamSize - 1) * 15}€ (${teamSize - 1} × 15€)`}
             </div>
           </div>
           
-          <div className="bg-background rounded-lg p-4 border-2 border-blue-500">
-            <div className="flex items-center justify-between mb-2">
-              <span className="font-semibold text-foreground">🔵 Axonaut</span>
-              <span className="text-xs bg-blue-500/10 text-blue-600 px-2 py-1 rounded">Par utilisateur</span>
+          <div className="card-base p-5 border-2 border-primary">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center space-x-2">
+                <span className="text-2xl">{logiciels.axonaut.logo}</span>
+                <span className="font-semibold text-foreground">{logiciels.axonaut.nom}</span>
+              </div>
+              <span className="pill badge-bon text-xs">Par utilisateur</span>
             </div>
-            <div className="text-2xl font-bold text-foreground">{axonautCoutMensuel}€<span className="text-sm text-muted-foreground font-normal">/mois</span></div>
-            <div className="text-xs text-muted-foreground mt-1">
+            <div className="stat-number text-3xl mb-1">{axonautCoutMensuel}€<span className="text-base text-muted-foreground font-sans">/mois</span></div>
+            <div className="text-xs text-muted-foreground mt-2">
               {teamSize} × {axonautPrixBase}€/utilisateur
             </div>
           </div>
         </div>
 
         {teamSize >= 5 && (
-          <div className="mt-4 p-3 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
-            <div className="flex items-start space-x-2">
-              <Info className="w-4 h-4 text-yellow-600 flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-yellow-800 dark:text-yellow-300">
-                <strong>À partir de {teamSize} utilisateurs</strong>, Axonaut devient significativement plus cher. 
-                Obat reste plus économique grâce à son modèle forfaitaire.
-              </p>
-            </div>
+          <div className="mt-6 disclosure-banner">
+            <div className="dot"></div>
+            <p>
+              <strong>À partir de {teamSize} utilisateurs</strong>, Axonaut devient significativement plus cher. 
+              Obat reste plus économique grâce à son modèle forfaitaire.
+            </p>
           </div>
         )}
       </div>
 
-      {/* ═══════════════════════════════════════════════════
-          SCORES GLOBAUX
-      ═══════════════════════════════════════════════════ */}
+      {/* SCORES GLOBAUX */}
       <div className="grid md:grid-cols-2 gap-4">
-        <div className={`rounded-xl p-6 border-2 ${scoreObat >= scoreAxonaut ? 'bg-green-500/5 border-green-500' : 'bg-card border-border'}`}>
-          <div className="flex items-center justify-between mb-2">
+        <div className={`card-base p-6 ${scoreObat >= scoreAxonaut ? 'border-2 border-success' : ''}`}>
+          <div className="flex items-center justify-between mb-3">
             <div className="flex items-center space-x-2">
-              <span className="text-2xl">{logiciels.obat.logo}</span>
-              <span className="font-bold text-foreground">{logiciels.obat.nom}</span>
+              <span className="text-3xl">{logiciels.obat.logo}</span>
+              <span className="heading-editorial text-2xl">{logiciels.obat.nom}</span>
             </div>
             {scoreObat > scoreAxonaut && (
-              <span className="text-xs bg-green-500 text-white px-2 py-1 rounded-full font-semibold">
-                MEILLEUR SCORE
-              </span>
+              <span className="pill badge-excellent">MEILLEUR SCORE</span>
             )}
           </div>
-          <div className="text-4xl font-bold text-foreground mb-1">{scoreObat}<span className="text-lg text-muted-foreground">/5</span></div>
+          <div className="stat-number text-5xl mb-1">{scoreObat}<span className="text-xl text-muted-foreground font-sans">/5</span></div>
           <div className="text-sm text-muted-foreground">Score global pour {metierNom.toLowerCase()}s</div>
         </div>
 
-        <div className={`rounded-xl p-6 border-2 ${scoreAxonaut >= scoreObat ? 'bg-blue-500/5 border-blue-500' : 'bg-card border-border'}`}>
-          <div className="flex items-center justify-between mb-2">
+        <div className={`card-base p-6 ${scoreAxonaut >= scoreObat ? 'border-2 border-primary' : ''}`}>
+          <div className="flex items-center justify-between mb-3">
             <div className="flex items-center space-x-2">
-              <span className="text-2xl">{logiciels.axonaut.logo}</span>
-              <span className="font-bold text-foreground">{logiciels.axonaut.nom}</span>
+              <span className="text-3xl">{logiciels.axonaut.logo}</span>
+              <span className="heading-editorial text-2xl">{logiciels.axonaut.nom}</span>
             </div>
             {scoreAxonaut > scoreObat && (
-              <span className="text-xs bg-blue-500 text-white px-2 py-1 rounded-full font-semibold">
-                MEILLEUR SCORE
-              </span>
+              <span className="pill badge-bon">MEILLEUR SCORE</span>
             )}
           </div>
-          <div className="text-4xl font-bold text-foreground mb-1">{scoreAxonaut}<span className="text-lg text-muted-foreground">/5</span></div>
+          <div className="stat-number text-5xl mb-1">{scoreAxonaut}<span className="text-xl text-muted-foreground font-sans">/5</span></div>
           <div className="text-sm text-muted-foreground">Score global pour {metierNom.toLowerCase()}s</div>
         </div>
       </div>
 
-      {/* ═══════════════════════════════════════════════════
-          CRITÈRES ESSENTIELS
-      ═══════════════════════════════════════════════════ */}
+      {/* CRITÈRES ESSENTIELS */}
       <div>
-        <div className="flex items-center space-x-2 mb-4">
-          <div className="w-2 h-2 rounded-full bg-red-500"></div>
-          <h3 className="font-bold text-foreground">Critères essentiels</h3>
-          <span className="text-xs text-muted-foreground">({criteresEssentiels.length} critères qui font ou défont le choix)</span>
+        <div className="divider-label mb-6">
+          <span>Critères essentiels</span>
         </div>
-        <div className="space-y-2">
+        <div className="space-y-3">
           {criteresEssentiels.map((critere, index) => (
             <CritereRow
               key={index}
@@ -197,16 +185,12 @@ export function ComparisonTable({ criteres, alternatives, metierNom }: Compariso
         </div>
       </div>
 
-      {/* ═══════════════════════════════════════════════════
-          CRITÈRES IMPORTANTS
-      ═══════════════════════════════════════════════════ */}
+      {/* CRITÈRES IMPORTANTS */}
       <div>
-        <div className="flex items-center space-x-2 mb-4">
-          <div className="w-2 h-2 rounded-full bg-orange-500"></div>
-          <h3 className="font-bold text-foreground">Critères importants</h3>
-          <span className="text-xs text-muted-foreground">({criteresImportants.length} critères)</span>
+        <div className="divider-label mb-6">
+          <span>Critères importants</span>
         </div>
-        <div className="space-y-2">
+        <div className="space-y-3">
           {criteresImportants.map((critere, index) => (
             <CritereRow
               key={index + 100}
@@ -218,16 +202,12 @@ export function ComparisonTable({ criteres, alternatives, metierNom }: Compariso
         </div>
       </div>
 
-      {/* ═══════════════════════════════════════════════════
-          CRITÈRES DE CONFORT
-      ═══════════════════════════════════════════════════ */}
+      {/* CRITÈRES DE CONFORT */}
       <div>
-        <div className="flex items-center space-x-2 mb-4">
-          <div className="w-2 h-2 rounded-full bg-gray-400"></div>
-          <h3 className="font-bold text-foreground">Critères de confort</h3>
-          <span className="text-xs text-muted-foreground">({criteresConfort.length} critères)</span>
+        <div className="divider-label mb-6">
+          <span>Critères de confort</span>
         </div>
-        <div className="space-y-2">
+        <div className="space-y-3">
           {criteresConfort.map((critere, index) => (
             <CritereRow
               key={index + 200}
@@ -239,26 +219,26 @@ export function ComparisonTable({ criteres, alternatives, metierNom }: Compariso
         </div>
       </div>
 
-      {/* ═══════════════════════════════════════════════════
-          ALTERNATIVES (17 logiciels promis)
-      ═══════════════════════════════════════════════════ */}
+      {/* ALTERNATIVES */}
       <div>
         <button
           onClick={() => setShowAlternatives(!showAlternatives)}
-          className="w-full flex items-center justify-between p-4 bg-accent rounded-xl hover:bg-accent/80 transition-colors"
+          className="w-full card-base p-5 hover:border-primary transition-smooth"
         >
-          <div className="flex items-center space-x-3">
-            <Calculator className="w-5 h-5 text-foreground" />
-            <div className="text-left">
-              <div className="font-semibold text-foreground">
-                {alternatives.length} autres logiciels testés pour {metierNom.toLowerCase()}s
-              </div>
-              <div className="text-xs text-muted-foreground">
-                Alternatives à considérer selon votre situation
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <Calculator className="w-5 h-5 text-primary" />
+              <div className="text-left">
+                <div className="heading-editorial text-xl">
+                  {alternatives.length} autres logiciels testés
+                </div>
+                <div className="text-sm text-muted-foreground">
+                  Alternatives à considérer selon votre situation
+                </div>
               </div>
             </div>
+            {showAlternatives ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
           </div>
-          {showAlternatives ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
         </button>
 
         <AnimatePresence>
@@ -270,27 +250,27 @@ export function ComparisonTable({ criteres, alternatives, metierNom }: Compariso
               className="mt-4 space-y-3"
             >
               {alternatives.map((alt, i) => (
-                <div key={i} className="bg-card rounded-xl border border-border p-5">
-                  <div className="flex items-start justify-between mb-3">
-                    <div>
-                      <h4 className="font-bold text-foreground mb-1">{alt.nom}</h4>
-                      <p className="text-sm text-muted-foreground">{alt.description}</p>
+                <div key={i} className="card-base p-6">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex-1">
+                      <h4 className="heading-editorial text-2xl mb-2">{alt.nom}</h4>
+                      <p className="text-sm text-muted-foreground mb-3">{alt.description}</p>
                     </div>
-                    <div className="text-right">
+                    <div className="text-right ml-4">
                       <div className="text-sm font-semibold text-foreground">{alt.tarif}</div>
                     </div>
                   </div>
-                  <div className="grid md:grid-cols-2 gap-3 text-xs">
-                    <div className="flex items-start">
-                      <span className="text-green-500 mr-2">+</span>
+                  <div className="grid md:grid-cols-2 gap-4 text-sm mb-4">
+                    <div className="flex items-start space-x-2">
+                      <Check className="w-4 h-4 text-success flex-shrink-0 mt-0.5" />
                       <span className="text-muted-foreground"><strong className="text-foreground">Idéal :</strong> {alt.idealPour}</span>
                     </div>
-                    <div className="flex items-start">
-                      <span className="text-green-500 mr-2">✓</span>
+                    <div className="flex items-start space-x-2">
+                      <Check className="w-4 h-4 text-success flex-shrink-0 mt-0.5" />
                       <span className="text-muted-foreground">{alt.pointFort}</span>
                     </div>
-                    <div className="flex items-start">
-                      <span className="text-red-500 mr-2">−</span>
+                    <div className="flex items-start space-x-2">
+                      <X className="w-4 h-4 text-destructive flex-shrink-0 mt-0.5" />
                       <span className="text-muted-foreground">{alt.pointFaible}</span>
                     </div>
                     <div>
@@ -298,9 +278,9 @@ export function ComparisonTable({ criteres, alternatives, metierNom }: Compariso
                         href={alt.lien}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-foreground underline hover:no-underline text-xs"
+                        className="inline-flex items-center gap-1 text-primary hover:underline text-sm font-medium"
                       >
-                        Voir le site →
+                        Voir le site <ExternalLink className="w-3 h-3" />
                       </a>
                     </div>
                   </div>
@@ -311,11 +291,9 @@ export function ComparisonTable({ criteres, alternatives, metierNom }: Compariso
         </AnimatePresence>
       </div>
 
-      {/* ═══════════════════════════════════════════════════
-          LÉGENDE
-      ═══════════════════════════════════════════════════ */}
-      <div className="bg-accent rounded-xl p-4 text-xs text-muted-foreground">
-        <div className="font-semibold text-foreground mb-2">Comment lire ce tableau :</div>
+      {/* LÉGENDE */}
+      <div className="card-base p-5 text-sm text-muted-foreground">
+        <div className="font-semibold text-foreground mb-3">Comment lire ce tableau :</div>
         <div className="grid md:grid-cols-2 gap-2">
           <div>• <strong>5 points</strong> = Fonctionnalité parfaite pour votre métier</div>
           <div>• <strong>0 point</strong> = Absent ou inadapté</div>
@@ -327,9 +305,6 @@ export function ComparisonTable({ criteres, alternatives, metierNom }: Compariso
   );
 }
 
-// ═══════════════════════════════════════════════════════
-// SOUS-COMPOSANT : Ligne de critère
-// ═══════════════════════════════════════════════════════
 function CritereRow({
   critere,
   isExpanded,
@@ -343,23 +318,33 @@ function CritereRow({
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="bg-card rounded-xl border border-border overflow-hidden"
+      className="card-base overflow-hidden"
     >
       <button
         onClick={onToggle}
-        className="w-full p-4 flex items-center justify-between hover:bg-accent/50 transition-colors"
+        className="w-full p-5 flex items-center justify-between hover:bg-accent/50 transition-smooth"
       >
         <div className="flex-1 text-left">
+          <div className="flex items-center space-x-2 mb-1">
+            <span className={`pill text-xs ${
+              critere.categorie === 'essentiel' ? 'badge-limite' :
+              critere.categorie === 'important' ? 'badge-moyen' :
+              'bg-secondary text-muted-foreground'
+            }`}>
+              {critere.categorie === 'essentiel' ? 'ESSENTIEL' : 
+               critere.categorie === 'important' ? 'IMPORTANT' : 'CONFORT'}
+            </span>
+          </div>
           <div className="font-semibold text-foreground mb-1">{critere.nom}</div>
           <div className="text-xs text-muted-foreground">{critere.description}</div>
         </div>
         <div className="flex items-center space-x-6 ml-4">
           <div className="text-center">
-            <div className="text-xs text-green-600 mb-1">Obat</div>
+            <div className="text-xs text-success mb-1 font-semibold">Obat</div>
             <NoteDisplay note={critere.obat.note} />
           </div>
           <div className="text-center">
-            <div className="text-xs text-blue-600 mb-1">Axonaut</div>
+            <div className="text-xs text-primary mb-1 font-semibold">Axonaut</div>
             <NoteDisplay note={critere.axonaut.note} />
           </div>
           {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
@@ -374,20 +359,20 @@ function CritereRow({
             exit={{ height: 0, opacity: 0 }}
             className="overflow-hidden"
           >
-            <div className="p-4 pt-0 border-t border-border bg-accent/30">
+            <div className="p-5 pt-0 border-t border-border bg-accent/30">
               <div className="grid md:grid-cols-2 gap-4 mt-4">
-                <div className="p-3 bg-green-500/5 rounded-lg border border-green-500/20">
-                  <div className="flex items-center space-x-2 mb-2">
-                    <span className="text-green-600 font-semibold">Obat</span>
+                <div className="card-base p-4 bg-success-bg border-success/20">
+                  <div className="flex items-center space-x-2 mb-3">
+                    <span className="text-success font-semibold">{logiciels.obat.nom}</span>
                     <span className="text-xs text-muted-foreground">Note : {critere.obat.note}/5</span>
                   </div>
                   <p className="text-sm text-muted-foreground">
                     {critere.obat.commentaire || 'Pas de commentaire spécifique pour ce critère.'}
                   </p>
                 </div>
-                <div className="p-3 bg-blue-500/5 rounded-lg border border-blue-500/20">
-                  <div className="flex items-center space-x-2 mb-2">
-                    <span className="text-blue-600 font-semibold">Axonaut</span>
+                <div className="card-base p-4 bg-primary-muted border-primary/20">
+                  <div className="flex items-center space-x-2 mb-3">
+                    <span className="text-primary font-semibold">{logiciels.axonaut.nom}</span>
                     <span className="text-xs text-muted-foreground">Note : {critere.axonaut.note}/5</span>
                   </div>
                   <p className="text-sm text-muted-foreground">
