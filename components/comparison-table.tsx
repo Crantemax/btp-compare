@@ -38,22 +38,30 @@ interface ComparisonTableProps {
 function NoteDisplay({ note }: { note: number }) {
   if (note === 0) return <X className="w-5 h-5 text-destructive mx-auto" />;
   if (note === 5) return <Check className="w-5 h-5 text-success mx-auto" />;
-  
-  const circles = Array.from({ length: 5 }, (_, i) => (
+
+  // Couleur graduée : rouge (1) → orange (2-3) → vert (4)
+  const colorClass =
+    note === 1 ? 'bg-destructive' :
+    note === 2 ? 'bg-orange-400' :
+    note === 3 ? 'bg-warning' :
+    'bg-success';
+
+  const bars = Array.from({ length: 5 }, (_, i) => (
     <div
       key={i}
-      className={`w-2 h-2 rounded-full mx-0.5 ${
-        i < note ? 'bg-primary' : 'bg-border'
+      className={`h-3 w-4 rounded-sm mx-0.5 transition-colors ${
+        i < note ? colorClass : 'bg-border'
       }`}
     />
   ));
-  
-  return <div className="flex justify-center">{circles}</div>;
+
+  return <div className="flex justify-center items-end">{bars}</div>;
 }
 
 export function ComparisonTable({ criteres, alternatives, metierNom }: ComparisonTableProps) {
   const [teamSize, setTeamSize] = useState(1);
-  const [expandedCriteres, setExpandedCriteres] = useState<number[]>([]);
+  // Les 2 premiers critères essentiels sont ouverts par défaut
+  const [expandedCriteres, setExpandedCriteres] = useState<number[]>([0, 1]);
   const [showAlternatives, setShowAlternatives] = useState(false);
 
   const obatPrixBase = 39;
@@ -72,8 +80,15 @@ export function ComparisonTable({ criteres, alternatives, metierNom }: Compariso
   const criteresImportants = criteres.filter(c => c.categorie === 'important');
   const criteresConfort = criteres.filter(c => c.categorie === 'confort');
 
-  const scoreObat = Math.round((criteres.reduce((sum, c) => sum + c.obat.note, 0) / (criteres.length * 5)) * 10) / 10;
-  const scoreAxonaut = Math.round((criteres.reduce((sum, c) => sum + c.axonaut.note, 0) / (criteres.length * 5)) * 10) / 10;
+  // Score pondéré : essentiel × 3, important × 2, confort × 1
+  const weight = (c: CritereComparatif) => c.categorie === 'essentiel' ? 3 : c.categorie === 'important' ? 2 : 1;
+  const totalWeight = criteres.reduce((sum, c) => sum + weight(c), 0);
+  const scoreObat = totalWeight > 0
+    ? Math.round((criteres.reduce((sum, c) => sum + c.obat.note * weight(c), 0) / (totalWeight * 5)) * 50) / 10
+    : 0;
+  const scoreAxonaut = totalWeight > 0
+    ? Math.round((criteres.reduce((sum, c) => sum + c.axonaut.note * weight(c), 0) / (totalWeight * 5)) * 50) / 10
+    : 0;
 
   return (
     <div className="space-y-8">
@@ -109,6 +124,9 @@ export function ComparisonTable({ criteres, alternatives, metierNom }: Compariso
             <div className="text-xs text-muted-foreground mt-2">
               {teamSize === 1 ? 'Forfait solo' : `${obatPrixBase}€ de base + ${(teamSize - 1) * 15}€ (${teamSize - 1} × 15€)`}
             </div>
+            <div className="text-xs text-muted-foreground/60 mt-1">
+              Tarif estimé — <a href="https://obat.com/tarifs" target="_blank" rel="noopener noreferrer" className="underline hover:text-muted-foreground">vérifier sur obat.com</a>
+            </div>
           </div>
           
           <div className="card-base p-5 border-2 border-primary">
@@ -122,6 +140,9 @@ export function ComparisonTable({ criteres, alternatives, metierNom }: Compariso
             <div className="stat-number text-3xl mb-1">{axonautCoutMensuel}€<span className="text-base text-muted-foreground font-sans">/mois</span></div>
             <div className="text-xs text-muted-foreground mt-2">
               {teamSize} × {axonautPrixBase}€/utilisateur
+            </div>
+            <div className="text-xs text-muted-foreground/60 mt-1">
+              Tarif estimé — <a href="https://axonaut.com/tarifs" target="_blank" rel="noopener noreferrer" className="underline hover:text-muted-foreground">vérifier sur axonaut.com</a>
             </div>
           </div>
         </div>
@@ -295,10 +316,10 @@ export function ComparisonTable({ criteres, alternatives, metierNom }: Compariso
       <div className="card-base p-5 text-sm text-muted-foreground">
         <div className="font-semibold text-foreground mb-3">Comment lire ce tableau :</div>
         <div className="grid md:grid-cols-2 gap-2">
-          <div>• <strong>5 points</strong> = Fonctionnalité parfaite pour votre métier</div>
-          <div>• <strong>0 point</strong> = Absent ou inadapté</div>
+          <div>• <strong>5 barres vertes</strong> = Fonctionnalité parfaite</div>
+          <div>• <strong>✗ rouge</strong> = Absent ou inadapté</div>
           <div>• Cliquez sur un critère pour voir l'analyse détaillée</div>
-          <div>• Les scores sont pondérés par catégorie</div>
+          <div>• Score pondéré : Essentiel × 3, Important × 2, Confort × 1</div>
         </div>
       </div>
     </div>
