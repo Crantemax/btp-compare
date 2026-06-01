@@ -175,7 +175,7 @@ export const metiers: Metier[] = [
     slug: "electricien",
     nom: "Électricien",
     nomPluriel: "Électriciens",
-    image: "https://images.unsplash.com/photo-1621905251189-08b45d6a302d?w=1200&h=800&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&h=800&fit=crop&q=80",
     heroSubtitle: "Tableaux électriques, mises aux normes NFC 15-100, domotique — votre métier exige un logiciel qui suit.",
     intro: "Un devis d'électricien, c'est souvent 15 pages. Entre les tableaux électriques, les prises RJ45, la domotique, les bornes de recharge et la mise aux normes NFC 15-100, vous avez besoin d'un logiciel capable de gérer des ouvrages complexes avec des sous-détails. On a passé 487 avis d'électriciens au crible pour identifier les outils qui tiennent la route sur les vrais chantiers.",
     
