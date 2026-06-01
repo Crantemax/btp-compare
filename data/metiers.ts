@@ -1585,36 +1585,8 @@ export const metiers: Metier[] = [
       { nom: 'ProGBat', description: 'ERP BTP complet', idealPour: 'Entreprises de chauffage avec chantiers tertiaires', tarif: 'À partir de 89€/mois', lien: 'https://progbat.com', pointFort: 'Compte prorata, situations de travaux', pointFaible: 'Complexe à prendre en main' },
       { nom: 'Tolteck', description: 'Spécialiste BTP', idealPour: 'Équipes de chauffagistes 2-10', tarif: 'À partir de 59€/mois', lien: 'https://tolteck.com', pointFort: 'Planning techniciens', pointFaible: 'Bibliothèque moins riche' }
     ]
+  }    ]
   }
-];
-
-// ═══════════════════════════════════════════════════════
-// LOGICIELS (export obligatoire)
-// ═══════════════════════════════════════════════════════
-export const logiciels = {
-  obat: {
-    nom: "Obat",
-    note: "4.8/5",
-    lien: "https://obat.com/?ref=btp_compare",
-    logo: "🟢",
-    pointFort: "Bibliothèque de prix intégrée (Batichiffrage)",
-    pointFaible: "Pas de mode hors-ligne sur les chantiers sans réseau",
-    idealPour: "Artisans seuls ou petites équipes (1-3 personnes)",
-    tarif: "À partir de 39€/mois (selon site officiel)",
-    sourceAvis: "https://fr.trustpilot.com/review/obat.com"
-  },
-  axonaut: {
-    nom: "Axonaut",
-    note: "4.7/5",
-    lien: "https://axonaut.com/?a=ADE1CH12F6",
-    logo: "🔵",
-    pointFort: "CRM + Gestion complète pour équipes",
-    pointFaible: "Moins spécialisé sur le métré technique pur",
-    idealPour: "PME en croissance avec salariés (3-15 personnes)",
-    tarif: "À partir de 49€/utilisateur/mois (selon site officiel)",
-    sourceAvis: "https://fr.trustpilot.com/review/axonaut.com"
-  }
-};
 ];
 
 // ═══════════════════════════════════════════════════════
