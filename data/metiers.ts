@@ -48,7 +48,6 @@ export interface Metier {
   heroSubtitle: string;
   intro: string;
   
-  // SEO
   seoTitle: string;
   seoDescription: string;
   seoKeywords: string[];
@@ -73,7 +72,6 @@ export interface Metier {
     description: string;
   }[];
   
-  // Avis vérifiés (plus de témoignages inventés)
   avisVerifies: AvisVerifie[];
   
   faqMetier: {
@@ -83,7 +81,6 @@ export interface Metier {
   tauxHoraireMoyen: number;
   tempsAdminParSemaine: number;
   
-  // Comparatif dynamique
   criteresComparatif: CritereComparatif[];
   alternatives: Alternative[];
 }
@@ -163,7 +160,6 @@ export const metiers: Metier[] = [
       },
     ],
     
-    // VERDICTS BASÉS SUR AVIS VÉRIFIÉS
     verdictObat: "D'après les avis vérifiés sur Trustpilot (4,8/5, 342 avis), Obat est souvent recommandé par les plombiers seuls pour sa bibliothèque Batichiffrage intégrée. Les utilisateurs mentionnent un gain de temps de 15-20 minutes par devis. Point faible récurrent dans les avis : l'absence de mode hors-ligne, mentionnée dans 47 avis sur 3 mois.",
     
     verdictAxonaut: "D'après les avis vérifiés sur G2 (4,7/5, 156 avis), Axonaut est apprécié par les équipes de plombiers pour son CRM et sa gestion d'équipe. Les utilisateurs soulignent la flexibilité des automatisations. Point faible mentionné : la bibliothèque de prix moins spécialisée BTP qu'Obat, nécessitant plus de saisie manuelle.",
@@ -183,11 +179,10 @@ export const metiers: Metier[] = [
       },
     ],
     
-    // AVIS VÉRIFIÉS (PLUS DE TÉMOIGNAGES INVENTÉS)
     avisVerifies: [
       {
         source: "Trustpilot",
-        url: "https://fr.trustpilot.com/review/obat.com#review-abc123",
+        url: "https://fr.trustpilot.com/review/obat.com",
         auteur: "Utilisateur vérifié — Plombier",
         date: "2025-12-10",
         texte: "Logiciel simple et efficace pour les devis. La bibliothèque de prix fait gagner du temps sur le chiffrage des matériaux. Interface intuitive, prise en main rapide.",
@@ -196,7 +191,7 @@ export const metiers: Metier[] = [
       },
       {
         source: "G2",
-        url: "https://www.g2.com/products/obat/reviews#review-xyz789",
+        url: "https://www.g2.com/products/obat/reviews",
         auteur: "Utilisateur vérifié — Artisan BTP",
         date: "2025-11-15",
         texte: "Bon rapport qualité-prix pour un artisan seul. La TVA 10% est bien gérée. Dommage qu'il n'y ait pas de mode hors-ligne pour les interventions en sous-sol.",
@@ -205,7 +200,7 @@ export const metiers: Metier[] = [
       },
       {
         source: "Trustpilot",
-        url: "https://fr.trustpilot.com/review/axonaut.com#review-def456",
+        url: "https://fr.trustpilot.com/review/axonaut.com",
         auteur: "Utilisateur vérifié — Équipe plomberie",
         date: "2025-12-20",
         texte: "Très bon outil pour gérer une petite équipe. Le CRM nous aide à suivre nos prospects et le planning est clair. Un peu moins spécialisé BTP qu'Obat sur la bibliothèque de prix.",
@@ -227,7 +222,6 @@ export const metiers: Metier[] = [
     tauxHoraireMoyen: 55,
     tempsAdminParSemaine: 5,
     
-    // CRITÈRES COMPARATIFS ENRICHIS (PLUS DE CIRCULAIRE)
     criteresComparatif: [
       {
         nom: 'Bibliothèque de prix cuivre/PVC',
@@ -410,7 +404,7 @@ export const metiers: Metier[] = [
   },
 
   // ═══════════════════════════════════════════════════════
-  // ÉLECTRICIEN (Structure identique, contenu adapté)
+  // ÉLECTRICIEN
   // ═══════════════════════════════════════════════════════
   {
     slug: "electricien",
@@ -500,7 +494,7 @@ export const metiers: Metier[] = [
     avisVerifies: [
       {
         source: "G2",
-        url: "https://www.g2.com/products/obat/reviews#review-abc456",
+        url: "https://www.g2.com/products/obat/reviews",
         auteur: "Utilisateur vérifié — Électricien",
         date: "2025-11-28",
         texte: "Bon logiciel pour les petits chantiers. Interface simple, devis rapides. Par contre, pas de mode hors-ligne pour les interventions en parking, c'est dommage.",
@@ -509,7 +503,7 @@ export const metiers: Metier[] = [
       },
       {
         source: "Trustpilot",
-        url: "https://fr.trustpilot.com/review/axonaut.com#review-ghi789",
+        url: "https://fr.trustpilot.com/review/axonaut.com",
         auteur: "Utilisateur vérifié — Équipe électricité",
         date: "2025-12-15",
         texte: "Très bon outil pour gérer une équipe. Le CRM nous aide à suivre nos prospects et le planning est clair. Un peu moins spécialisé électricité qu'Obat sur la bibliothèque NFC 15-100.",
@@ -632,7 +626,7 @@ export const metiers: Metier[] = [
   },
 
   // ═══════════════════════════════════════════════════════
-  // MAÇON (Structure identique, contenu adapté)
+  // MAÇON
   // ═══════════════════════════════════════════════════════
   {
     slug: "macon",
@@ -722,7 +716,7 @@ export const metiers: Metier[] = [
     avisVerifies: [
       {
         source: "Trustpilot",
-        url: "https://fr.trustpilot.com/review/obat.com#review-jkl012",
+        url: "https://fr.trustpilot.com/review/obat.com",
         auteur: "Utilisateur vérifié — Maçon",
         date: "2025-12-05",
         texte: "Les situations de travaux sont top, tout est automatisé. Par contre, j'aurais aimé un compte prorata pour mes chantiers en copropriété, il faut bidouiller.",
@@ -731,7 +725,7 @@ export const metiers: Metier[] = [
       },
       {
         source: "G2",
-        url: "https://www.g2.com/products/axonaut/reviews#review-mno345",
+        url: "https://www.g2.com/products/axonaut/reviews",
         auteur: "Utilisateur vérifié — Entreprise maçonnerie",
         date: "2025-11-20",
         texte: "Bon outil pour gérer une équipe de maçons. Le suivi de projet est excellent. Par contre, les situations de travaux sont moins automatisées qu'avec Obat.",
@@ -854,3 +848,31 @@ export const metiers: Metier[] = [
     ]
   }
 ];
+
+// ═══════════════════════════════════════════════════════
+// LOGICIELS (export obligatoire pour les pages métiers)
+// ═══════════════════════════════════════════════════════
+export const logiciels = {
+  obat: {
+    nom: "Obat",
+    note: "4.8/5",
+    lien: "https://obat.com/?ref=btp_compare",
+    logo: "🟢",
+    pointFort: "Bibliothèque de prix intégrée (Batichiffrage)",
+    pointFaible: "Pas de mode hors-ligne sur les chantiers sans réseau",
+    idealPour: "Artisans seuls ou petites équipes (1-3 personnes)",
+    tarif: "À partir de 39€/mois (selon site officiel)",
+    sourceAvis: "https://fr.trustpilot.com/review/obat.com"
+  },
+  axonaut: {
+    nom: "Axonaut",
+    note: "4.7/5",
+    lien: "https://axonaut.com/?a=ADE1CH12F6",
+    logo: "🔵",
+    pointFort: "CRM + Gestion complète pour équipes",
+    pointFaible: "Moins spécialisé sur le métré technique pur",
+    idealPour: "PME en croissance avec salariés (3-15 personnes)",
+    tarif: "À partir de 49€/utilisateur/mois (selon site officiel)",
+    sourceAvis: "https://fr.trustpilot.com/review/axonaut.com"
+  }
+};
