@@ -6,7 +6,7 @@ import { ComparisonTable } from '../../components/comparison-table';
 import { ROICalculator } from '../../components/roi-calculator';
 import { Quiz } from '../../components/quiz';
 import { metiers, logiciels } from '../../data/metiers';
-import { ArrowLeft, Check, X, TrendingUp, Zap } from 'lucide-react';
+import { ArrowLeft, Zap } from 'lucide-react';
 
 export default function MetierPage({ params }: { params: { metier: string } }) {
   const data = metiers.find(m => m.slug === params.metier);
@@ -17,7 +17,7 @@ export default function MetierPage({ params }: { params: { metier: string } }) {
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900 transition-colors">
       
       {/* HEADER */}
-      <header className="fixed top-0 w-full z-50 glass">
+      <header className="fixed top-0 left-0 right-0 w-full z-50 glass border-b border-gray-200/50 dark:border-gray-800/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             <a href="/" className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
@@ -42,6 +42,9 @@ export default function MetierPage({ params }: { params: { metier: string } }) {
           src={data.image}
           alt={data.nom}
           className="w-full h-full object-cover"
+          onError={(e) => {
+            e.currentTarget.src = 'https://via.placeholder.com/1200x600/667eea/ffffff?text=' + encodeURIComponent(data.nom);
+          }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent" />
         
