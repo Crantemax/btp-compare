@@ -311,7 +311,7 @@ export const logiciels = {
   obat: {
     nom: "Obat",
     note: "4.9/5",
-    lien: "https://obat.com/?ref=btp_compare",
+    lien: "https://obat.com/?ref=btp_compare", // ← À remplacer quand tu auras le lien Obat
     logo: "🟢",
     pointFort: "Bibliothèque de prix intégrée (Batichiffrage)",
     pointFaible: "Pas de mode hors-ligne sur les chantiers sans réseau",
@@ -321,7 +321,7 @@ export const logiciels = {
   axonaut: {
     nom: "Axonaut",
     note: "4.7/5",
-    lien: "https://axonaut.com/?ref=btp_compare",
+    lien: "https://axonaut.com/?a=ADE1CH12F6", // ← TON LIEN AFFILIÉ OFFICIEL
     logo: "🔵",
     pointFort: "CRM + Gestion complète pour équipes",
     pointFaible: "Moins spécialisé sur le métré technique pur",
