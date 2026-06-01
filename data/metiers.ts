@@ -4,7 +4,7 @@ export const metiers = [
   {
     slug: "plombier",
     nom: "Plombier",
-    image: "https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?auto=format&fit=crop&q=80&w=1000",
+    image: "https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=800&h=600&fit=crop&q=80",
     intro: "En 2026, un plombier passe en moyenne 30% de son temps non pas à réparer des fuites, mais à faire des devis et à courir après les impayés. Entre les urgences de dépannage et les chantiers de rénovation, la gestion administrative est le premier facteur de faillite chez les artisans plombiers indépendants.",
     probleme: "Facturation urgente et bibliothèque de prix outillage",
     criteres: ["Rapidité de facturation", "Bibliothèque de prix (cuivre, PVC)", "Relance automatique"],
@@ -14,7 +14,7 @@ export const metiers = [
   {
     slug: "electricien",
     nom: "Électricien",
-    image: "https://images.unsplash.com/photo-1621905251189-08b45d6a302d?auto=format&fit=crop&q=80&w=1000",
+    image: "https://images.unsplash.com/photo-1621905251189-08b45d6a302d?w=800&h=600&fit=crop&q=80",
     intro: "L'électricien fait face à un défi unique : la complexité des devis. Entre les tableaux électriques, les mises aux normes NFC 15-100 et les équipements domotiques, un devis peut vite faire 15 pages. Le logiciel doit être capable de gérer des bibliothèques d'ouvrages complexes.",
     probleme: "Devis rapides pour dépannage et normes NFC 15-100",
     criteres: ["Gestion des ouvrages complexes", "Mode hors-ligne (sous-sols)", "Signature électronique"],
@@ -24,7 +24,7 @@ export const metiers = [
   {
     slug: "macon",
     nom: "Maçon",
-    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=1000",
+    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&h=600&fit=crop&q=80",
     intro: "La maçonnerie est le métier des gros chantiers et des situations de travaux. Un maçon ne facture pas toujours à la fin, il facture à l'avancement. Le logiciel doit impérativement gérer les acomptes, les retenues de garantie et les situations de travaux mensuelles.",
     probleme: "Gestion des situations de travaux et suivi de chantier",
     criteres: ["Situations de travaux", "Gestion des stocks (ciment, parpaing)", "Suivi de marge"],
