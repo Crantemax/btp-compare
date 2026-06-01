@@ -119,46 +119,156 @@ const PROBLEMES_DATA: Record<string, Record<string, {
     'situations-travaux': {
       titre: 'Situations de travaux',
       description: 'Les chantiers de maçonnerie se facturent à l\'avancement avec des situations mensuelles. Le logiciel doit générer automatiquement ces situations et déduire les acomptes déjà versés.',
-      criteres: [
-        'Génération automatique situations mensuelles',
-        'Déduction automatique des acomptes',
-        'Envoi par email au client',
-        'Archivage et historique complet'
-      ],
+      criteres: ['Génération automatique situations mensuelles', 'Déduction automatique des acomptes', 'Envoi par email au client', 'Archivage et historique complet'],
       logicielsRecommandes: ['obat', 'progbat', 'tolteck']
     },
     'compte-prorata': {
       titre: 'Compte prorata',
       description: 'Sur les chantiers en copropriété ou avec plusieurs corps d\'état, le compte prorata répartit les frais communs (eau, électricité, nettoyage) au prorata du montant de chaque marché.',
-      criteres: [
-        'Gestion native du compte prorata',
-        'Répartition automatique des frais',
-        'Suivi des dépenses communes',
-        'Édition des décomptes prorata'
-      ],
+      criteres: ['Gestion native du compte prorata', 'Répartition automatique des frais', 'Suivi des dépenses communes', 'Édition des décomptes prorata'],
       logicielsRecommandes: ['progbat', 'batigest', 'ebp']
     },
     'extensions': {
       titre: 'Extensions de maison',
       description: 'Les extensions nécessitent des devis détaillés avec terrassement, fondations, maçonnerie, charpente. Chaque poste doit être métré précisément avec une bibliothèque de prix bâtiment.',
-      criteres: [
-        'Bibliothèque de prix gros œuvre',
-        'Devis multi-postes détaillés',
-        'Métrés précis (parpaings, béton)',
-        'Suivi de chantier sur plusieurs mois'
-      ],
+      criteres: ['Bibliothèque de prix gros œuvre', 'Devis multi-postes détaillés', 'Métrés précis (parpaings, béton)', 'Suivi de chantier sur plusieurs mois'],
       logicielsRecommandes: ['progbat', 'tolteck', 'obat']
     },
     'murs-porteurs': {
       titre: 'Ouverture murs porteurs',
       description: 'Les ouvertures de murs porteurs nécessitent des devis techniques avec IPN, étais, et mentions spécifiques. Le chiffrage doit être précis pour éviter les surprises.',
-      criteres: [
-        'Ouvrages techniques personnalisables',
-        'Bibliothèque IPN et matériaux',
-        'Mentions techniques sur devis',
-        'Chiffrage précis au millimètre'
-      ],
+      criteres: ['Ouvrages techniques personnalisables', 'Bibliothèque IPN et matériaux', 'Mentions techniques sur devis', 'Chiffrage précis au millimètre'],
       logicielsRecommandes: ['progbat', 'batigest', 'obat']
+    }
+  },
+  couvreur: {
+    'toitures-complexes': {
+      titre: 'Toitures complexes',
+      description: 'Les toitures à plusieurs pans, mansardes ou avec lucarnes nécessitent un chiffrage précis avec calcul de surface, quantités de tuiles et matériaux d\'étanchéité.',
+      criteres: ['Calcul de surface automatique', 'Bibliothèque matériaux toiture (tuiles, ardoises, zinc)', 'Devis détaillés par pan de toit', 'Gestion des sous-traitants (zinguerie)'],
+      logicielsRecommandes: ['obat', 'progbat', 'tolteck']
+    },
+    'zinguerie': {
+      titre: 'Zinguerie et évacuations',
+      description: 'La zinguerie (gouttières, chéneaux, noues, solins) nécessite un chiffrage au mètre linéaire avec bibliothèque de prix zinc, cuivre et acier galvanisé.',
+      criteres: ['Bibliothèque prix zinc et cuivre (ml)', 'Ouvrages zinguerie personnalisables', 'Gestion des accessoires (crochets, joints)', 'Devis techniques avec métrés'],
+      logicielsRecommandes: ['obat', 'ebp', 'progbat']
+    },
+    'decennale': {
+      titre: 'Gestion garantie décennale',
+      description: 'Les couvreurs sont soumis à la garantie décennale. Le logiciel doit intégrer les mentions légales obligatoires sur les devis et permettre le suivi des chantiers couverts.',
+      criteres: ['Mentions décennale automatiques sur devis', 'Archivage des contrats et attestations', 'Suivi chantiers sous garantie', 'Rappels d\'échéances'],
+      logicielsRecommandes: ['axonaut', 'progbat', 'obat']
+    },
+    'calculs-surface': {
+      titre: 'Calculs de surface',
+      description: 'Le métrés d\'une toiture (surface projetée vs inclinée) est complexe. Un logiciel avec calcul automatique de surface évite les erreurs et accélère la préparation des devis.',
+      criteres: ['Calcul surface inclinée automatique', 'Gestion des pentes et coefficients', 'Bibliothèque par m²', 'Plans et croquis attachés au devis'],
+      logicielsRecommandes: ['progbat', 'tolteck', 'obat']
+    }
+  },
+  menuisier: {
+    'sur-mesure': {
+      titre: 'Menuiseries sur-mesure',
+      description: 'Les menuiseries sur-mesure (cuisines, dressings, bibliothèques) nécessitent un chiffrage à la pièce avec dimensions précises et options multiples (essence de bois, finitions).',
+      criteres: ['Devis configurable par dimensions', 'Bibliothèque essences et finitions', 'Gestion des variantes (couleur, poignée)', 'Suivi fabrication et pose'],
+      logicielsRecommandes: ['axonaut', 'obat', 'tolteck']
+    },
+    'escaliers': {
+      titre: 'Fabrication d\'escaliers',
+      description: 'Les escaliers sur-mesure (droits, tournants, hélicoïdaux) impliquent un chiffrage précis marche par marche avec choix des matériaux et des finitions.',
+      criteres: ['Ouvrages escaliers personnalisables', 'Bibliothèque bois et acier', 'Plans techniques attachés', 'Suivi fabrication atelier'],
+      logicielsRecommandes: ['progbat', 'axonaut', 'obat']
+    },
+    'fenetres': {
+      titre: 'Pose de fenêtres et portes',
+      description: 'La pose de fenêtres (PVC, aluminium, bois) bénéficie souvent de la TVA réduite à 5,5% ou 10% selon le logement. Le logiciel doit gérer ces taux et les attestations.',
+      criteres: ['Gestion TVA 5,5% et 10%', 'Bibliothèque fenêtres et portes', 'Attestations clients intégrées', 'Devis avec références fabricants'],
+      logicielsRecommandes: ['obat', 'ebp', 'axonaut']
+    },
+    'agencement': {
+      titre: 'Agencement et aménagement',
+      description: 'Les chantiers d\'agencement (locaux commerciaux, bureaux) impliquent coordination entre corps de métier, situations de travaux et suivi de chantier précis.',
+      criteres: ['Situations de travaux', 'Coordination sous-traitants', 'Planning de chantier', 'Suivi de chantier avec photos'],
+      logicielsRecommandes: ['tolteck', 'progbat', 'axonaut']
+    }
+  },
+  carreleur: {
+    'motifs-complexes': {
+      titre: 'Pose motifs complexes',
+      description: 'Les motifs géométriques, mosaïques et carrelages décalés nécessitent un chiffrage précis avec calcul des pertes et référencement de chaque référence de carrelage.',
+      criteres: ['Calcul surfaces et pertes automatique', 'Référencement par gamme de carrelage', 'Gestion des coupes et chutes', 'Devis détaillé par zone'],
+      logicielsRecommandes: ['obat', 'progbat', 'ebp']
+    },
+    'preparation-supports': {
+      titre: 'Préparation des supports',
+      description: 'La préparation (ragréage, étanchéité, primaires) peut représenter 30 à 40% du coût total. Ces postes doivent être intégrés dans les devis pour éviter les litiges.',
+      criteres: ['Ouvrages préparation personnalisables', 'Bibliothèque produits de ragréage', 'Postes étanchéité intégrés', 'Mentions techniques sur devis'],
+      logicielsRecommandes: ['obat', 'tolteck', 'axonaut']
+    },
+    'salles-de-bain': {
+      titre: 'Rénovation salles de bain',
+      description: 'La rénovation complète d\'une salle de bain (dépose, étanchéité, carrelage, faïence) nécessite un devis multi-postes avec coordination entre plombier et carreleur.',
+      criteres: ['Devis multi-corps d\'état', 'Bibliothèque faïence et carrelage', 'Coordination sous-traitants', 'Suivi chantier avec photos'],
+      logicielsRecommandes: ['tolteck', 'obat', 'progbat']
+    },
+    'terrasses': {
+      titre: 'Terrasses et extérieurs',
+      description: 'Les terrasses extérieures (dallage, carrelage, béton désactivé) nécessitent un chiffrage au m² avec gestion des joints, du gel et des produits de traitement.',
+      criteres: ['Bibliothèque carrelage extérieur', 'Calcul surfaces avec dégagement', 'Produits de traitement et joints', 'Mentions garantie décennale'],
+      logicielsRecommandes: ['obat', 'progbat', 'ebp']
+    }
+  },
+  peintre: {
+    'calculs-surface': {
+      titre: 'Calcul des surfaces',
+      description: 'Le calcul des surfaces à peindre (murs, plafonds, déduction ouvertures) est chronophage. Un logiciel avec calcul automatique de surface évite les erreurs et accélère les devis.',
+      criteres: ['Calcul surface automatique (longueur × hauteur)', 'Déduction portes et fenêtres', 'Gestion des couches (2 couches, 3 couches)', 'Bibliothèque peintures par m²'],
+      logicielsRecommandes: ['obat', 'axonaut', 'ebp']
+    },
+    'preparation-murs': {
+      titre: 'Préparation des supports',
+      description: 'La préparation (rebouchage, ponçage, primaire, enduit) peut doubler le temps de chantier. Ces postes doivent être clairement chiffrés pour éviter les suppléments lors des travaux.',
+      criteres: ['Postes préparation détaillés', 'Bibliothèque enduits et primaires', 'Gestion des degrés de finition (R1, R2, R3)', 'Devis avec photos avant/après'],
+      logicielsRecommandes: ['obat', 'tolteck', 'progbat']
+    },
+    'ravalement': {
+      titre: 'Ravalement de façade',
+      description: 'Le ravalement (nettoyage, rebouchage, enduit, peinture) bénéficie souvent de la TVA à 10% pour les logements. Le chiffrage au m² de façade doit inclure l\'échafaudage.',
+      criteres: ['Bibliothèque ravalement au m²', 'Gestion TVA 10% façades', 'Poste échafaudage intégré', 'Attestations TVA réduite'],
+      logicielsRecommandes: ['obat', 'ebp', 'axonaut']
+    },
+    'decoration': {
+      titre: 'Peinture décoration',
+      description: 'La peinture décorative (effets, lasures, béton ciré) nécessite un chiffrage au produit avec gestion des références et quantités précises par teinte.',
+      criteres: ['Gestion des références couleurs', 'Bibliothèque produits décoratifs', 'Devis avec nuancier référencé', 'Suivi commandes matériaux'],
+      logicielsRecommandes: ['axonaut', 'obat', 'sellsy']
+    }
+  },
+  chauffagiste: {
+    'pompes-chaleur': {
+      titre: 'Pompes à chaleur',
+      description: 'Les PAC (air/air, air/eau, géothermique) bénéficient de la TVA à 5,5% et de nombreuses aides (MaPrimeRénov, CEE). Le logiciel doit gérer ces taux et faciliter le montage des dossiers.',
+      criteres: ['Gestion TVA 5,5% PAC', 'Bibliothèque équipements PAC', 'Calcul aides MaPrimeRénov', 'Mentions RGE obligatoires'],
+      logicielsRecommandes: ['obat', 'progbat', 'axonaut']
+    },
+    'chaudieres': {
+      titre: 'Chaudières et remplacement',
+      description: 'Le remplacement de chaudière (gaz, fioul, biomasse) bénéficie d\'aides sous conditions. Le chiffrage doit inclure dépose, fourniture, pose et mise en service.',
+      criteres: ['Bibliothèque chaudières (gaz, PAC, biomasse)', 'Poste dépose et évacuation', 'Gestion des aides énergétiques', 'Mise en service et garanties'],
+      logicielsRecommandes: ['obat', 'ebp', 'progbat']
+    },
+    'plancher-chauffant': {
+      titre: 'Plancher chauffant',
+      description: 'Le plancher chauffant (eau, électrique) nécessite un calcul de puissance précis et un chiffrage au m² avec gestion des zones et du régulateur.',
+      criteres: ['Calcul puissance par m²', 'Bibliothèque composants plancher chauffant', 'Gestion des zones et régulateurs', 'Devis technique avec plans'],
+      logicielsRecommandes: ['progbat', 'obat', 'tolteck']
+    },
+    'rge': {
+      titre: 'Certification RGE',
+      description: 'La qualification RGE est obligatoire pour que les clients bénéficient des aides énergétiques. Les devis doivent comporter les mentions RGE, le numéro de qualification et les informations sur les aides.',
+      criteres: ['Mentions RGE automatiques sur devis', 'Numéro de qualification intégré', 'Information aides sur devis (MaPrimeRénov, CEE)', 'Archivage des attestations'],
+      logicielsRecommandes: ['obat', 'axonaut', 'ebp']
     }
   }
 };
