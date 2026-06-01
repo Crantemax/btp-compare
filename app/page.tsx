@@ -341,41 +341,48 @@ export default function HomePage() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {metiers.map((metier, i) => (
             <motion.a
-              key={metier.slug}
-              href={`/${metier.slug}`}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="group block bg-card rounded-xl border border-border overflow-hidden hover-lift"
-            >
-              <div className="relative h-48 overflow-hidden">
-                <img 
-                  src={metier.image} 
-                  alt={metier.nom}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  onError={(e) => {
-                    e.currentTarget.src = 'https://via.placeholder.com/800x600/f3f4f6/6b7280?text=' + encodeURIComponent(metier.nom);
-                  }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
-                <div className="absolute top-4 right-4 glass-subtle px-3 py-1 rounded-full">
-                  <span className="text-xs font-semibold text-white">Guide 2026</span>
-                </div>
-                <div className="absolute bottom-4 left-4 right-4">
-                  <h3 className="text-2xl font-bold text-white tracking-tight">{metier.nom}</h3>
-                </div>
-              </div>
-              <div className="p-6">
-                <p className="text-sm text-muted-foreground mb-4 leading-relaxed line-clamp-2">
-                  {metier.probleme}
-                </p>
-                <div className="flex items-center justify-between pt-4 border-t border-border">
-                  <span className="text-sm font-medium text-foreground">Voir le comparatif</span>
-                  <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:translate-x-1 group-hover:text-foreground transition-all" />
-                </div>
-              </div>
-            </motion.a>
+  key={metier.slug}
+  href={`/${metier.slug}`}
+  initial={{ opacity: 0, y: 20 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  transition={{ delay: i * 0.1 }}
+  className="group block bg-card rounded-xl border border-border overflow-hidden hover-lift"
+>
+  <div className="relative h-48 overflow-hidden">
+    <img 
+      src={metier.image} 
+      alt={metier.nom}
+      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+      onError={(e) => {
+        e.currentTarget.src = 'https://via.placeholder.com/800x600/f3f4f6/6b7280?text=' + encodeURIComponent(metier.nom);
+      }}
+    />
+    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+    <div className="absolute top-4 right-4 glass-subtle px-3 py-1 rounded-full">
+      <span className="text-xs font-semibold text-white">Guide 2026</span>
+    </div>
+    <div className="absolute bottom-4 left-4 right-4">
+      <h3 className="text-2xl font-bold text-white tracking-tight">{metier.nom}</h3>
+    </div>
+  </div>
+  <div className="p-6">
+    <p className="text-sm text-muted-foreground mb-4 leading-relaxed line-clamp-2">
+      {metier.heroSubtitle}
+    </p>
+    <div className="flex flex-wrap gap-2 mb-4">
+      {metier.vocabulaire.slice(0, 3).map((mot, idx) => (
+        <span key={idx} className="text-xs px-2 py-1 bg-accent text-muted-foreground rounded">
+          {mot}
+        </span>
+      ))}
+    </div>
+    <div className="flex items-center justify-between pt-4 border-t border-border">
+      <span className="text-sm font-medium text-foreground">Voir le comparatif</span>
+      <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:translate-x-1 group-hover:text-foreground transition-all" />
+    </div>
+  </div>
+</motion.a>
           ))}
         </div>
 
