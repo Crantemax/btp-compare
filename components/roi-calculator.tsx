@@ -33,19 +33,38 @@ export function ROICalculator({ tauxHoraireDefaut, tempsAdminDefaut, metierNom }
   const roi = logicielCostYearly > 0 ? Math.round((netYearlyGain / logicielCostYearly) * 100) : 0;
   const paybackMonths = monthlySavings > 0 ? Math.ceil(logicielCost / monthlySavings) : 0;
 
-  const handleEmailSubmit = (e: React.FormEvent) => {
+  const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO : Intégrer avec Brevo/Mailchimp
-    setEmailSubmitted(true);
-    console.log('Email capturé:', email, {
-      metier: metierNom,
-      hours,
-      hourlyRate,
-      gainPercentage,
-      logicielCost,
-      yearlySavings: Math.round(yearlySavings),
-      netYearlyGain: Math.round(netYearlyGain)
-    });
+
+    try {
+      const response = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          firstName: metierNom,
+          metier: metierNom,
+          yearlySavings: Math.round(yearlySavings),
+          source: 'roiCalculator',
+        }),
+      });
+
+      if (response.ok) {
+        setEmailSubmitted(true);
+        // Log pour analytics
+        if (typeof window !== 'undefined' && window.gtag) {
+          window.gtag('event', 'lead_from_roi_calculator', {
+            metier: metierNom,
+            yearly_savings: Math.round(yearlySavings),
+          });
+        }
+      } else {
+        alert('Erreur lors de l\'envoi. Réessayez.');
+      }
+    } catch (error) {
+      console.error('Erreur:', error);
+      alert('Erreur réseau. Vérifiez votre connexion.');
+    }
   };
 
   return (
