@@ -1,6 +1,7 @@
 'use client';
 
 import Script from 'next/script';
+import { Analytics as VercelAnalytics } from '@vercel/analytics/next';
 
 export function Analytics() {
   // Désactivé en développement
@@ -10,6 +11,9 @@ export function Analytics() {
 
   return (
     <>
+      {/* Vercel Web Analytics */}
+      <VercelAnalytics />
+      
       {/* Plausible Analytics (respectueux RGPD) */}
       <Script
         defer
