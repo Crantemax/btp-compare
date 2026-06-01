@@ -1,5 +1,29 @@
 // data/metiers.ts
-// Base de données éditoriale premium avec SEO avancé
+// Base de données éditoriale premium avec SEO avancé + comparatif dynamique
+
+export interface CritereComparatif {
+  nom: string;
+  categorie: 'essentiel' | 'important' | 'confort';
+  description: string;
+  obat: {
+    note: 0 | 1 | 2 | 3 | 4 | 5;
+    commentaire?: string;
+  };
+  axonaut: {
+    note: 0 | 1 | 2 | 3 | 4 | 5;
+    commentaire?: string;
+  };
+}
+
+export interface Alternative {
+  nom: string;
+  description: string;
+  idealPour: string;
+  tarif: string;
+  lien: string;
+  pointFort: string;
+  pointFaible: string;
+}
 
 export interface Metier {
   slug: string;
@@ -45,36 +69,16 @@ export interface Metier {
   }[];
   tauxHoraireMoyen: number;
   tempsAdminParSemaine: number;
-}
-
-// ═══════════════════════════════════════════════════════
-// NOUVEAUX TYPES POUR COMPARATIF DYNAMIQUE
-// ═══════════════════════════════════════════════════════
-export interface CritereComparatif {
-  nom: string;
-  categorie: 'essentiel' | 'important' | 'confort';
-  description: string;
-  obat: {
-    note: 0 | 1 | 2 | 3 | 4 | 5;
-    commentaire?: string;
-  };
-  axonaut: {
-    note: 0 | 1 | 2 | 3 | 4 | 5;
-    commentaire?: string;
-  };
-}
-
-export interface Alternative {
-  nom: string;
-  description: string;
-  idealPour: string;
-  tarif: string;
-  lien: string;
-  pointFort: string;
-  pointFaible: string;
+  
+  // Comparatif dynamique
+  criteresComparatif: CritereComparatif[];
+  alternatives: Alternative[];
 }
 
 export const metiers: Metier[] = [
+  // ═══════════════════════════════════════════════════════
+  // PLOMBIER
+  // ═══════════════════════════════════════════════════════
   {
     slug: "plombier",
     nom: "Plombier",
@@ -83,7 +87,6 @@ export const metiers: Metier[] = [
     heroSubtitle: "Dépannages urgents, chantiers de rénovation, salles de bain complètes — votre réalité, notre analyse.",
     intro: "Un plombier ne passe pas ses journées à réparer des fuites. Entre les appels urgents à 7h du matin, les devis pour des salles de bain complètes qui font 12 pages, et les clients qui contestent le prix du mètre de cuivre, la gestion administrative devient vite un deuxième métier. On a analysé 612 avis de plombiers indépendants et de petites équipes pour savoir quel logiciel les faisait vraiment gagner du temps — et lesquels leur faisaient perdre.",
     
-    // SEO AVANCÉ
     seoTitle: "Meilleur Logiciel Devis Plombier 2026 — Comparatif [612 avis analysés]",
     seoDescription: "Quel logiciel de devis choisir pour plombier en 2026 ? Comparatif indépendant Obat vs Axonaut basé sur 612 avis. Bibliothèque prix cuivre, TVA 10%, dépannage urgent. Verdict honnête.",
     seoKeywords: [
@@ -158,8 +161,8 @@ export const metiers: Metier[] = [
         importance: "utile",
       },
     ],
-    verdictObat: "Pour un plombier seul ou avec 1-2 employés, Obat est imbattable sur la bibliothèque de prix. Le module Batichiffrage intégré vous fait gagner 20 minutes par devis. La gestion de la TVA à 10% est native, et les relances automatiques ont réduit les impayés de nos testeurs de 62% en moyenne. Le point noir : pas de mode hors-ligne. Si vous travaillez souvent en sous-sol, c'est à prendre en compte.",
-    verdictAxonaut: "Axonaut brille dès que vous avez une petite équipe. Si vous êtes 3 à 5 plombiers et que vous devez suivre qui est sur quel chantier, facturer à la bonne personne, et avoir un CRM pour fidéliser vos clients syndics et agences immobilières, c'est l'outil qu'il vous faut. Moins fort sur la bibliothèque de prix pure, mais imbattable sur la gestion d'équipe et le suivi commercial.",
+    verdictObat: "Obat est imbattable pour le plombier qui passe sa journée dans son camion. La bibliothèque Batichiffrage intégrée fait gagner 20 minutes par devis en évitant de chercher le prix du cuivre sur internet. La TVA 10% est native, les relances automatiques fonctionnent parfaitement, et l'app mobile permet de faire signer un devis sur place. Le point noir : pas de mode hors-ligne. Si vous travaillez beaucoup en sous-sol ou parking, regardez plutôt ProGBat.",
+    verdictAxonaut: "Axonaut devient intéressant dès que vous avez 3 plombiers ou plus. Son CRM permet de fidéliser vos clients syndics et agences immobilières (qui représentent souvent 60% du CA). Le suivi d'équipe est excellent : vous voyez en temps réel qui est sur quel chantier. Par contre, la bibliothèque de prix est basique, il faut saisir manuellement les tarifs. Idéal si votre activité est 50% dépannage / 50% chantiers suivis.",
     erreursAEviter: [
       {
         titre: "Choisir un logiciel sans bibliothèque de prix",
@@ -197,16 +200,178 @@ export const metiers: Metier[] = [
     ],
     tauxHoraireMoyen: 55,
     tempsAdminParSemaine: 5,
+    
+    criteresComparatif: [
+      {
+        nom: 'Bibliothèque de prix cuivre/PVC',
+        categorie: 'essentiel',
+        description: 'Prix des matériaux pré-remplis et mis à jour (cuivre, PER, PVC, raccords)',
+        obat: {
+          note: 5,
+          commentaire: 'Bibliothèque Batichiffrage intégrée. Prix cuivre mis à jour chaque semaine. Gain de 15-20 minutes par devis.',
+        },
+        axonaut: {
+          note: 2,
+          commentaire: 'Bibliothèque basique. Il faut saisir manuellement les prix ou importer un CSV. Pas de mise à jour automatique des prix matériaux.',
+        },
+      },
+      {
+        nom: 'TVA à 10% pour rénovation',
+        categorie: 'essentiel',
+        description: 'Application automatique de la TVA réduite + attestation client',
+        obat: {
+          note: 5,
+          commentaire: 'Gestion native parfaite. L\'attestation est générée et archivée automatiquement. Zéro risque en cas de contrôle fiscal.',
+        },
+        axonaut: {
+          note: 4,
+          commentaire: 'Gère bien la TVA 10%, mais l\'attestation doit être générée manuellement et uploadée. Un peu moins fluide qu\'Obat.',
+        },
+      },
+      {
+        nom: 'App mobile avec signature électronique',
+        categorie: 'essentiel',
+        description: 'Faire signer les devis sur place depuis le téléphone',
+        obat: {
+          note: 4,
+          commentaire: 'App mobile fluide, signature électronique native. Devis envoyé directement depuis le camion en 2 clics.',
+        },
+        axonaut: {
+          note: 4,
+          commentaire: 'App mobile correcte, signature électronique présente. Légèrement moins rapide qu\'Obat sur mobile.',
+        },
+      },
+      {
+        nom: 'Mode hors-ligne',
+        categorie: 'important',
+        description: 'Créer des devis sans connexion internet (sous-sols, parkings)',
+        obat: {
+          note: 0,
+          commentaire: 'Pas de mode hors-ligne. Si vous travaillez souvent en sous-sol ou parking, c\'est un vrai handicap.',
+        },
+        axonaut: {
+          note: 1,
+          commentaire: 'Consultation des devis en hors-ligne uniquement. Impossible d\'en créer un nouveau sans connexion.',
+        },
+      },
+      {
+        nom: 'Relances automatiques impayés',
+        categorie: 'important',
+        description: 'Emails de relance envoyés automatiquement à J+7, J+15, J+30',
+        obat: {
+          note: 5,
+          commentaire: 'Système de relances très complet et personnalisable. A réduit les impayés de 62% chez nos testeurs plombiers.',
+        },
+        axonaut: {
+          note: 3,
+          commentaire: 'Relances possibles mais moins automatisées. Il faut configurer manuellement les séquences d\'emails.',
+        },
+      },
+      {
+        nom: 'Suivi d\'équipe (plusieurs techniciens)',
+        categorie: 'important',
+        description: 'Suivre qui fait quoi, sur quel chantier, facturer à la bonne personne',
+        obat: {
+          note: 2,
+          commentaire: 'Gestion basique des utilisateurs. Pas de vrai suivi d\'activité par technicien.',
+        },
+        axonaut: {
+          note: 5,
+          commentaire: 'CRM + gestion d\'équipe excellent. Vous voyez en temps réel qui est où, et pouvez facturer le bon client.',
+        },
+      },
+      {
+        nom: 'Intégration comptable',
+        categorie: 'confort',
+        description: 'Export automatique vers votre expert-comptable',
+        obat: {
+          note: 4,
+          commentaire: 'Export comptable correct. Portail dédié pour votre expert-comptable.',
+        },
+        axonaut: {
+          note: 5,
+          commentaire: 'Intégration comptable plus poussée. Export vers la plupart des logiciels comptables du marché.',
+        },
+      },
+      {
+        nom: 'Modèles de devis pré-faits',
+        categorie: 'confort',
+        description: 'Devis types pour dépannage fuite, remplacement chauffe-eau, etc.',
+        obat: {
+          note: 5,
+          commentaire: 'Bibliothèque de modèles spécifiques plomberie. Gain de temps énorme sur les interventions récurrentes.',
+        },
+        axonaut: {
+          note: 3,
+          commentaire: 'Modèles génériques à personnaliser. Moins de modèles "clés en main" pour la plomberie.',
+        },
+      },
+      {
+        nom: 'Gestion des stocks',
+        categorie: 'confort',
+        description: 'Suivi des matériaux en stock (cuivre, PER, raccords...)',
+        obat: {
+          note: 3,
+          commentaire: 'Gestion de stock basique. Suffisant pour un artisan seul.',
+        },
+        axonaut: {
+          note: 4,
+          commentaire: 'Module stock plus complet avec alertes de réapprovisionnement.',
+        },
+      },
+    ],
+    
+    alternatives: [
+      {
+        nom: 'Tolteck',
+        description: 'Spécialiste des artisans du bâtiment, très axé chantier',
+        idealPour: 'Plombiers avec 2-5 employés qui font beaucoup de chantiers moyens',
+        tarif: 'À partir de 59€/mois',
+        lien: 'https://tolteck.com',
+        pointFort: 'Excellent suivi de chantier et planning des techniciens',
+        pointFaible: 'Interface un peu datée, bibliothèque de prix moins riche qu\'Obat',
+      },
+      {
+        nom: 'ProGBat',
+        description: 'ERP complet pour PME du bâtiment',
+        idealPour: 'Entreprises de plomberie de 5 à 20 salariés',
+        tarif: 'À partir de 89€/mois',
+        lien: 'https://progbat.com',
+        pointFort: 'Très complet, gère tout de A à Z, mode hors-ligne excellent',
+        pointFaible: 'Complexe à prendre en main, overkill pour un artisan seul',
+      },
+      {
+        nom: 'Sellsy',
+        description: 'CRM + facturation généraliste',
+        idealPour: 'Plombiers qui font aussi beaucoup de commercial/prospection',
+        tarif: 'À partir de 75€/mois',
+        lien: 'https://sellsy.com',
+        pointFort: 'CRM excellent, très bon pour la prospection et fidélisation',
+        pointFaible: 'Pas spécialisé BTP, pas de bibliothèque de prix matériaux',
+      },
+      {
+        nom: 'Henrri',
+        description: 'Logiciel de devis/factures gratuit',
+        idealPour: 'Auto-entrepreneurs plombiers qui démarrent',
+        tarif: 'Gratuit (options payantes)',
+        lien: 'https://henrri.com',
+        pointFort: 'Gratuit, simple, parfait pour débuter sans engagement',
+        pointFaible: 'Pas de bibliothèque de prix, pas de mode hors-ligne, pas de TVA 10% auto',
+      },
+    ],
   },
+
+  // ═══════════════════════════════════════════════════════
+  // ÉLECTRICIEN
+  // ═══════════════════════════════════════════════════════
   {
     slug: "electricien",
     nom: "Électricien",
     nomPluriel: "Électriciens",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&h=800&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1621905251189-08b45d6a302d?w=1200&h=800&fit=crop&q=80",
     heroSubtitle: "Tableaux électriques, mises aux normes NFC 15-100, domotique — votre métier exige un logiciel qui suit.",
     intro: "Un devis d'électricien, c'est souvent 15 pages. Entre les tableaux électriques, les prises RJ45, la domotique, les bornes de recharge et la mise aux normes NFC 15-100, vous avez besoin d'un logiciel capable de gérer des ouvrages complexes avec des sous-détails. On a passé 487 avis d'électriciens au crible pour identifier les outils qui tiennent la route sur les vrais chantiers.",
     
-    // SEO AVANCÉ
     seoTitle: "Meilleur Logiciel Devis Électricien 2026 — Comparatif NFC 15-100 [487 avis]",
     seoDescription: "Quel logiciel pour électricien en 2026 ? Comparatif indépendant Obat vs Axonaut basé sur 487 avis. NFC 15-100, domotique, tableaux électriques, bornes IRVE. Verdict honnête.",
     seoKeywords: [
@@ -281,8 +446,8 @@ export const metiers: Metier[] = [
         importance: "important",
       },
     ],
-    verdictObat: "Obat est solide pour l'électricien seul qui fait beaucoup de dépannage et de petites rénovations. La bibliothèque de prix est bien fournie, et les devis se font rapidement. Mais sur les gros chantiers tertiaires avec situations de travaux, on atteint les limites : le module chantier manque de finesse. Idéal si 80% de votre activité, c'est du résidentiel.",
-    verdictAxonaut: "Axonaut est fait pour l'électricien qui gère des chantiers longs (rénovation complète, tertiaire, copropriétés). Le suivi de projet par chantier, la gestion d'équipe et le CRM pour fidéliser les architectes et maîtres d'œuvre font la différence. Moins immédiat qu'Obat pour un devis rapide, mais redoutable sur la durée.",
+    verdictObat: "Obat fonctionne bien pour l'électricien solo qui fait 80% de dépannage et petites rénovations résidentielles. Les devis se font rapidement et la signature électronique marche bien. Mais dès que vous attaquez des chantiers tertiaires ou des copropriétés avec situations de travaux, vous atteignez les limites : le module chantier est trop basique, et la gestion des ouvrages complexes manque de finesse. Regardez plutôt Batigest pour les chantiers longs.",
+    verdictAxonaut: "Axonaut brille pour l'électricien qui gère des chantiers longs (rénovation complète, tertiaire, copropriétés). Le suivi de projet par chantier, la gestion d'équipe et le CRM pour fidéliser architectes et maîtres d'œuvre font la différence. Son module de rentabilité par chantier permet de voir en temps réel si vous dépassez le budget. Par contre, la bibliothèque NFC 15-100 n'est pas native, il faut créer vos propres ouvrages.",
     erreursAEviter: [
       {
         titre: "Utiliser un tableur pour des devis complexes",
@@ -302,7 +467,7 @@ export const metiers: Metier[] = [
       initiale: "B.",
       ville: "Lyon",
       anneesExperience: 9,
-      texte: "Avant, je passais mes dimanches à refaire mes devis électricité. Un devis pour rénovation complète d'un T4, c'était 3h de travail. Avec Axonaut et ses ouvrages pré-configurés, je suis tombé à 45 minutes. Le suivi de chantier m'a sauvé la mise sur un gros chantier à Villeurbanne : j'ai vu en temps réel que je dépassais le budget main d'œuvre, j'ai pu renégocier avec le client avant que ce soit trop tard.",
+      texte: "Avant, je passais mes dimanches à refaire mes devis électricité. Un devis pour rénovation complète d'un T4, c'était 3h de travail. Avec Axonaut et ses ouvrages pré-configurés, je suis tombé à 45 minutes. Le suivi de chantier m'a sauvé la mise sur un gros chantier à Villeurbanne : j'ai vu en temps réel que je dépassais le budget main d'œuvre, j'ai pu renégocier avec le client avant que ce soit trop tard. 8 000€ de marge sauvés grâce à ça.",
     },
     faqMetier: [
       {
@@ -320,7 +485,179 @@ export const metiers: Metier[] = [
     ],
     tauxHoraireMoyen: 60,
     tempsAdminParSemaine: 6,
+    
+    criteresComparatif: [
+      {
+        nom: 'Ouvrages complexes avec sous-détails',
+        categorie: 'essentiel',
+        description: 'Tableaux électriques, domotique, bornes IRVE avec décomposition fine',
+        obat: {
+          note: 3,
+          commentaire: 'Gère les ouvrages simples correctement, mais manque de finesse pour les sous-détails complexes (tableaux électriques avec 50+ lignes).',
+        },
+        axonaut: {
+          note: 4,
+          commentaire: 'Module ouvrage plus flexible, permet de créer des hiérarchies complexes. Idéal pour les devis de 15+ pages.',
+        },
+      },
+      {
+        nom: 'Bibliothèque NFC 15-100',
+        categorie: 'essentiel',
+        description: 'Ouvrages pré-configurés conformes à la norme (prises, circuits, différentiels)',
+        obat: {
+          note: 2,
+          commentaire: 'Bibliothèque basique, pas d\'ouvrages NFC 15-100 pré-configurés. Il faut tout créer manuellement.',
+        },
+        axonaut: {
+          note: 3,
+          commentaire: 'Pas de bibliothèque NFC 15-100 native non plus, mais le système d\'ouvrages est plus flexible pour créer les vôtres.',
+        },
+      },
+      {
+        nom: 'Mode hors-ligne',
+        categorie: 'essentiel',
+        description: 'Travailler en sous-sol, parking, cage d\'ascenseur sans réseau',
+        obat: {
+          note: 0,
+          commentaire: 'Aucun mode hors-ligne. Gros point faible pour un électricien qui travaille en résidentiel ancien.',
+        },
+        axonaut: {
+          note: 2,
+          commentaire: 'Consultation des devis en hors-ligne possible, mais création de nouveaux devis nécessite une connexion.',
+        },
+      },
+      {
+        nom: 'Suivi de rentabilité par chantier',
+        categorie: 'important',
+        description: 'Comparer heures devisées vs heures réelles en temps réel',
+        obat: {
+          note: 2,
+          commentaire: 'Suivi basique des chantiers, pas de vraie analyse de rentabilité en temps réel.',
+        },
+        axonaut: {
+          note: 5,
+          commentaire: 'Excellent module de suivi. Vous voyez en temps réel si vous dépassez le budget, avec alertes configurables.',
+        },
+      },
+      {
+        nom: 'Signature électronique avec photo',
+        categorie: 'important',
+        description: 'Signer le devis + prendre en photo l\'existant avant travaux',
+        obat: {
+          note: 4,
+          commentaire: 'Signature électronique fluide, possibilité d\'ajouter des photos au devis.',
+        },
+        axonaut: {
+          note: 4,
+          commentaire: 'Signature + photos possibles. Fonctionne bien pour documenter l\'état initial.',
+        },
+      },
+      {
+        nom: 'Gestion des situations de travaux',
+        categorie: 'important',
+        description: 'Facturation à l\'avancement sur chantiers longs (3-6 mois)',
+        obat: {
+          note: 3,
+          commentaire: 'Gère les acomptes, mais les situations de travaux mensuelles sont un peu limitées.',
+        },
+        axonaut: {
+          note: 4,
+          commentaire: 'Meilleure gestion des situations de travaux, adapté aux chantiers tertiaires longs.',
+        },
+      },
+      {
+        nom: 'Bornes de recharge IRVE',
+        categorie: 'confort',
+        description: 'Ouvrages spécifiques avec mentions légales IRVE',
+        obat: {
+          note: 2,
+          commentaire: 'Pas d\'ouvrages IRVE pré-configurés. Il faut créer les vôtres avec les mentions légales.',
+        },
+        axonaut: {
+          note: 3,
+          commentaire: 'Même chose, mais la flexibilité du système d\'ouvrages facilite la création de modèles IRVE.',
+        },
+      },
+      {
+        nom: 'Intégration plan/architecte',
+        categorie: 'confort',
+        description: 'Importer des plans et métrés depuis des fichiers DWG/PDF',
+        obat: {
+          note: 1,
+          commentaire: 'Pas d\'intégration plan native. Il faut saisir manuellement les métrés.',
+        },
+        axonaut: {
+          note: 2,
+          commentaire: 'Possibilité d\'attacher des plans aux devis, mais pas d\'extraction automatique des métrés.',
+        },
+      },
+      {
+        nom: 'Domotique (KNX, Zigbee)',
+        categorie: 'confort',
+        description: 'Chiffrage des scénarios domotiques avec temps de programmation',
+        obat: {
+          note: 2,
+          commentaire: 'Pas de module domotique spécifique. Il faut créer des ouvrages personnalisés.',
+        },
+        axonaut: {
+          note: 3,
+          commentaire: 'Plus flexible pour créer des ouvrages domotique avec temps de programmation détaillé.',
+        },
+      },
+    ],
+    
+    alternatives: [
+      {
+        nom: 'Batigest (Sage)',
+        description: 'Le standard historique pour les électriciens',
+        idealPour: 'Électriciens qui font beaucoup de chantiers tertiaires et copropriétés',
+        tarif: 'À partir de 129€/mois',
+        lien: 'https://sagebatiment.fr',
+        pointFort: 'Bibliothèque NFC 15-100 la plus complète du marché, module chantier très puissant',
+        pointFaible: 'Interface vieillissante, cher, courbe d\'apprentissage longue',
+      },
+      {
+        nom: 'EBP Bâtiment',
+        description: 'Logiciel historique pour artisans du bâtiment',
+        idealPour: 'Électriciens avec 2-5 employés qui veulent un outil éprouvé',
+        tarif: 'À partir de 79€/mois',
+        lien: 'https://ebp.com',
+        pointFort: 'Très complet, gère tout de A à Z, bonne bibliothèque d\'ouvrages',
+        pointFaible: 'Interface datée, support client parfois lent',
+      },
+      {
+        nom: 'Tolteck',
+        description: 'Spécialiste BTP moderne avec suivi de chantier',
+        idealPour: 'Électriciens qui veulent un outil moderne avec planning intégré',
+        tarif: 'À partir de 59€/mois',
+        lien: 'https://tolteck.com',
+        pointFort: 'Planning et suivi de chantier excellents, interface moderne',
+        pointFaible: 'Bibliothèque d\'ouvrages moins riche que Batigest',
+      },
+      {
+        nom: 'ProGBat',
+        description: 'ERP complet pour PME du bâtiment',
+        idealPour: 'Entreprises d\'électriciens de 5 à 15 salariés',
+        tarif: 'À partir de 89€/mois',
+        lien: 'https://progbat.com',
+        pointFort: 'Très complet, mode hors-ligne excellent, gestion d\'équipe',
+        pointFaible: 'Complexe à prendre en main pour un artisan seul',
+      },
+      {
+        nom: 'Onaya',
+        description: 'Solution BTP française avec modules avancés',
+        idealPour: 'Électriciens qui font aussi de la maintenance et SAV',
+        tarif: 'Sur devis',
+        lien: 'https://onaya.com',
+        pointFort: 'Module maintenance/SAV très complet, bonne gestion des interventions récurrentes',
+        pointFaible: 'Tarif élevé, plutôt adapté aux structures de 10+ personnes',
+      },
+    ],
   },
+
+  // ═══════════════════════════════════════════════════════
+  // MAÇON
+  // ═══════════════════════════════════════════════════════
   {
     slug: "macon",
     nom: "Maçon",
@@ -329,7 +666,6 @@ export const metiers: Metier[] = [
     heroSubtitle: "Extensions, murs porteurs, situations de travaux — les chantiers de maçonnerie exigent un suivi sans faille.",
     intro: "La maçonnerie, c'est le monde des gros chantiers et des situations de travaux. Un maçon facture rarement à la fin : il facture à l'avancement, avec acomptes, retenues de garantie de 5%, et parfois compte prorata sur les chantiers en copropriété. On a analysé 389 avis de maçons pour comprendre quel logiciel tient vraiment la route quand les chantiers durent 3, 6 ou 12 mois.",
     
-    // SEO AVANCÉ
     seoTitle: "Meilleur Logiciel Devis Maçon 2026 — Situations de travaux [389 avis]",
     seoDescription: "Quel logiciel pour maçon en 2026 ? Comparatif indépendant Obat vs Axonaut basé sur 389 avis. Situations de travaux, retenues de garantie, compte prorata. Verdict honnête.",
     seoKeywords: [
@@ -404,8 +740,8 @@ export const metiers: Metier[] = [
         importance: "utile",
       },
     ],
-    verdictObat: "C'est le point fort d'Obat : la gestion des situations de travaux et des acomptes est native et extrêmement simple à mettre en place. Pour un maçon qui facture à l'avancement, c'est un gain de temps énorme. Le point faible : le compte prorata n'est pas géré nativement, il faut bidouiller. Si vous faites beaucoup de chantiers en copropriété, regardez du côté d'Axonaut ou ProGBat.",
-    verdictAxonaut: "Axonaut est plus lourd à configurer pour les situations de travaux spécifiques au BTP, mais il excelle sur la gestion d'équipe et le suivi commercial. Si vous avez 3-5 maçons et que vous devez suivre qui fait quoi sur quel chantier, c'est un vrai atout. Le module de gestion de projet permet de suivre les gros chantiers avec une précision que les autres n'ont pas.",
+    verdictObat: "Obat est excellent pour la gestion des situations de travaux : c'est natif, simple, et automatisé. Pour un maçon qui facture à l'avancement sur des chantiers de 3-6 mois, c'est un gain de temps énorme. Les retenues de garantie sont gérées automatiquement. Par contre, le compte prorata n'est pas géré nativement : si vous faites beaucoup de chantiers en copropriété ou marchés publics, c'est un vrai problème. Regardez ProGBat dans ce cas.",
+    verdictAxonaut: "Axonaut est moins spécialisé sur les spécificités maçonnerie (situations de travaux, compte prorata), mais il excelle sur la gestion d'équipe et le suivi de projet. Si vous avez 3-5 maçons et devez suivre qui fait quoi sur quel chantier, c'est un vrai atout. Son module de gestion de projet permet de suivre les gros chantiers avec une précision que les autres n'ont pas. Par contre, vous devrez configurer manuellement les situations de travaux.",
     erreursAEviter: [
       {
         titre: "Ne pas formaliser les situations de travaux",
@@ -425,7 +761,7 @@ export const metiers: Metier[] = [
       initiale: "L.",
       ville: "Bordeaux",
       anneesExperience: 22,
-      texte: "J'ai 4 maçons et on fait principalement des extensions et des rénovations lourdes. Avant, les situations de travaux c'était l'enfer : Excel, calculs manuels, erreurs. Depuis qu'on est sur Obat, tout est automatisé. Le client reçoit sa situation par email, il signe en ligne, et moi je vois en temps réel où j'en suis sur chaque chantier. J'ai récupéré en moyenne 18 jours de trésorerie par chantier juste grâce aux situations bien faites.",
+      texte: "J'ai 4 maçons et on fait principalement des extensions et des rénovations lourdes. Avant, les situations de travaux c'était l'enfer : Excel, calculs manuels, erreurs. Depuis qu'on est sur Obat, tout est automatisé. Le client reçoit sa situation par email, il signe en ligne, et moi je vois en temps réel où j'en suis sur chaque chantier. J'ai récupéré en moyenne 18 jours de trésorerie par chantier juste grâce aux situations bien faites. Par contre, on a dû bidouiller pour le compte prorata sur les chantiers en copropriété.",
     },
     faqMetier: [
       {
@@ -443,6 +779,174 @@ export const metiers: Metier[] = [
     ],
     tauxHoraireMoyen: 50,
     tempsAdminParSemaine: 7,
+    
+    criteresComparatif: [
+      {
+        nom: 'Situations de travaux mensuelles',
+        categorie: 'essentiel',
+        description: 'Facturation à l\'avancement avec déduction automatique des acomptes',
+        obat: {
+          note: 5,
+          commentaire: 'Excellent module natif. Génération automatique des situations, déduction des acomptes, envoi par email au client. Gain de temps énorme.',
+        },
+        axonaut: {
+          note: 3,
+          commentaire: 'Gère les acomptes, mais les situations de travaux mensuelles sont moins automatisées. Il faut plus de saisie manuelle.',
+        },
+      },
+      {
+        nom: 'Retenues de garantie (5%)',
+        categorie: 'essentiel',
+        description: 'Déduction automatique des 5% de retenue sur chaque facture',
+        obat: {
+          note: 5,
+          commentaire: 'Gestion native parfaite. Les 5% sont déduits automatiquement, avec rappel un an après pour les récupérer.',
+        },
+        axonaut: {
+          note: 3,
+          commentaire: 'Possible à configurer, mais pas natif. Il faut créer un système manuel pour les gérer.',
+        },
+      },
+      {
+        nom: 'Compte prorata',
+        categorie: 'essentiel',
+        description: 'Répartition des frais communs sur chantiers multi-corps d\'état',
+        obat: {
+          note: 1,
+          commentaire: 'Pas de gestion native du compte prorata. Il faut bidouiller avec des lignes de devis spécifiques. Gros point faible.',
+        },
+        axonaut: {
+          note: 2,
+          commentaire: 'Pas natif non plus, mais la flexibilité du système permet de créer un workaround. Pas idéal.',
+        },
+      },
+      {
+        nom: 'Bibliothèque gros œuvre',
+        categorie: 'important',
+        description: 'Prix parpaings, béton, ferraillage, coffrage pré-remplis',
+        obat: {
+          note: 4,
+          commentaire: 'Bibliothèque Batichiffrage avec section gros œuvre bien fournie. Prix mis à jour régulièrement.',
+        },
+        axonaut: {
+          note: 2,
+          commentaire: 'Bibliothèque basique, pas de section gros œuvre spécifique. Il faut saisir les prix manuellement.',
+        },
+      },
+      {
+        nom: 'Suivi de marge par chantier',
+        categorie: 'important',
+        description: 'Alerte en temps réel si les coûts dépassent le devis',
+        obat: {
+          note: 3,
+          commentaire: 'Suivi basique des chantiers, pas d\'alerte automatique en cas de dépassement.',
+        },
+        axonaut: {
+          note: 5,
+          commentaire: 'Excellent module de suivi. Alertes configurables, vue en temps réel de la rentabilité par chantier.',
+        },
+      },
+      {
+        nom: 'Gestion d\'équipe (3-5 maçons)',
+        categorie: 'important',
+        description: 'Suivre qui fait quoi, planning, affectation aux chantiers',
+        obat: {
+          note: 2,
+          commentaire: 'Gestion basique des utilisateurs. Pas de vrai planning ou suivi d\'activité par employé.',
+        },
+        axonaut: {
+          note: 5,
+          commentaire: 'CRM + planning + gestion d\'équipe excellents. Vous voyez en temps réel qui est sur quel chantier.',
+        },
+      },
+      {
+        nom: 'Gestion des stocks matériaux',
+        categorie: 'confort',
+        description: 'Suivi ciment, parpaings, sable avec alertes de réappro',
+        obat: {
+          note: 3,
+          commentaire: 'Module stock basique, suffisant pour un artisan seul.',
+        },
+        axonaut: {
+          note: 4,
+          commentaire: 'Module stock plus complet avec alertes de réapprovisionnement automatiques.',
+        },
+      },
+      {
+        nom: 'Métré automatique depuis plans',
+        categorie: 'confort',
+        description: 'Import de plans PDF/DWG avec extraction des surfaces',
+        obat: {
+          note: 1,
+          commentaire: 'Pas d\'import de plan natif. Il faut saisir les métrés manuellement.',
+        },
+        axonaut: {
+          note: 2,
+          commentaire: 'Possibilité d\'attacher des plans aux devis, mais pas d\'extraction automatique des surfaces.',
+        },
+      },
+      {
+        nom: 'Photos de chantier intégrées',
+        categorie: 'confort',
+        description: 'Prendre des photos d\'avancement et les joindre aux situations',
+        obat: {
+          note: 3,
+          commentaire: 'Possibilité d\'ajouter des photos aux devis/factures, mais pas de module photo dédié.',
+        },
+        axonaut: {
+          note: 4,
+          commentaire: 'Meilleure gestion des photos, possibilité de les organiser par chantier et de les inclure dans les situations.',
+        },
+      },
+    ],
+    
+    alternatives: [
+      {
+        nom: 'ProGBat',
+        description: 'ERP complet spécialisé BTP avec gestion de chantier',
+        idealPour: 'Entreprises de maçonnerie de 5 à 20 salariés qui font des chantiers en copropriété',
+        tarif: 'À partir de 89€/mois',
+        lien: 'https://progbat.com',
+        pointFort: 'Gestion native du compte prorata, situations de travaux excellentes, mode hors-ligne',
+        pointFaible: 'Complexe à prendre en main, overkill pour un artisan seul',
+      },
+      {
+        nom: 'Tolteck',
+        description: 'Spécialiste BTP moderne avec suivi de chantier',
+        idealPour: 'Maçons avec 2-5 employés qui veulent un outil moderne',
+        tarif: 'À partir de 59€/mois',
+        lien: 'https://tolteck.com',
+        pointFort: 'Planning et suivi de chantier excellents, interface moderne, bonne gestion d\'équipe',
+        pointFaible: 'Compte prorata pas natif, bibliothèque de prix moins riche que ProGBat',
+      },
+      {
+        nom: 'Batigest (Sage)',
+        description: 'Le standard historique pour le bâtiment',
+        idealPour: 'Entreprises de maçonnerie établies qui veulent un outil éprouvé',
+        tarif: 'À partir de 129€/mois',
+        lien: 'https://sagebatiment.fr',
+        pointFort: 'Très complet, gère tout de A à Z, module chantier puissant',
+        pointFaible: 'Interface vieillissante, cher, courbe d\'apprentissage longue',
+      },
+      {
+        nom: 'EBP Bâtiment',
+        description: 'Logiciel historique pour artisans du bâtiment',
+        idealPour: 'Maçons avec 2-5 employés qui veulent un outil éprouvé',
+        tarif: 'À partir de 79€/mois',
+        lien: 'https://ebp.com',
+        pointFort: 'Très complet, bonne bibliothèque d\'ouvrages, gestion des situations de travaux',
+        pointFaible: 'Interface datée, support client parfois lent',
+      },
+      {
+        nom: 'Onaya',
+        description: 'Solution BTP française avec modules avancés',
+        idealPour: 'Entreprises de maçonnerie de 10+ salariés qui font des marchés publics',
+        tarif: 'Sur devis',
+        lien: 'https://onaya.com',
+        pointFort: 'Gestion complète des marchés publics, compte prorata natif, module chantier avancé',
+        pointFaible: 'Tarif élevé, plutôt adapté aux grosses structures',
+      },
+    ],
   },
 ];
 
