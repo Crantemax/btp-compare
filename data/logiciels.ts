@@ -32,7 +32,7 @@ export interface Logiciel {
   nom: string;
   logo: string;
   site: string;
-  lienAffiliation?: string; // Optionnel : seulement si on est affilié
+  lienAffiliation?: string;
   pays: string;
   anneeCreation: number;
   nombreUtilisateurs: string;
@@ -44,6 +44,7 @@ export interface Logiciel {
   
   pitch: string;
   descriptionLongue: string;
+  idealPour: string; // ← NOUVELLE PROPRIÉTÉ AJOUTÉE
   
   methodologie: {
     teste: boolean;
@@ -146,6 +147,7 @@ export const logiciels: Logiciel[] = [
     
     pitch: "Logiciel de devis et factures pour artisans BTP avec bibliothèque de prix intégrée.",
     descriptionLongue: "Obat est un logiciel de gestion commerciale français destiné aux artisans et PME du BTP. D'après la documentation officielle et les avis vérifiés, son principal atout est l'intégration de la bibliothèque de prix Batichiffrage, qui permet de chiffrer des devis rapidement.",
+    idealPour: "Artisans seuls ou petites équipes (1-3 personnes) qui veulent simplicité et bibliothèque de prix BTP",
     
     methodologie: {
       teste: false,
@@ -313,7 +315,8 @@ export const logiciels: Logiciel[] = [
     seoKeywords: ["avis axonaut", "axonaut tarif", "axonaut crm", "logiciel gestion equipe"],
     
     pitch: "CRM + gestion tout-en-un pour PME et équipes en croissance.",
-    descriptionLongue: "Axonaut est un logiciel de gestion français qui combine CRM, facturation et gestion de projet. D'après le site officiel, il est utilisé par plus de 189 000 professionnels et propose plus de 14 000 intégrations via Zapier.",
+    descriptionLongue: "Axonaut est un logiciel de gestion français qui combine CRM, facturation et gestion de projet. D'après le site officiel, il est utilisé par plus de 189 000 professionnels et propose plus de 14 000 intégrations via Zapier. Il permet d'économiser en moyenne 4h/semaine sur la gestion selon les retours clients.",
+    idealPour: "PME en croissance avec salariés (3-15 personnes) qui ont besoin d'un CRM puissant et d'automatisations",
     
     methodologie: {
       teste: false,
@@ -485,6 +488,7 @@ export const logiciels: Logiciel[] = [
     
     pitch: "Logiciel BTP français avec planning intégré et suivi de chantier.",
     descriptionLongue: "Tolteck est un logiciel français spécialisé dans le BTP, qui combine devis/factures, planning d'équipe et suivi de chantier. Conçu par des anciens artisans, il se positionne comme l'outil terrain par excellence.",
+    idealPour: "Équipes BTP de 2-10 personnes qui ont besoin d'un planning et d'un suivi de chantier complet",
     
     methodologie: {
       teste: false,
@@ -652,6 +656,7 @@ export const logiciels: Logiciel[] = [
     
     pitch: "ERP complet spécialisé BTP avec gestion de chantier avancée.",
     descriptionLongue: "ProGBat est un ERP français spécialisé dans le BTP, conçu pour les PME du bâtiment. Il couvre l'ensemble du cycle : devis, situations de travaux, planning, gestion de chantier, comptabilité analytique. Outil puissant avec une courbe d'apprentissage plus longue.",
+    idealPour: "PME BTP de 5-20 salariés avec chantiers complexes nécessitant situations de travaux et compte prorata",
     
     methodologie: {
       teste: false,
@@ -825,6 +830,7 @@ export const logiciels: Logiciel[] = [
     
     pitch: "Le standard historique pour les électriciens et le BTP.",
     descriptionLongue: "Batigest, édité par Sage, est le logiciel BTP historique en France depuis plus de 30 ans. C'est la référence pour de nombreux électriciens grâce à sa bibliothèque NFC 15-100, la plus complète du marché. Outil puissant avec une interface vieillissante mais des fonctionnalités inégalées pour les chantiers complexes.",
+    idealPour: "Électriciens et entreprises BTP établies qui ont besoin de la bibliothèque NFC 15-100 et de fonctionnalités avancées",
     
     methodologie: {
       teste: false,
@@ -1005,6 +1011,7 @@ export const logiciels: Logiciel[] = [
     
     pitch: "Logiciel historique pour artisans et PME du bâtiment.",
     descriptionLongue: "EBP Bâtiment est un logiciel français historique, édité par le groupe EBP depuis 1984. Solution complète pour artisans et PME du bâtiment, avec devis/factures, suivi de chantier et gestion commerciale. Interface récemment modernisée mais moins avancée que les solutions récentes.",
+    idealPour: "Artisans établis et PME qui veulent une solution éprouvée depuis 40 ans avec support français",
     
     methodologie: {
       teste: false,
@@ -1185,6 +1192,7 @@ export const logiciels: Logiciel[] = [
     
     pitch: "CRM + facturation tout-en-un pour entreprises commerciales.",
     descriptionLongue: "Sellsy est un logiciel français qui combine un CRM avancé avec des fonctionnalités de facturation et gestion commerciale. Contrairement aux autres logiciels de cette liste, Sellsy n'est pas spécialisé BTP, mais son CRM puissant en fait un choix intéressant pour les artisans qui font beaucoup de prospection et de commercial.",
+    idealPour: "Entreprises avec forte activité commerciale et prospection (syndics, agences immobilières, architectes)",
     
     methodologie: {
       teste: false,
