@@ -94,7 +94,7 @@ export function LeadForm({
             Email reçu !
           </p>
           <p className="text-sm text-green-700 dark:text-green-300 mt-1">
-            Vérifiez votre boîte mail. Vous recevrez un guide gratuit + 7 emails de conseils.
+            Vous êtes inscrit ! Vous recevrez nos prochains conseils logiciels BTP.
           </p>
         </div>
       </motion.div>

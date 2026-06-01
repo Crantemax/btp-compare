@@ -2,7 +2,7 @@
 // API endpoint pour capturer les leads via formulaire
 
 import { NextRequest, NextResponse } from 'next/server';
-import { captureLead, sendConfirmationEmail } from '../../../lib/brevo';
+import { captureLead } from '../../../lib/brevo';
 
 // Rate limiting simple en mémoire (en prod, utiliser Redis/Upstash)
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
@@ -89,13 +89,8 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // Confirmation email en arrière-plan (non bloquant)
-  sendConfirmationEmail(email, safeFirstName).catch((err) =>
-    console.error('Confirmation email failed:', err)
-  );
-
   return NextResponse.json(
-    { success: true, message: 'Merci ! Vérifiez votre email.' },
+    { success: true, message: 'Merci ! Vous êtes bien inscrit.' },
     { status: 201 }
   );
 }

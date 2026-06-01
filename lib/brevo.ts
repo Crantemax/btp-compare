@@ -23,7 +23,7 @@ export interface BrevoEmailPayload {
 
 const BREVO_API_KEY = process.env.BREVO_API_KEY;
 const BREVO_API_URL = 'https://api.brevo.com/v3';
-const BREVO_LIST_ID = Number(process.env.BREVO_LIST_ID || '2'); // Liste principale
+const BREVO_LIST_ID = Number(process.env.BREVO_LIST_ID || '3'); // Liste principale
 
 if (!BREVO_API_KEY) {
   console.warn('⚠️ BREVO_API_KEY not configured. Lead capture will not work.');
