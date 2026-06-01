@@ -209,9 +209,9 @@ export const metiers: Metier[] = [
         question: "Comment chiffrer les bornes de recharge (IRVE) ?",
         reponse: "Une borne IRVE nécessite une mention spécifique et un chiffrage détaillé (câble, protection, main d'œuvre qualifiée). Choisissez un logiciel qui permet de créer des ouvrages personnalisés avec mentions légales.",
       },
-      {
+            {
         question: "Le mode hors-ligne est-il vraiment indispensable ?",
-        description: "Pour un électricien qui travaille en résidentiel ancien, oui. 70% des interventions se font dans des sous-sols ou parkings où la 4G passe mal. Testez le mode hors-ligne avant de signer.",
+        reponse: "Pour un électricien qui travaille en résidentiel ancien, oui. 70% des interventions se font dans des sous-sols ou parkings où la 4G passe mal. Testez le mode hors-ligne avant de signer.",
       },
     ],
     tauxHoraireMoyen: 60,
