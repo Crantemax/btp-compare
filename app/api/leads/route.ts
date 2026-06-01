@@ -2,7 +2,7 @@
 // API endpoint pour capturer les leads via formulaire
 
 import { NextRequest, NextResponse } from 'next/server';
-import { captureLead, sendConfirmationEmail } from '@/lib/brevo';
+import { captureLead, sendConfirmationEmail } from '../../../lib/brevo';
 
 // Rate limiting simple en mémoire (en prod, utiliser Redis/Upstash)
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();

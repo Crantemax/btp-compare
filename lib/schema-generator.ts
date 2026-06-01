@@ -1,7 +1,7 @@
 // lib/schema-generator.ts
 // Générateur de schema.org pour SEO (Product, Review, FAQ)
 
-import { Logiciel } from '@/data/logiciels';
+import { Logiciel } from '../data/logiciels';
 
 export interface ProductSchema {
   '@context': 'https://schema.org';
