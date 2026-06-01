@@ -6,11 +6,12 @@ import { ComparisonTable } from '../../components/comparison-table';
 import { ROICalculator } from '../../components/roi-calculator';
 import { Quiz } from '../../components/quiz';
 import { AffiliateDisclosure } from '../../components/affiliate-disclosure';
+import { TransparencyBanner } from '../../components/transparency-banner';
 import { metiers, logiciels } from '../../data/metiers';
 import { 
   ArrowLeft, Zap, ChevronRight, Check, X, 
   Quote, Target, AlertTriangle, Award, 
-  Calculator, HelpCircle, Star, Eye
+  Calculator, HelpCircle, Star, Eye, ExternalLink
 } from 'lucide-react';
 
 interface MetierPageClientProps {
@@ -34,9 +35,7 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
   return (
     <div className="min-h-screen gradient-subtle">
       
-      {/* ═══════════════════════════════════════════════════════
-          HEADER
-      ═══════════════════════════════════════════════════════ */}
+      {/* HEADER */}
       <header className="fixed top-0 left-0 right-0 w-full z-50 glass-subtle">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
@@ -54,9 +53,7 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
         </div>
       </header>
 
-      {/* ═══════════════════════════════════════════════════════
-          HERO
-      ═══════════════════════════════════════════════════════ */}
+      {/* HERO */}
       <div className="relative h-[560px] overflow-hidden pt-16 gradient-mesh">
         <div className="absolute inset-0">
           <img
@@ -71,7 +68,7 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
               <div className="inline-flex items-center space-x-2 glass-subtle px-4 py-2 rounded-full mb-4">
                 <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                <span className="text-sm font-medium text-foreground">Analyse mise à jour — Juin 2026</span>
+                <span className="text-sm font-medium text-foreground">Analyse mise à jour — Janvier 2026</span>
               </div>
             </motion.div>
             <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="text-5xl md:text-6xl font-bold tracking-tight text-foreground mb-4 leading-tight">
@@ -83,26 +80,28 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
       </div>
 
       <AffiliateDisclosure />
+      <TransparencyBanner />
 
       <main className="max-w-4xl mx-auto px-6 lg:px-8 py-16">
         
-        {/* ═══════════════════════════════════════════════════════
-            STATS
-        ═══════════════════════════════════════════════════════ */}
+        {/* STATS */}
         <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-card rounded-xl border border-border p-8 mb-16">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {data.statsMetier.map((stat, i) => (
               <motion.div key={i} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: i * 0.1 }} className="text-center">
                 <div className="text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-1">{stat.value}</div>
-                <div className="text-xs md:text-sm text-muted-foreground leading-tight">{stat.label}</div>
+                <div className="text-xs md:text-sm text-muted-foreground leading-tight mb-2">{stat.label}</div>
+                {stat.source && (
+                  <a href={stat.source} target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground hover:text-foreground underline">
+                    Source
+                  </a>
+                )}
               </motion.div>
             ))}
           </div>
         </motion.section>
 
-        {/* ═══════════════════════════════════════════════════════
-            INTRO
-        ═══════════════════════════════════════════════════════ */}
+        {/* INTRO */}
         <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-16">
           <div className="prose prose-lg max-w-none mb-8">
             <p className="text-xl text-muted-foreground leading-relaxed">{data.intro}</p>
@@ -124,9 +123,7 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
           </div>
         </motion.section>
 
-        {/* ═══════════════════════════════════════════════════════
-            VERDICT
-        ═══════════════════════════════════════════════════════ */}
+        {/* VERDICT */}
         <motion.section id="verdict" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
           <div className="mb-8">
             <div className="inline-flex items-center space-x-2 text-sm font-medium text-muted-foreground mb-3">
@@ -144,6 +141,9 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
               <div className="flex items-center mb-4">
                 <Star className="w-5 h-5 text-yellow-500 mr-1" fill="currentColor" />
                 <span className="font-semibold text-foreground">{logiciels.obat.note}</span>
+                <a href={logiciels.obat.sourceAvis} target="_blank" rel="noopener noreferrer" className="ml-2 text-xs text-muted-foreground hover:text-foreground underline">
+                  Vérifier
+                </a>
               </div>
               <div className="text-sm text-muted-foreground mb-4"><strong className="text-foreground">Idéal pour :</strong> {logiciels.obat.idealPour}</div>
               <p className="text-muted-foreground mb-6 leading-relaxed text-sm">{data.verdictObat}</p>
@@ -162,6 +162,9 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
               <div className="flex items-center mb-4">
                 <Star className="w-5 h-5 text-yellow-500 mr-1" fill="currentColor" />
                 <span className="font-semibold text-foreground">{logiciels.axonaut.note}</span>
+                <a href={logiciels.axonaut.sourceAvis} target="_blank" rel="noopener noreferrer" className="ml-2 text-xs text-muted-foreground hover:text-foreground underline">
+                  Vérifier
+                </a>
               </div>
               <div className="text-sm text-muted-foreground mb-4"><strong className="text-foreground">Idéal pour :</strong> {logiciels.axonaut.idealPour}</div>
               <p className="text-muted-foreground mb-6 leading-relaxed text-sm">{data.verdictAxonaut}</p>
@@ -175,9 +178,7 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
           </div>
         </motion.section>
 
-        {/* ═══════════════════════════════════════════════════════
-            COMPARATIF DYNAMIQUE (AVEC PROPS MÉTIER)
-        ═══════════════════════════════════════════════════════ */}
+        {/* COMPARATIF DYNAMIQUE */}
         <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-card rounded-xl border border-border p-8 mb-16">
           <div className="mb-6">
             <div className="inline-flex items-center space-x-2 text-sm font-medium text-muted-foreground mb-3">
@@ -195,9 +196,7 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
           />
         </motion.section>
 
-        {/* ═══════════════════════════════════════════════════════
-            CRITÈRES
-        ═══════════════════════════════════════════════════════ */}
+        {/* CRITÈRES */}
         <motion.section id="criteres" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
           <div className="mb-8">
             <div className="inline-flex items-center space-x-2 text-sm font-medium text-muted-foreground mb-3">
@@ -227,24 +226,62 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
           </div>
         </motion.section>
 
-        {/* ═══════════════════════════════════════════════════════
-            TÉMOIGNAGE
-        ═══════════════════════════════════════════════════════ */}
-        <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-foreground rounded-2xl p-8 md:p-12 text-background mb-16">
-          <Quote className="w-12 h-12 text-background/30 mb-6" />
-          <p className="text-xl md:text-2xl leading-relaxed mb-8 text-background">"{data.temoignage.texte}"</p>
-          <div className="flex items-center space-x-4">
-            <div className="w-14 h-14 rounded-full bg-background/10 flex items-center justify-center text-background font-bold text-lg">{data.temoignage.prenom[0]}{data.temoignage.initiale}.</div>
-            <div>
-              <div className="font-semibold text-background">{data.temoignage.prenom} {data.temoignage.initiale}.</div>
-              <div className="text-sm text-background/70">{data.nom} à {data.temoignage.ville} • {data.temoignage.anneesExperience} ans d'expérience</div>
+        {/* AVIS VÉRIFIÉS (remplace l'ancien témoignage inventé) */}
+        <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
+          <div className="mb-8">
+            <div className="inline-flex items-center space-x-2 text-sm font-medium text-muted-foreground mb-3">
+              <Quote className="w-4 h-4" /><span>Avis vérifiés d'utilisateurs</span>
             </div>
+            <h2 className="text-4xl font-bold tracking-tight text-foreground mb-4 leading-tight">Ce qu'en disent<br /><span className="text-muted-foreground">les vrais utilisateurs.</span></h2>
+            <p className="text-lg text-muted-foreground">Avis sourcés depuis Trustpilot et G2. Cliquez sur "Vérifier" pour voir l'avis original.</p>
+          </div>
+
+          <div className="space-y-6">
+            {data.avisVerifies.map((avis, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="bg-card rounded-xl border border-border p-6"
+              >
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center text-foreground font-bold text-lg">
+                      {avis.auteur.charAt(0)}
+                    </div>
+                    <div>
+                      <div className="font-semibold text-foreground">{avis.auteur}</div>
+                      <div className="text-sm text-muted-foreground">{avis.source} • {new Date(avis.date).toLocaleDateString('fr-FR')}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    {Array.from({ length: 5 }, (_, k) => (
+                      <Star
+                        key={k}
+                        className={`w-4 h-4 ${k < avis.note ? 'text-yellow-500' : 'text-muted-foreground/30'}`}
+                        fill={k < avis.note ? 'currentColor' : 'none'}
+                      />
+                    ))}
+                  </div>
+                </div>
+                <p className="text-foreground leading-relaxed mb-4 italic">"{avis.texte}"</p>
+                <a
+                  href={avis.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground underline"
+                >
+                  Vérifier l'avis sur {avis.source}
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </motion.div>
+            ))}
           </div>
         </motion.section>
 
-        {/* ═══════════════════════════════════════════════════════
-            ERREURS
-        ═══════════════════════════════════════════════════════ */}
+        {/* ERREURS */}
         <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
           <div className="mb-8">
             <div className="inline-flex items-center space-x-2 text-sm font-medium text-muted-foreground mb-3">
@@ -263,9 +300,7 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
           </div>
         </motion.section>
 
-        {/* ═══════════════════════════════════════════════════════
-            ROI CALCULATOR (AVEC PROPS MÉTIER)
-        ═══════════════════════════════════════════════════════ */}
+        {/* ROI */}
         <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
           <div className="mb-8 text-center">
             <div className="inline-flex items-center space-x-2 text-sm font-medium text-muted-foreground mb-3">
@@ -283,9 +318,7 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
           />
         </motion.section>
 
-        {/* ═══════════════════════════════════════════════════════
-            FAQ
-        ═══════════════════════════════════════════════════════ */}
+        {/* FAQ */}
         <motion.section id="faq" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
           <div className="mb-8 text-center">
             <div className="inline-flex items-center space-x-2 text-sm font-medium text-muted-foreground mb-3">
@@ -306,9 +339,7 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
           </div>
         </motion.section>
 
-        {/* ═══════════════════════════════════════════════════════
-            QUIZ
-        ═══════════════════════════════════════════════════════ */}
+        {/* QUIZ */}
         <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
           <div className="mb-8 text-center">
             <h2 className="text-3xl font-bold tracking-tight text-foreground mb-4">Encore un doute ?</h2>
@@ -317,9 +348,7 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
           <Quiz />
         </motion.section>
 
-        {/* ═══════════════════════════════════════════════════════
-            CROSS-SELL QONTO
-        ═══════════════════════════════════════════════════════ */}
+        {/* CROSS-SELL QONTO */}
         <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-card rounded-xl border-2 border-yellow-500 p-8 mb-16">
           <div className="flex items-start">
             <div className="text-5xl mr-6">💳</div>
@@ -333,9 +362,7 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
           </div>
         </motion.section>
 
-        {/* ═══════════════════════════════════════════════════════
-            RETOUR
-        ═══════════════════════════════════════════════════════ */}
+        {/* RETOUR */}
         <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center">
           <a href="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground font-medium transition-smooth">
             <ArrowLeft className="w-4 h-4" />Voir tous les métiers
@@ -343,9 +370,7 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
         </motion.section>
       </main>
 
-      {/* ═══════════════════════════════════════════════════════
-          FOOTER
-      ═══════════════════════════════════════════════════════ */}
+      {/* FOOTER */}
       <footer className="border-t border-border mt-16 py-12">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-8 mb-12">
