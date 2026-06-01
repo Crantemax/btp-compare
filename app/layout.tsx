@@ -1,6 +1,8 @@
+import './globals.css'
+
 export const metadata = {
-  title: 'BTP Compare - Quel logiciel de devis pour votre métier ?',
-  description: 'Comparateur indépendant de logiciels BTP pour artisans. Avis testés et vérifiés.',
+  title: 'BTP Compare - Comparateur de logiciels pour artisans',
+  description: 'Analyses indépendantes et comparatifs détaillés de logiciels BTP pour artisans du bâtiment.',
 }
 
 export default function RootLayout({
@@ -10,7 +12,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
-      <body>{children}</body>
+      <body className="bg-gray-50">{children}</body>
     </html>
   )
 }
