@@ -624,61 +624,99 @@ export default function HomePage() {
         </motion.div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════
-          FOOTER
-      ═══════════════════════════════════════════════════════ */}
-      <footer className="border-t border-border py-16">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-8 mb-12">
-            <div className="md:col-span-2">
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="w-8 h-8 rounded-lg bg-foreground flex items-center justify-center text-background text-sm font-bold">
-                  B
-                </div>
-                <div className="text-lg font-semibold text-foreground tracking-tight">
-                  BTP-Compare
-                </div>
-              </div>
-              <p className="text-sm text-muted-foreground leading-relaxed max-w-sm mb-4">
-                Le comparateur indépendant des logiciels pour artisans du bâtiment. 
-                Analyses honnêtes, sans bullshit marketing, testées sur de vrais chantiers.
-              </p>
-              <p className="text-xs text-muted-foreground">
-                Projet éditorial indépendant — Aucune participation financière des éditeurs de logiciels.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-semibold text-foreground mb-4">Métiers</h3>
-              <ul className="space-y-2">
-                {metiers.map((m) => (
-                  <li key={m.slug}>
-                    <a href={`/${m.slug}`} className="text-sm text-muted-foreground hover:text-foreground transition-smooth">
-                      {m.nom}s
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold text-foreground mb-4">À propos</h3>
-              <ul className="space-y-2">
-                <li><a href="#methode" className="text-sm text-muted-foreground hover:text-foreground transition-smooth">Notre méthode</a></li>
-                <li><a href="#pourquoi" className="text-sm text-muted-foreground hover:text-foreground transition-smooth">Pourquoi ce site</a></li>
-                <li><a href="mailto:contact@btp-compare.fr" className="text-sm text-muted-foreground hover:text-foreground transition-smooth">Nous contacter</a></li>
-                <li><a href="/mentions-legales" className="text-sm text-muted-foreground hover:text-foreground transition-smooth">Mentions légales</a></li>
-              </ul>
-            </div>
+     {/* ═══════════════════════════════════════════════════════
+    FOOTER
+═══════════════════════════════════════════════════════ */}
+<footer className="border-t border-border mt-16 py-12">
+  <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <div className="grid md:grid-cols-4 gap-8 mb-12">
+      {/* COLONNE 1 : Branding */}
+      <div className="md:col-span-2">
+        <div className="flex items-center space-x-2 mb-4">
+          <div className="w-8 h-8 rounded-lg bg-foreground flex items-center justify-center text-background text-sm font-bold">
+            B
           </div>
-          <div className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center">
-            <div className="text-xs text-muted-foreground">
-              © 2026 BTP-Compare.fr — Tous droits réservés
-            </div>
-            <div className="text-xs text-muted-foreground mt-4 md:mt-0">
-              Fait avec soin à Rennes, France
-            </div>
+          <div className="text-lg font-semibold text-foreground tracking-tight">
+            BTP-Compare
           </div>
         </div>
-      </footer>
+        <p className="text-sm text-muted-foreground leading-relaxed max-w-sm mb-4">
+          Le comparateur indépendant des logiciels pour artisans du bâtiment. 
+          Analyses honnêtes, testées sur de vrais chantiers.
+        </p>
+        <p className="text-xs text-muted-foreground">
+          Projet éditorial indépendant — Aucune participation financière des éditeurs dans nos classements.
+        </p>
+      </div>
+
+      {/* COLONNE 2 : Métiers */}
+      <div>
+        <h3 className="font-semibold text-foreground mb-4">Métiers</h3>
+        <ul className="space-y-2">
+          <li>
+            <a href="/plombier" className="text-sm text-muted-foreground hover:text-foreground transition-smooth">
+              Comparatif Plombiers
+            </a>
+          </li>
+          <li>
+            <a href="/electricien" className="text-sm text-muted-foreground hover:text-foreground transition-smooth">
+              Comparatif Électriciens
+            </a>
+          </li>
+          <li>
+            <a href="/macon" className="text-sm text-muted-foreground hover:text-foreground transition-smooth">
+              Comparatif Maçons
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      {/* COLONNE 3 : Informations légales */}
+      <div>
+        <h3 className="font-semibold text-foreground mb-4">Informations</h3>
+        <ul className="space-y-2">
+          <li>
+            <a href="/legal/mentions-legales" className="text-sm text-muted-foreground hover:text-foreground transition-smooth">
+              Mentions légales
+            </a>
+          </li>
+          <li>
+            <a href="/legal/politique-confidentialite" className="text-sm text-muted-foreground hover:text-foreground transition-smooth">
+              Politique de confidentialité
+            </a>
+          </li>
+          <li>
+            <a href="/legal/cgu" className="text-sm text-muted-foreground hover:text-foreground transition-smooth">
+              CGU
+            </a>
+          </li>
+          <li>
+            <a href="/legal/cookies" className="text-sm text-muted-foreground hover:text-foreground transition-smooth">
+              Cookies
+            </a>
+          </li>
+          <li>
+            <a href="/legal/affiliation" className="text-sm text-muted-foreground hover:text-foreground transition-smooth">
+              Transparence affiliation
+            </a>
+          </li>
+          <li>
+            <a href="/legal/contact" className="text-sm text-muted-foreground hover:text-foreground transition-smooth">
+              Contact
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
-  );
-}
+
+    {/* LIGNE DU BAS */}
+    <div className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
+      <div className="text-xs text-muted-foreground">
+        © 2026 BTP-Compare.fr — Tous droits réservés
+      </div>
+      <div className="text-xs text-muted-foreground">
+        Fait avec soin à Rennes, France 🇫🇷
+      </div>
+    </div>
+  </div>
+</footer>
