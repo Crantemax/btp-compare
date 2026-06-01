@@ -1585,8 +1585,7 @@ export const metiers: Metier[] = [
       { nom: 'ProGBat', description: 'ERP BTP complet', idealPour: 'Entreprises de chauffage avec chantiers tertiaires', tarif: 'À partir de 89€/mois', lien: 'https://progbat.com', pointFort: 'Compte prorata, situations de travaux', pointFaible: 'Complexe à prendre en main' },
       { nom: 'Tolteck', description: 'Spécialiste BTP', idealPour: 'Équipes de chauffagistes 2-10', tarif: 'À partir de 59€/mois', lien: 'https://tolteck.com', pointFort: 'Planning techniciens', pointFaible: 'Bibliothèque moins riche' }
     ]
-  }    ]
-  }
+  }    
 ];
 
 // ═══════════════════════════════════════════════════════
