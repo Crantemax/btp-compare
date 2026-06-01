@@ -10,8 +10,7 @@ export function TransparencyBanner() {
           <AlertCircle className="w-5 h-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0 mt-0.5" />
           <div className="text-sm text-yellow-800 dark:text-yellow-300">
             <strong>Transparence :</strong> Cette analyse est basée sur la documentation officielle et les avis vérifiés (Trustpilot, G2). 
-            Nous n'avons pas testé physiquement ce logiciel pendant 6 mois. 
-            Les liens vers les sources sont fournis pour que vous puissiez vérifier vous-même. 
+            Les liens vers les sources sont fournis pour que vous puissiez vérifier vous-même chaque information. 
             <a href="/methodologie" className="underline ml-1">Voir notre méthodologie complète</a>.
           </div>
         </div>
