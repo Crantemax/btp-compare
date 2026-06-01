@@ -36,10 +36,10 @@ export interface Logiciel {
   fonctionnalites: {
     categorie: string;
     items: {
-      nom: string;
-      description: string;
-      note: 1 | 2 | 3 | 4 | 5;
-    }[];
+  nom: string;
+  description: string;
+  note: 0 | 1 | 2 | 3 | 4 | 5;
+}[];
   }[];
   
   // Pour quels métiers
