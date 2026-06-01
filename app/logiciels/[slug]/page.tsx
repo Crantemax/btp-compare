@@ -15,6 +15,9 @@ export async function generateMetadata({
   const logiciel = logiciels.find((l) => l.slug === params.slug);
   if (!logiciel) return { title: 'Logiciel non trouvé' };
 
+  // Récupération de la source principale (Trustpilot en priorité, sinon G2)
+  const sourcePrincipale = logiciel.sources.trustpilot || logiciel.sources.g2;
+
   // Schema.org SoftwareApplication
   const softwareSchema = {
     '@context': 'https://schema.org',
@@ -24,14 +27,14 @@ export async function generateMetadata({
     operatingSystem: 'Web, iOS, Android',
     offers: {
       '@type': 'Offer',
-      price: logiciel.tarification.formules[0].prix,
+      price: logiciel.tarification.formules[0]?.prix || 'Sur devis',
       priceCurrency: 'EUR',
     },
-    aggregateRating: {
+    aggregateRating: sourcePrincipale ? {
       '@type': 'AggregateRating',
-      ratingValue: logiciel.avis.noteGlobale.split('/')[0],
-      ratingCount: logiciel.avis.nombreAvis,
-    },
+      ratingValue: sourcePrincipale.note.split('/')[0],
+      ratingCount: sourcePrincipale.nombreAvis,
+    } : undefined,
   };
 
   return {
