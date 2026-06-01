@@ -317,7 +317,11 @@ export default function HomePage() {
             <span className="text-muted-foreground">votre admin actuelle ?</span>
           </h2>
         </motion.div>
-        <ROICalculator />
+        <ROICalculator 
+  tauxHoraireDefaut={55}
+  tempsAdminDefaut={5}
+  metierNom="Artisan"
+/>
       </section>
 
       {/* PROMESSES */}
