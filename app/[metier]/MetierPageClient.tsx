@@ -34,7 +34,9 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
   return (
     <div className="min-h-screen gradient-subtle">
       
-      {/* HEADER */}
+      {/* ═══════════════════════════════════════════════════════
+          HEADER
+      ═══════════════════════════════════════════════════════ */}
       <header className="fixed top-0 left-0 right-0 w-full z-50 glass-subtle">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
@@ -52,7 +54,9 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
         </div>
       </header>
 
-      {/* HERO */}
+      {/* ═══════════════════════════════════════════════════════
+          HERO
+      ═══════════════════════════════════════════════════════ */}
       <div className="relative h-[560px] overflow-hidden pt-16 gradient-mesh">
         <div className="absolute inset-0">
           <img
@@ -82,7 +86,9 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
 
       <main className="max-w-4xl mx-auto px-6 lg:px-8 py-16">
         
-        {/* STATS */}
+        {/* ═══════════════════════════════════════════════════════
+            STATS
+        ═══════════════════════════════════════════════════════ */}
         <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-card rounded-xl border border-border p-8 mb-16">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {data.statsMetier.map((stat, i) => (
@@ -94,7 +100,9 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
           </div>
         </motion.section>
 
-        {/* INTRO */}
+        {/* ═══════════════════════════════════════════════════════
+            INTRO
+        ═══════════════════════════════════════════════════════ */}
         <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-16">
           <div className="prose prose-lg max-w-none mb-8">
             <p className="text-xl text-muted-foreground leading-relaxed">{data.intro}</p>
@@ -116,7 +124,9 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
           </div>
         </motion.section>
 
-        {/* VERDICT */}
+        {/* ═══════════════════════════════════════════════════════
+            VERDICT
+        ═══════════════════════════════════════════════════════ */}
         <motion.section id="verdict" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
           <div className="mb-8">
             <div className="inline-flex items-center space-x-2 text-sm font-medium text-muted-foreground mb-3">
@@ -165,19 +175,29 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
           </div>
         </motion.section>
 
-        {/* COMPARATIF */}
+        {/* ═══════════════════════════════════════════════════════
+            COMPARATIF DYNAMIQUE (AVEC PROPS MÉTIER)
+        ═══════════════════════════════════════════════════════ */}
         <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-card rounded-xl border border-border p-8 mb-16">
           <div className="mb-6">
             <div className="inline-flex items-center space-x-2 text-sm font-medium text-muted-foreground mb-3">
-              <Eye className="w-4 h-4" /><span>Analyse détaillée</span>
+              <Eye className="w-4 h-4" /><span>Analyse détaillée spécifique aux {data.nomPluriel.toLowerCase()}</span>
             </div>
             <h2 className="text-3xl font-bold tracking-tight text-foreground mb-2">Comparatif technique</h2>
-            <p className="text-muted-foreground">Fonctionnalité par fonctionnalité, voici ce qui les différencie vraiment.</p>
+            <p className="text-muted-foreground">
+              {data.criteresComparatif.length} critères évalués spécifiquement pour les {data.nomPluriel.toLowerCase()}, avec commentaires détaillés pour chaque logiciel.
+            </p>
           </div>
-          <ComparisonTable />
+          <ComparisonTable 
+            criteres={data.criteresComparatif} 
+            alternatives={data.alternatives}
+            metierNom={data.nom}
+          />
         </motion.section>
 
-        {/* CRITÈRES */}
+        {/* ═══════════════════════════════════════════════════════
+            CRITÈRES
+        ═══════════════════════════════════════════════════════ */}
         <motion.section id="criteres" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
           <div className="mb-8">
             <div className="inline-flex items-center space-x-2 text-sm font-medium text-muted-foreground mb-3">
@@ -207,7 +227,9 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
           </div>
         </motion.section>
 
-        {/* TÉMOIGNAGE */}
+        {/* ═══════════════════════════════════════════════════════
+            TÉMOIGNAGE
+        ═══════════════════════════════════════════════════════ */}
         <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-foreground rounded-2xl p-8 md:p-12 text-background mb-16">
           <Quote className="w-12 h-12 text-background/30 mb-6" />
           <p className="text-xl md:text-2xl leading-relaxed mb-8 text-background">"{data.temoignage.texte}"</p>
@@ -220,7 +242,9 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
           </div>
         </motion.section>
 
-        {/* ERREURS */}
+        {/* ═══════════════════════════════════════════════════════
+            ERREURS
+        ═══════════════════════════════════════════════════════ */}
         <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
           <div className="mb-8">
             <div className="inline-flex items-center space-x-2 text-sm font-medium text-muted-foreground mb-3">
@@ -239,18 +263,29 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
           </div>
         </motion.section>
 
-        {/* ROI */}
+        {/* ═══════════════════════════════════════════════════════
+            ROI CALCULATOR (AVEC PROPS MÉTIER)
+        ═══════════════════════════════════════════════════════ */}
         <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
           <div className="mb-8 text-center">
             <div className="inline-flex items-center space-x-2 text-sm font-medium text-muted-foreground mb-3">
-              <Calculator className="w-4 h-4" /><span>Calculateur personnalisé</span>
+              <Calculator className="w-4 h-4" /><span>Calculateur personnalisé pour {data.nomPluriel.toLowerCase()}</span>
             </div>
             <h2 className="text-4xl font-bold tracking-tight text-foreground mb-4 leading-tight">Combien vous coûte<br /><span className="text-muted-foreground">votre admin actuelle ?</span></h2>
+            <p className="text-lg text-muted-foreground">
+              Les curseurs sont pré-remplis avec les moyennes observées chez les {data.nomPluriel.toLowerCase()} ({data.tauxHoraireMoyen}€/h, {data.tempsAdminParSemaine}h d'admin/semaine).
+            </p>
           </div>
-          <ROICalculator />
+          <ROICalculator 
+            tauxHoraireDefaut={data.tauxHoraireMoyen}
+            tempsAdminDefaut={data.tempsAdminParSemaine}
+            metierNom={data.nom}
+          />
         </motion.section>
 
-        {/* FAQ */}
+        {/* ═══════════════════════════════════════════════════════
+            FAQ
+        ═══════════════════════════════════════════════════════ */}
         <motion.section id="faq" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
           <div className="mb-8 text-center">
             <div className="inline-flex items-center space-x-2 text-sm font-medium text-muted-foreground mb-3">
@@ -271,7 +306,9 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
           </div>
         </motion.section>
 
-        {/* QUIZ */}
+        {/* ═══════════════════════════════════════════════════════
+            QUIZ
+        ═══════════════════════════════════════════════════════ */}
         <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
           <div className="mb-8 text-center">
             <h2 className="text-3xl font-bold tracking-tight text-foreground mb-4">Encore un doute ?</h2>
@@ -280,7 +317,9 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
           <Quiz />
         </motion.section>
 
-        {/* CROSS-SELL QONTO */}
+        {/* ═══════════════════════════════════════════════════════
+            CROSS-SELL QONTO
+        ═══════════════════════════════════════════════════════ */}
         <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-card rounded-xl border-2 border-yellow-500 p-8 mb-16">
           <div className="flex items-start">
             <div className="text-5xl mr-6">💳</div>
@@ -294,7 +333,9 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
           </div>
         </motion.section>
 
-        {/* RETOUR */}
+        {/* ═══════════════════════════════════════════════════════
+            RETOUR
+        ═══════════════════════════════════════════════════════ */}
         <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center">
           <a href="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground font-medium transition-smooth">
             <ArrowLeft className="w-4 h-4" />Voir tous les métiers
@@ -302,7 +343,9 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
         </motion.section>
       </main>
 
-      {/* FOOTER */}
+      {/* ═══════════════════════════════════════════════════════
+          FOOTER
+      ═══════════════════════════════════════════════════════ */}
       <footer className="border-t border-border mt-16 py-12">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-8 mb-12">
