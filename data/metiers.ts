@@ -47,6 +47,33 @@ export interface Metier {
   tempsAdminParSemaine: number;
 }
 
+// ═══════════════════════════════════════════════════════
+// NOUVEAUX TYPES POUR COMPARATIF DYNAMIQUE
+// ═══════════════════════════════════════════════════════
+export interface CritereComparatif {
+  nom: string;
+  categorie: 'essentiel' | 'important' | 'confort';
+  description: string;
+  obat: {
+    note: 0 | 1 | 2 | 3 | 4 | 5;
+    commentaire?: string;
+  };
+  axonaut: {
+    note: 0 | 1 | 2 | 3 | 4 | 5;
+    commentaire?: string;
+  };
+}
+
+export interface Alternative {
+  nom: string;
+  description: string;
+  idealPour: string;
+  tarif: string;
+  lien: string;
+  pointFort: string;
+  pointFaible: string;
+}
+
 export const metiers: Metier[] = [
   {
     slug: "plombier",
