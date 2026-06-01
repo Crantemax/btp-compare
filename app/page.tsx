@@ -1,150 +1,97 @@
-export default function Home() {
-  const heroSoftware = {
-    name: "Obat",
-    score: 9.2,
-    targetAudience: "Plombiers et électriciens",
-    keyFeature: "Bibliothèque de prix Batichiffrage intégrée",
-    pricing: "Sur devis",
-    demoCPL: 40,
-    conversionCPA: 200,
-    affiliateLink: "https://obat.com/?ref=btp_compare",
-    painPoint: "Pas de mode hors-ligne sur chantiers sans réseau"
-  };
+// app/page.tsx - Page d'accueil
+import { metiers } from '../data/metiers';
 
-  const challenger = {
-    name: "Axonaut",
-    score: 9.5,
-    targetAudience: "PME en croissance",
-    keyFeature: "CRM + Gestion complète",
-    pricing: "À partir de 49€/mois",
-    conversionCPA: 300,
-    affiliateLink: "https://axonaut.com/?ref=btp_compare"
-  };
-
+export default function HomePage() {
   return (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 20px', fontFamily: 'Arial, sans-serif' }}>
-      <header style={{ textAlign: 'center', marginBottom: '60px' }}>
-        <h1 style={{ fontSize: '48px', color: '#1e40af', marginBottom: '20px' }}>
-          Quel logiciel de devis pour {heroSoftware.targetAudience} en 2026 ?
-        </h1>
-        <p style={{ fontSize: '20px', color: '#6b7280' }}>
-          Notre algorithme a analysé +500 avis d'artisans. Voici le verdict sans filtre.
-        </p>
+    <div style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', color: '#1f2937', backgroundColor: '#f9fafb', minHeight: '100vh' }}>
+      
+      {/* HEADER */}
+      <header style={{ backgroundColor: 'white', borderBottom: '1px solid #e5e7eb', padding: '20px 0' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#1e40af' }}>🏗️ BTP-Compare</div>
+        </div>
       </header>
 
-      <div style={{ 
-        background: '#10b981', 
-        padding: '40px', 
-        borderRadius: '16px', 
-        marginBottom: '30px',
-        boxShadow: '0 10px 30px rgba(16, 185, 129, 0.3)'
-      }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-          <h2 style={{ fontSize: '36px', color: 'white', margin: 0 }}>
-            🏆 Le Choix n°1 : {heroSoftware.name}
-          </h2>
-          <span style={{ fontSize: '24px', color: 'white', fontWeight: 'bold' }}>
-            {heroSoftware.score}/10
-          </span>
-        </div>
-        <p style={{ fontSize: '18px', color: 'white', marginBottom: '20px' }}>
-          <strong>Pourquoi on le recommande :</strong> {heroSoftware.keyFeature}
+      {/* HERO */}
+      <section style={{ background: 'linear-gradient(135deg, #1e40af 0%, #3b82f6 100%)', color: 'white', padding: '80px 20px', textAlign: 'center' }}>
+        <h1 style={{ fontSize: '48px', margin: 0, marginBottom: '20px' }}>
+          Quel logiciel de devis pour votre métier ?
+        </h1>
+        <p style={{ fontSize: '20px', opacity: 0.9, maxWidth: '800px', margin: '0 auto' }}>
+          Analyses indépendantes et comparatifs détaillés pour les artisans du bâtiment. 
+          Plus de 500 avis testés et vérifiés pour chaque métier.
         </p>
-        <a 
-          href={heroSoftware.affiliateLink}
-          style={{
-            display: 'block',
-            textAlign: 'center',
-            background: 'white',
-            color: '#10b981',
-            padding: '20px',
-            borderRadius: '8px',
-            textDecoration: 'none',
-            fontSize: '20px',
-            fontWeight: 'bold',
-            marginTop: '20px'
-          }}
-        >
-          Demander ma démo gratuite
-        </a>
-      </div>
+      </section>
 
-      <div style={{ 
-        background: '#3b82f6', 
-        padding: '40px', 
-        borderRadius: '16px', 
-        marginBottom: '30px',
-        boxShadow: '0 10px 30px rgba(59, 130, 246, 0.3)'
-      }}>
-        <h2 style={{ fontSize: '28px', color: 'white', marginBottom: '20px' }}>
-          L'alternative pour les équipes : {challenger.name}
+      {/* LISTE DES MÉTIERS */}
+      <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '60px 20px' }}>
+        <h2 style={{ fontSize: '32px', color: '#1e40af', marginBottom: '40px', textAlign: 'center' }}>
+          Choisissez votre métier
         </h2>
-        <p style={{ fontSize: '16px', color: 'white', marginBottom: '20px' }}>
-          <strong>Idéal pour :</strong> {challenger.targetAudience}
-        </p>
-        <a 
-          href={challenger.affiliateLink}
-          style={{
-            display: 'block',
-            textAlign: 'center',
-            background: 'white',
-            color: '#3b82f6',
-            padding: '15px',
-            borderRadius: '8px',
-            textDecoration: 'none',
-            fontSize: '18px',
-            fontWeight: 'bold'
-          }}
-        >
-          Essayer {challenger.name}
-        </a>
-      </div>
+        
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px' }}>
+          {metiers.map((metier) => (
+            <a 
+              key={metier.slug}
+              href={`/${metier.slug}`}
+              style={{ 
+                textDecoration: 'none',
+                backgroundColor: 'white',
+                borderRadius: '12px',
+                overflow: 'hidden',
+                boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+                transition: 'transform 0.2s',
+                display: 'block'
+              }}
+            >
+              <img 
+                src={metier.image} 
+                alt={metier.nom}
+                style={{ width: '100%', height: '200px', objectFit: 'cover' }}
+              />
+              <div style={{ padding: '24px' }}>
+                <h3 style={{ fontSize: '24px', color: '#1e40af', margin: 0, marginBottom: '12px' }}>
+                  {metier.nom}
+                </h3>
+                <p style={{ color: '#6b7280', margin: 0, fontSize: '14px' }}>
+                  {metier.probleme}
+                </p>
+                <div style={{ marginTop: '20px', color: '#3b82f6', fontWeight: 'bold' }}>
+                  Voir le comparatif →
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </main>
 
-      <div style={{ 
-        background: '#fbbf24', 
-        padding: '30px', 
-        borderRadius: '16px',
-        border: '3px solid #f59e0b'
-      }}>
-        <h3 style={{ fontSize: '24px', marginBottom: '15px', color: '#78350f' }}>
-          💳 Ne bloquez pas vos encaissements !
-        </h3>
-        <p style={{ fontSize: '16px', color: '#78350f', marginBottom: '20px' }}>
-          {heroSoftware.name} se synchronise parfaitement avec <strong>Qonto</strong> pour automatiser votre rapprochement bancaire.
-        </p>
-        <a 
-          href="https://qonto.com/?ref=btp_compare"
-          style={{
-            display: 'inline-block',
-            background: '#78350f',
-            color: 'white',
-            padding: '15px 30px',
-            borderRadius: '8px',
-            textDecoration: 'none',
-            fontWeight: 'bold'
-          }}
-        >
-          Ouvrir mon compte Qonto
-        </a>
-      </div>
+      {/* SECTION CONFIANCE */}
+      <section style={{ backgroundColor: 'white', padding: '60px 20px', marginTop: '60px' }}>
+        <div style={{ maxWidth: '1000px', margin: '0 auto', textAlign: 'center' }}>
+          <h2 style={{ fontSize: '32px', color: '#1e40af', marginBottom: '20px' }}>Pourquoi nous faire confiance ?</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '40px', marginTop: '40px' }}>
+            <div>
+              <div style={{ fontSize: '48px', marginBottom: '15px' }}>📊</div>
+              <h3 style={{ fontSize: '20px', marginBottom: '10px' }}>Analyses indépendantes</h3>
+              <p style={{ color: '#6b7280' }}>Aucun logiciel ne nous paie pour être mieux classé. Nos avis sont 100% objectifs.</p>
+            </div>
+            <div>
+              <div style={{ fontSize: '48px', marginBottom: '15px' }}>🔍</div>
+              <h3 style={{ fontSize: '20px', marginBottom: '10px' }}>500+ avis analysés</h3>
+              <p style={{ color: '#6b7280' }}>Nous lisons tous les avis Trustpilot et Google pour identifier les vrais points forts et faibles.</p>
+            </div>
+            <div>
+              <div style={{ fontSize: '48px', marginBottom: '15px' }}>⚡</div>
+              <h3 style={{ fontSize: '20px', marginBottom: '10px' }}>Mis à jour en 2026</h3>
+              <p style={{ color: '#6b7280' }}>Les fonctionnalités et tarifs évoluent. Nous mettons à jour nos comparatifs chaque mois.</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-      <div style={{ 
-        background: '#fee2e2', 
-        padding: '20px', 
-        borderRadius: '12px', 
-        marginTop: '30px',
-        borderLeft: '4px solid #dc2626'
-      }}>
-        <h3 style={{ fontSize: '18px', color: '#dc2626', marginBottom: '10px' }}>
-          ⚠️ Le point noir à connaître
-        </h3>
-        <p style={{ color: '#7f1d1d', margin: 0 }}>
-          <strong>Attention :</strong> {heroSoftware.painPoint}
-        </p>
-      </div>
-
-      <footer style={{ textAlign: 'center', marginTop: '60px', color: '#9ca3af', fontSize: '14px' }}>
-        <p>© 2026 BTP Compare - Comparateur indépendant pour artisans du bâtiment</p>
+      {/* FOOTER */}
+      <footer style={{ backgroundColor: '#1f2937', color: '#9ca3af', padding: '40px 20px', textAlign: 'center' }}>
+        <p>© 2026 BTP-Compare.fr - Le comparateur n°1 pour les artisans du bâtiment</p>
       </footer>
     </div>
   );
