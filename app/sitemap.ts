@@ -3,6 +3,8 @@ import { metiers } from '../data/metiers';
 import { logiciels } from '../data/logiciels';
 import { comparaisons } from '../data/comparaisons';
 
+const TAILLES = ['auto-entrepreneur', 'artisan-seul', 'equipe-2-5', 'pme-5-15'];
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://btp-compare.fr';
 
@@ -12,6 +14,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: 'weekly',
     priority: 0.9,
   }));
+
+  const tailleUrls: MetadataRoute.Sitemap = metiers.flatMap((metier) =>
+    TAILLES.map((taille) => ({
+      url: `${baseUrl}/${metier.slug}/taille/${taille}`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    }))
+  );
 
   const logicielUrls: MetadataRoute.Sitemap = logiciels.map((logiciel) => ({
     url: `${baseUrl}/logiciels/${logiciel.slug}`,
@@ -35,6 +46,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1.0,
     },
     ...metierUrls,
+    ...tailleUrls,
     ...logicielUrls,
     ...comparaisonUrls,
   ];
