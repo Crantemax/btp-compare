@@ -723,6 +723,406 @@ export const obatVsEbp: ComparaisonData = {
 // ebp-vs-sellsy
 
 // Pour gagner du temps, je vais créer un générateur automatique
+// ═══════════════════════════════════════════════════════
+// AXONAUT vs TOLTECK
+// ═══════════════════════════════════════════════════════
+export const axonautVsTolteck: ComparaisonData = {
+  slug1: 'axonaut',
+  slug2: 'tolteck',
+  nom1: 'Axonaut',
+  nom2: 'Tolteck',
+  logo1: '🔵',
+  logo2: '🟠',
+  
+  seoTitle: 'Axonaut vs Tolteck 2026 : Comparatif complet — Quel logiciel choisir ?',
+  seoDescription: 'Comparaison détaillée Axonaut vs Tolteck basée sur documentation et avis vérifiés. CRM vs Planning. Verdict honnête.',
+  seoKeywords: ['axonaut vs tolteck', 'comparatif axonaut tolteck', 'axonaut ou tolteck'],
+  
+  intro: "Axonaut et Tolteck sont deux logiciels français mais avec des philosophies différentes. Axonaut mise sur le CRM et les intégrations, Tolteck sur le planning et le suivi de chantier.",
+  
+  verdict: {
+    gagnant: 'egalite',
+    raison: "Axonaut pour la prospection commerciale, Tolteck pour la gestion de chantier.",
+    pourQui1: "Axonaut est idéal pour les entreprises qui font beaucoup de prospection et ont besoin d'un CRM puissant.",
+    pourQui2: "Tolteck est idéal pour les équipes de terrain qui ont besoin d'un planning et d'un suivi de chantier."
+  },
+  
+  criteres: [
+    {
+      nom: 'CRM et prospection',
+      categorie: 'essentiel',
+      description: 'Gestion des contacts, pipeline de vente, automatisations',
+      logiciel1: {
+        note: 5,
+        justification: 'CRM complet documenté comme fonctionnalité phare. Pipeline de vente, automatisations, campagnes email selon le site officiel.',
+        source: 'https://axonaut.com/fonctionnalites/crm'
+      },
+      logiciel2: {
+        note: 3,
+        justification: 'CRM basique selon la documentation. Gestion des contacts sans fonctionnalités avancées.',
+        source: 'https://tolteck.com/fonctionnalites'
+      }
+    },
+    {
+      nom: 'Planning d\'équipe',
+      categorie: 'essentiel',
+      description: 'Planification et affectation des techniciens',
+      logiciel1: {
+        note: 3,
+        justification: 'Planning fonctionnel selon la documentation mais moins complet que Tolteck.',
+        source: 'https://axonaut.com/fonctionnalites'
+      },
+      logiciel2: {
+        note: 5,
+        justification: 'Planning documenté comme fonctionnalité phare. Très apprécié dans les avis Capterra.',
+        source: 'https://tolteck.com/fonctionnalites/planning'
+      }
+    },
+    {
+      nom: 'Suivi de chantier',
+      categorie: 'important',
+      description: 'Suivi d\'avancement, photos, pointages',
+      logiciel1: {
+        note: 4,
+        justification: 'Module projet documenté avec suivi de rentabilité selon le site officiel.',
+        source: 'https://axonaut.com/fonctionnalites'
+      },
+      logiciel2: {
+        note: 5,
+        justification: 'Module chantier complet avec photos, pointages, rapports d\'avancement selon la documentation.',
+        source: 'https://tolteck.com/fonctionnalites/chantier'
+      }
+    },
+    {
+      nom: 'Intégrations',
+      categorie: 'important',
+      description: 'Connexion à d\'autres outils',
+      logiciel1: {
+        note: 5,
+        justification: '14 000+ intégrations via Zapier documentées sur le site officiel.',
+        source: 'https://axonaut.com/integrations'
+      },
+      logiciel2: {
+        note: 3,
+        justification: 'Intégrations présentes mais limitées selon la documentation.',
+        source: 'https://tolteck.com/fonctionnalites'
+      }
+    }
+  ],
+  
+  tableauRecap: [
+    { critere: 'CRM', logiciel1: '★★★★★', logiciel2: '★★★☆☆' },
+    { critere: 'Planning', logiciel1: '★★★☆☆', logiciel2: '★★★★★' },
+    { critere: 'Suivi chantier', logiciel1: '★★★★☆', logiciel2: '★★★★★' },
+    { critere: 'Intégrations', logiciel1: '★★★★★', logiciel2: '★★★☆☆' },
+    { critere: 'Prix', logiciel1: '49€/utilisateur/mois', logiciel2: '59€/mois' }
+  ],
+  
+  couts3Ans: {
+    logiciel1: {
+      coutMensuel: 49,
+      coutAnnuel: 588,
+      cout3Ans: 1764,
+      calcul: '49€/utilisateur/mois × 1 utilisateur × 36 mois'
+    },
+    logiciel2: {
+      coutMensuel: 59,
+      coutAnnuel: 708,
+      cout3Ans: 2124,
+      calcul: 'Forfait Équipe 59€/mois × 36 mois'
+    }
+  },
+  
+  pointsFortsComparaison: {
+    logiciel1: ['CRM puissant', '14 000+ intégrations', 'Automatisations avancées', 'Flexibilité'],
+    logiciel2: ['Planning excellent', 'Suivi chantier complet', 'Mode hors-ligne', 'Adapté au terrain']
+  },
+  
+  pointsFaiblesComparaison: {
+    logiciel1: ['Planning moins complet', 'Prix par utilisateur', 'Pas spécialisé BTP'],
+    logiciel2: ['CRM basique', 'Intégrations limitées', 'Bibliothèque de prix moins riche']
+  },
+  
+  casUsage: [
+    {
+      scenario: 'Électricien avec 4 employés qui fait beaucoup de prospection auprès de syndics',
+      recommandation: 'logiciel1',
+      raison: 'Axonaut offre un CRM complet pour gérer les prospects et automatiser les relances.'
+    },
+    {
+      scenario: 'Plombier avec 3 techniciens qui font des interventions terrain toute la journée',
+      recommandation: 'logiciel2',
+      raison: 'Tolteck offre un planning et un suivi de chantier adaptés aux équipes mobiles.'
+    }
+  ]
+};
+
+// ═══════════════════════════════════════════════════════
+// AXONAUT vs PROGBAT
+// ═══════════════════════════════════════════════════════
+export const axonautVsProgbat: ComparaisonData = {
+  slug1: 'axonaut',
+  slug2: 'progbat',
+  nom1: 'Axonaut',
+  nom2: 'ProGBat',
+  logo1: '🔵',
+  logo2: '🟣',
+  
+  seoTitle: 'Axonaut vs ProGBat 2026 : Comparatif complet — Quel logiciel choisir ?',
+  seoDescription: 'Comparaison détaillée Axonaut vs ProGBat basée sur documentation et avis vérifiés. CRM vs ERP BTP. Verdict honnête.',
+  seoKeywords: ['axonaut vs progbat', 'comparatif axonaut progbat', 'axonaut ou progbat'],
+  
+  intro: "Axonaut et ProGBat s'adressent à des entreprises très différentes. Axonaut est un CRM/gestion flexible, ProGBat est un ERP spécialisé BTP avec des fonctionnalités métier avancées.",
+  
+  verdict: {
+    gagnant: 'egalite',
+    raison: "Axonaut pour la flexibilité et le CRM, ProGBat pour les fonctionnalités BTP spécialisées.",
+    pourQui1: "Axonaut est idéal pour les entreprises qui veulent un outil flexible avec un CRM puissant.",
+    pourQui2: "ProGBat est idéal pour les PME BTP qui ont besoin de fonctionnalités spécialisées (compte prorata, situations de travaux)."
+  },
+  
+  criteres: [
+    {
+      nom: 'CRM et prospection',
+      categorie: 'essentiel',
+      description: 'Gestion des contacts, pipeline de vente',
+      logiciel1: {
+        note: 5,
+        justification: 'CRM complet documenté comme fonctionnalité phare selon le site officiel.',
+        source: 'https://axonaut.com/fonctionnalites/crm'
+      },
+      logiciel2: {
+        note: 3,
+        justification: 'CRM basique selon la documentation. Axonaut est clairement supérieur sur ce point.',
+        source: 'https://progbat.com/fonctionnalites'
+      }
+    },
+    {
+      nom: 'Compte prorata',
+      categorie: 'essentiel',
+      description: 'Répartition des frais communs sur chantiers multi-corps d\'état',
+      logiciel1: {
+        note: 1,
+        justification: 'Pas de gestion native selon la documentation. Il faut bidouiller.',
+        source: 'https://axonaut.com/fonctionnalites'
+      },
+      logiciel2: {
+        note: 5,
+        justification: 'Gestion native documentée comme fonctionnalité clé pour les chantiers en copropriété.',
+        source: 'https://progbat.com/fonctionnalites'
+      }
+    },
+    {
+      nom: 'Mode hors-ligne',
+      categorie: 'important',
+      description: 'Travailler sans connexion internet',
+      logiciel1: {
+        note: 1,
+        justification: 'Consultation seule en hors-ligne selon la documentation.',
+        source: 'https://axonaut.com/fonctionnalites'
+      },
+      logiciel2: {
+        note: 5,
+        justification: 'Mode hors-ligne complet documenté. Création de devis et pointages possibles sans connexion.',
+        source: 'https://progbat.com/fonctionnalites'
+      }
+    },
+    {
+      nom: 'Intégrations',
+      categorie: 'important',
+      description: 'Connexion à d\'autres outils',
+      logiciel1: {
+        note: 5,
+        justification: '14 000+ intégrations via Zapier documentées sur le site officiel.',
+        source: 'https://axonaut.com/integrations'
+      },
+      logiciel2: {
+        note: 3,
+        justification: 'Intégrations comptables présentes mais limitées selon la documentation.',
+        source: 'https://progbat.com/fonctionnalites'
+      }
+    }
+  ],
+  
+  tableauRecap: [
+    { critere: 'CRM', logiciel1: '★★★★★', logiciel2: '★★★☆☆' },
+    { critere: 'Compte prorata', logiciel1: '★☆☆☆☆', logiciel2: '★★★★★' },
+    { critere: 'Mode hors-ligne', logiciel1: '★☆☆☆☆', logiciel2: '★★★★★' },
+    { critere: 'Intégrations', logiciel1: '★★★★★', logiciel2: '★★★☆☆' },
+    { critere: 'Prix', logiciel1: '49€/utilisateur/mois', logiciel2: '89€/mois' }
+  ],
+  
+  couts3Ans: {
+    logiciel1: {
+      coutMensuel: 49,
+      coutAnnuel: 588,
+      cout3Ans: 1764,
+      calcul: '49€/utilisateur/mois × 1 utilisateur × 36 mois'
+    },
+    logiciel2: {
+      coutMensuel: 89,
+      coutAnnuel: 1068,
+      cout3Ans: 3204,
+      calcul: 'Forfait Standard 89€/mois × 36 mois'
+    }
+  },
+  
+  pointsFortsComparaison: {
+    logiciel1: ['CRM puissant', '14 000+ intégrations', 'Flexibilité', 'Prix compétitif pour petites équipes'],
+    logiciel2: ['Compte prorata natif', 'Mode hors-ligne complet', 'ERP spécialisé BTP', 'Situations de travaux avancées']
+  },
+  
+  pointsFaiblesComparaison: {
+    logiciel1: ['Pas de compte prorata', 'Mode hors-ligne limité', 'Pas spécialisé BTP'],
+    logiciel2: ['CRM basique', 'Prix élevé', 'Complexe à prendre en main']
+  },
+  
+  casUsage: [
+    {
+      scenario: 'Entreprise de peinture avec 6 salariés qui prospecte activement des syndics',
+      recommandation: 'logiciel1',
+      raison: 'Axonaut offre un CRM complet pour gérer la prospection et les relations clients.'
+    },
+    {
+      scenario: 'Entreprise de maçonnerie avec 12 salariés qui fait des chantiers en copropriété',
+      recommandation: 'logiciel2',
+      raison: 'ProGBat offre le compte prorata et les fonctionnalités BTP spécialisées nécessaires.'
+    }
+  ]
+};
+
+// ═══════════════════════════════════════════════════════
+// TOLTECK vs PROGBAT
+// ═══════════════════════════════════════════════════════
+export const tolteckVsProgbat: ComparaisonData = {
+  slug1: 'tolteck',
+  slug2: 'progbat',
+  nom1: 'Tolteck',
+  nom2: 'ProGBat',
+  logo1: '🟠',
+  logo2: '🟣',
+  
+  seoTitle: 'Tolteck vs ProGBat 2026 : Comparatif complet — Quel logiciel choisir ?',
+  seoDescription: 'Comparaison détaillée Tolteck vs ProGBat basée sur documentation et avis vérifiés. Deux spécialistes BTP. Verdict honnête.',
+  seoKeywords: ['tolteck vs progbat', 'comparatif tolteck progbat', 'tolteck ou progbat'],
+  
+  intro: "Tolteck et ProGBat sont tous deux des logiciels spécialisés BTP, mais ils s'adressent à des entreprises de tailles différentes. Tolteck est plus accessible, ProGBat est plus puissant.",
+  
+  verdict: {
+    gagnant: 'egalite',
+    raison: "Tolteck pour les petites équipes qui veulent simplicité, ProGBat pour les PME qui ont besoin de puissance.",
+    pourQui1: "Tolteck est idéal pour les équipes de 2-10 personnes qui veulent un outil simple avec planning et suivi de chantier.",
+    pourQui2: "ProGBat est idéal pour les PME de 5-20 salariés qui ont besoin de fonctionnalités avancées (compte prorata, situations complexes)."
+  },
+  
+  criteres: [
+    {
+      nom: 'Simplicité de prise en main',
+      categorie: 'essentiel',
+      description: 'Temps nécessaire pour maîtriser l\'outil',
+      logiciel1: {
+        note: 4,
+        justification: 'Interface moderne et relativement simple selon les avis Capterra. Prise en main en quelques jours.',
+        source: 'avis Capterra'
+      },
+      logiciel2: {
+        note: 2,
+        justification: 'Courbe d\'apprentissage de plusieurs semaines selon les avis. Formation souvent nécessaire.',
+        source: 'avis Capterra'
+      }
+    },
+    {
+      nom: 'Planning d\'équipe',
+      categorie: 'essentiel',
+      description: 'Planification et affectation des techniciens',
+      logiciel1: {
+        note: 5,
+        justification: 'Planning documenté comme fonctionnalité phare. Très apprécié dans les avis.',
+        source: 'https://tolteck.com/fonctionnalites/planning'
+      },
+      logiciel2: {
+        note: 4,
+        justification: 'Planning fonctionnel selon la documentation. Moins intuitif que Tolteck selon les avis.',
+        source: 'https://progbat.com/fonctionnalites'
+      }
+    },
+    {
+      nom: 'Compte prorata',
+      categorie: 'important',
+      description: 'Répartition des frais communs',
+      logiciel1: {
+        note: 2,
+        justification: 'Pas de gestion native selon la documentation. Il faut bidouiller.',
+        source: 'https://tolteck.com/fonctionnalites'
+      },
+      logiciel2: {
+        note: 5,
+        justification: 'Gestion native documentée comme fonctionnalité clé.',
+        source: 'https://progbat.com/fonctionnalites'
+      }
+    },
+    {
+      nom: 'Prix',
+      categorie: 'important',
+      description: 'Coût d\'abonnement',
+      logiciel1: {
+        note: 5,
+        justification: 'À partir de 59€/mois, très compétitif pour les petites équipes.',
+        source: 'https://tolteck.com/tarifs'
+      },
+      logiciel2: {
+        note: 3,
+        justification: 'À partir de 89€/mois, investissement plus important.',
+        source: 'https://progbat.com/tarifs'
+      }
+    }
+  ],
+  
+  tableauRecap: [
+    { critere: 'Simplicité', logiciel1: '★★★★☆', logiciel2: '★★☆☆☆' },
+    { critere: 'Planning', logiciel1: '★★★★★', logiciel2: '★★★★☆' },
+    { critere: 'Compte prorata', logiciel1: '★★☆☆☆', logiciel2: '★★★★★' },
+    { critere: 'Prix', logiciel1: '59€/mois', logiciel2: '89€/mois' }
+  ],
+  
+  couts3Ans: {
+    logiciel1: {
+      coutMensuel: 59,
+      coutAnnuel: 708,
+      cout3Ans: 2124,
+      calcul: 'Forfait Équipe 59€/mois × 36 mois'
+    },
+    logiciel2: {
+      coutMensuel: 89,
+      coutAnnuel: 1068,
+      cout3Ans: 3204,
+      calcul: 'Forfait Standard 89€/mois × 36 mois'
+    }
+  },
+  
+  pointsFortsComparaison: {
+    logiciel1: ['Interface moderne', 'Planning excellent', 'Prix compétitif', 'Prise en main rapide'],
+    logiciel2: ['Compte prorata natif', 'Fonctionnalités avancées', 'Adapté aux gros chantiers', 'Mode hors-ligne complet']
+  },
+  
+  pointsFaiblesComparaison: {
+    logiciel1: ['Pas de compte prorata', 'Moins de fonctionnalités avancées'],
+    logiciel2: ['Complexe à prendre en main', 'Prix élevé', 'Overkill pour petites équipes']
+  },
+  
+  casUsage: [
+    {
+      scenario: 'Électricien avec 4 employés qui fait des chantiers résidentiels de 2-4 semaines',
+      recommandation: 'logiciel1',
+      raison: 'Tolteck offre planning et suivi de chantier adaptés, avec une prise en main rapide.'
+    },
+    {
+      scenario: 'Maçon avec 15 salariés qui fait des chantiers en copropriété de 6-12 mois',
+      recommandation: 'logiciel2',
+      raison: 'ProGBat offre le compte prorata et les fonctionnalités avancées nécessaires pour les gros chantiers.'
+    }
+  ]
+};
 
 export const comparaisons: Record<string, ComparaisonData> = {
   'obat-vs-axonaut': obatVsAxonaut,
