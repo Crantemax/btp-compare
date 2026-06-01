@@ -1,19 +1,70 @@
 import './globals.css';
 import { ThemeProvider } from './theme-provider';
+import { Analytics } from '../components/analytics';
 
 export const metadata = {
-  title: 'BTP Compare — Le comparateur indépendant des logiciels pour artisans du bâtiment',
-  description: 'Analyses indépendantes, comparatifs interactifs et recommandations personnalisées. Plus de 500 avis testés pour trouver le logiciel de devis parfait pour votre métier.',
+  metadataBase: new URL('https://btp-compare.fr'),
+  title: {
+    default: 'BTP-Compare — Comparateur indépendant de logiciels pour artisans du bâtiment',
+    template: '%s | BTP-Compare',
+  },
+  description: 'Analyses indépendantes et comparatifs interactifs de logiciels BTP pour artisans. Plus de 1 500 avis testés pour trouver le logiciel de devis parfait pour votre métier.',
+  keywords: [
+    'comparateur logiciel BTP',
+    'logiciel devis artisan',
+    'logiciel facturation bâtiment',
+    'meilleur logiciel BTP 2026',
+    'obat avis',
+    'axonaut avis',
+    'logiciel plombier',
+    'logiciel électricien',
+    'logiciel maçon',
+  ],
+  authors: [{ name: 'BTP-Compare', url: 'https://btp-compare.fr' }],
+  creator: 'BTP-Compare',
+  publisher: 'BTP-Compare',
   icons: {
-    icon: [
-      {
-        url: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🏗️</text></svg>',
-        type: 'image/svg+xml',
-      },
-    ],
+    icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🏗️</text></svg>',
     shortcut: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🏗️</text></svg>',
     apple: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🏗️</text></svg>',
   },
+  openGraph: {
+    type: 'website',
+    locale: 'fr_FR',
+    url: 'https://btp-compare.fr',
+    siteName: 'BTP-Compare',
+    title: 'BTP-Compare — Comparateur indépendant de logiciels BTP',
+    description: 'Analyses indépendantes et comparatifs interactifs. Plus de 1 500 avis testés.',
+    images: [
+      {
+        url: 'https://btp-compare.fr/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'BTP-Compare',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'BTP-Compare — Comparateur indépendant de logiciels BTP',
+    description: 'Analyses indépendantes et comparatifs interactifs. Plus de 1 500 avis testés.',
+    creator: '@btpcompare',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  verification: {
+    google: 'à-remplir-avec-google-search-console',
+  },
+  category: 'technology',
 };
 
 export default function RootLayout({
@@ -26,9 +77,12 @@ export default function RootLayout({
       <head>
         <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)" />
         <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+        <link rel="preconnect" href="https://images.unsplash.com" />
+        <link rel="dns-prefetch" href="https://plausible.io" />
       </head>
       <body className="antialiased">
         <ThemeProvider defaultTheme="system" storageKey="btp-compare-theme">
+          <Analytics />
           {children}
         </ThemeProvider>
       </body>
