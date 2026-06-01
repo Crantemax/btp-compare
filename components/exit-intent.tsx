@@ -10,7 +10,7 @@ import { LeadForm } from './lead-form';
 
 interface ExitIntentProps {
   enabled?: boolean;
-  source?: string;
+  source?: 'roiCalculator' | 'comparaison' | 'page_metier' | 'sidebar';
 }
 
 export function ExitIntent({ enabled = true, source = 'exit_intent' }: ExitIntentProps) {

@@ -101,7 +101,7 @@ export default function RootLayout({
         <ThemeProvider defaultTheme="system" storageKey="btp-compare-theme">
           <Analytics />
           {children}
-          <ExitIntent />
+          <ExitIntent source="page_metier" />
         </ThemeProvider>
       </body>
     </html>
