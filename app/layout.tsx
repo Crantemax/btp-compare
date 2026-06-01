@@ -1,6 +1,24 @@
 import './globals.css';
+import { Instrument_Serif, DM_Sans } from 'next/font/google';
 import { ThemeProvider } from './theme-provider';
 import { Analytics } from '../components/analytics';
+import { ExitIntent } from '../components/exit-intent';
+
+const instrumentSerif = Instrument_Serif({
+  weight: ['400'],
+  style: ['normal', 'italic'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-instrument-serif',
+});
+
+const dmSans = DM_Sans({
+  weight: ['300', '400', '500', '600'],
+  style: ['normal', 'italic'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-dm-sans',
+});
 
 export const metadata = {
   metadataBase: new URL('https://btp-compare.fr'),
@@ -73,17 +91,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" suppressHydrationWarning>
+    <html lang="fr" suppressHydrationWarning className={`${instrumentSerif.variable} ${dmSans.variable}`}>
       <head>
         <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)" />
         <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-        <link rel="preconnect" href="https://images.unsplash.com" />
         <link rel="dns-prefetch" href="https://plausible.io" />
       </head>
       <body className="antialiased">
         <ThemeProvider defaultTheme="system" storageKey="btp-compare-theme">
           <Analytics />
           {children}
+          <ExitIntent />
         </ThemeProvider>
       </body>
     </html>

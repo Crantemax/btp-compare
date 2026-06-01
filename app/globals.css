@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap');
+/* Fonts chargées via next/font/google dans layout.tsx (plus rapide que @import) */
 
 @layer base {
   :root {
@@ -84,7 +84,7 @@
   }
 
   html {
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: var(--font-dm-sans), system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     scroll-behavior: smooth;
@@ -100,7 +100,7 @@
 
   /* Instrument Serif pour les titres éditoriaux */
   .font-serif {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--font-instrument-serif), Georgia, serif;
     letter-spacing: -0.02em;
   }
 }
@@ -289,7 +289,7 @@
 
 /* ─── Stat number ────────────────────────────── */
 .stat-number {
-  font-family: 'Instrument Serif', Georgia, serif;
+  font-family: var(--font-instrument-serif), Georgia, serif;
   font-size: 2.5rem;
   line-height: 1;
   letter-spacing: -0.03em;
@@ -307,7 +307,7 @@
 
 /* ─── Prose heading style ────────────────────── */
 .heading-editorial {
-  font-family: 'Instrument Serif', Georgia, serif;
+  font-family: var(--font-instrument-serif), Georgia, serif;
   font-size: clamp(2rem, 5vw, 3.5rem);
   line-height: 1.08;
   letter-spacing: -0.03em;

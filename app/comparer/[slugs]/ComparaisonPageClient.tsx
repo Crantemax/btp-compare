@@ -6,9 +6,10 @@ import { ThemeToggle } from '../../../components/theme-toggle';
 import { AffiliateDisclosure } from '../../../components/affiliate-disclosure';
 import { TransparencyBanner } from '../../../components/transparency-banner';
 import { comparaisons } from '../../../data/comparaisons';
-import { 
-  ArrowLeft, Check, X, Star, ExternalLink, 
-  ChevronRight, Info, Scale, TrendingUp, Target
+import { LeadForm } from '../../../components/lead-form';
+import {
+  ArrowLeft, Check, X, Star, ExternalLink,
+  ChevronRight, Info, Scale, TrendingUp, Target, Mail
 } from 'lucide-react';
 
 interface ComparaisonPageClientProps {
@@ -332,6 +333,25 @@ export function ComparaisonPageClient({ comparaisonSlug }: ComparaisonPageClient
               </motion.div>
             ))}
           </div>
+        </motion.section>
+
+        {/* CAPTURE EMAIL */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="card-base p-8 mb-12"
+        >
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+              <Mail className="w-5 h-5 text-primary" />
+            </div>
+            <div>
+              <h2 className="font-bold text-foreground text-lg">Vous hésitez encore ?</h2>
+              <p className="text-sm text-muted-foreground">Recevez notre guide gratuit + conseils par email</p>
+            </div>
+          </div>
+          <LeadForm source="comparaison" />
         </motion.section>
 
         {/* CTA FINAL */}

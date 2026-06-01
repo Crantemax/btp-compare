@@ -43,6 +43,7 @@ export function LeadForm({
           metier: metier || 'Non spécifié',
           yearlySavings: yearlySavings || 0,
           source,
+          honeypot: (e.currentTarget.querySelector('[name="website"]') as HTMLInputElement)?.value || '',
         }),
       });
 
@@ -102,6 +103,16 @@ export function LeadForm({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
+      {/* Honeypot anti-bot — caché via CSS, jamais rempli par un humain */}
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        style={{ position: 'absolute', left: '-9999px', opacity: 0 }}
+        aria-hidden="true"
+      />
+
       {/* Prénom (optionnel) */}
       <input
         type="text"
