@@ -5,18 +5,187 @@ import { ThemeToggle } from '../../components/theme-toggle';
 import { ComparisonTable } from '../../components/comparison-table';
 import { ROICalculator } from '../../components/roi-calculator';
 import { Quiz } from '../../components/quiz';
+import { AffiliateDisclosure } from '../../components/affiliate-disclosure';
 import { metiers, logiciels } from '../../data/metiers';
+import { Metadata } from 'next';
 import { 
   ArrowLeft, Zap, ChevronRight, Check, X, Clock, 
   Users, AlertCircle, TrendingUp, MessageSquare,
   FileText, ThumbsUp, Quote, Target, AlertTriangle,
-  Award, BookOpen, Calculator, HelpCircle
+  Award, BookOpen, Calculator, HelpCircle, Star,
+  TrendingDown, Shield, Eye
 } from 'lucide-react';
 
+// ═══════════════════════════════════════════════════════
+// SEO DYNAMIQUE + SCHEMA.ORG
+// ═══════════════════════════════════════════════════════
+export async function generateMetadata({ 
+  params 
+}: { 
+  params: { metier: string } 
+}): Promise<Metadata> {
+  const data = metiers.find(m => m.slug === params.metier);
+  
+  if (!data) {
+    return { 
+      title: 'Métier non trouvé — BTP-Compare',
+      description: 'Cette page n\'existe pas.'
+    };
+  }
+
+  // Schema.org Article
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: data.seoTitle,
+    description: data.seoDescription,
+    image: data.image,
+    author: {
+      '@type': 'Organization',
+      name: 'BTP-Compare',
+      url: 'https://btp-compare.fr',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'BTP-Compare',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://btp-compare.fr/logo.png',
+      },
+    },
+    datePublished: '2026-06-01',
+    dateModified: new Date().toISOString().split('T')[0],
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `https://btp-compare.fr/${data.slug}`,
+    },
+  };
+
+  // Schema.org FAQ
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: data.faqSchema.map(faq => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  };
+
+  // Schema.org Review
+  const reviewSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Review',
+    itemReviewed: {
+      '@type': 'SoftwareApplication',
+      name: `Logiciels pour ${data.nomPluriel}`,
+      applicationCategory: 'BusinessApplication',
+      operatingSystem: 'Web, iOS, Android',
+    },
+    reviewRating: {
+      '@type': 'Rating',
+      ratingValue: '4.8',
+      bestRating: '5',
+      worstRating: '1',
+    },
+    author: {
+      '@type': 'Organization',
+      name: 'BTP-Compare',
+    },
+    reviewBody: data.intro,
+    datePublished: new Date().toISOString().split('T')[0],
+  };
+
+  // Schema.org BreadcrumbList
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Accueil',
+        item: 'https://btp-compare.fr',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: `Logiciel ${data.nom}`,
+        item: `https://btp-compare.fr/${data.slug}`,
+      },
+    ],
+  };
+
+  return {
+    title: data.seoTitle,
+    description: data.seoDescription,
+    keywords: data.seoKeywords.join(', '),
+    authors: [{ name: 'BTP-Compare', url: 'https://btp-compare.fr' }],
+    creator: 'BTP-Compare',
+    publisher: 'BTP-Compare',
+    metadataBase: new URL('https://btp-compare.fr'),
+    alternates: {
+      canonical: `https://btp-compare.fr/${data.slug}`,
+    },
+    openGraph: {
+      title: data.seoTitle,
+      description: data.seoDescription,
+      url: `https://btp-compare.fr/${data.slug}`,
+      siteName: 'BTP-Compare',
+      locale: 'fr_FR',
+      type: 'article',
+      images: [
+        {
+          url: data.image,
+          width: 1200,
+          height: 800,
+          alt: `Comparatif logiciel ${data.nom} 2026`,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: data.seoTitle,
+      description: data.seoDescription,
+      images: [data.image],
+      creator: '@btpcompare',
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
+    other: {
+      'script:ld+json': JSON.stringify([articleSchema, faqSchema, reviewSchema, breadcrumbSchema]),
+    },
+  };
+}
+
+// ═══════════════════════════════════════════════════════
+// COMPOSANT PRINCIPAL
+// ═══════════════════════════════════════════════════════
 export default function MetierPage({ params }: { params: { metier: string } }) {
   const data = metiers.find(m => m.slug === params.metier);
   
-  if (!data) return <div>Métier non trouvé</div>;
+  if (!data) {
+    return (
+      <div className="min-h-screen flex items-center justify-center gradient-subtle">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold text-foreground mb-4">Métier non trouvé</h1>
+          <a href="/" className="text-primary hover:underline">Retour à l'accueil</a>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen gradient-subtle">
@@ -36,9 +205,6 @@ export default function MetierPage({ params }: { params: { metier: string } }) {
               </div>
             </a>
             <nav className="hidden md:flex items-center space-x-8">
-              <a href="/" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-smooth">
-                Accueil
-              </a>
               <a href={`/${data.slug}#verdict`} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-smooth">
                 Verdict
               </a>
@@ -107,10 +273,13 @@ export default function MetierPage({ params }: { params: { metier: string } }) {
         </div>
       </div>
 
+      {/* AFFILIATE DISCLOSURE */}
+      <AffiliateDisclosure />
+
       <main className="max-w-4xl mx-auto px-6 lg:px-8 py-16">
         
         {/* ═══════════════════════════════════════════════════════
-            STATS BAR - Crédibilité immédiate
+            STATS BAR
         ═══════════════════════════════════════════════════════ */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
@@ -119,33 +288,39 @@ export default function MetierPage({ params }: { params: { metier: string } }) {
         >
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {data.statsMetier.map((stat, i) => (
-              <div key={i} className="text-center">
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: i * 0.1 }}
+                className="text-center"
+              >
                 <div className="text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-1">
                   {stat.value}
                 </div>
                 <div className="text-xs md:text-sm text-muted-foreground leading-tight">
                   {stat.label}
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </motion.section>
 
         {/* ═══════════════════════════════════════════════════════
-            INTRODUCTION - Storytelling
+            INTRODUCTION
         ═══════════════════════════════════════════════════════ */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-16"
         >
-          <div className="prose prose-lg max-w-none">
+          <div className="prose prose-lg max-w-none mb-8">
             <p className="text-xl text-muted-foreground leading-relaxed">
               {data.intro}
             </p>
           </div>
 
-          <div className="mt-8 bg-accent rounded-xl p-6 border-l-4 border-primary">
+          <div className="bg-accent rounded-xl p-6 border-l-4 border-primary">
             <div className="flex items-start">
               <Target className="w-6 h-6 text-primary mr-4 flex-shrink-0 mt-1" />
               <div>
@@ -202,7 +377,7 @@ export default function MetierPage({ params }: { params: { metier: string } }) {
               <div className="text-4xl mb-4 mt-2">{logiciels.obat.logo}</div>
               <h3 className="text-2xl font-bold text-foreground mb-2">{logiciels.obat.nom}</h3>
               <div className="flex items-center mb-4">
-                <span className="text-yellow-500 text-lg mr-2">★</span>
+                <Star className="w-5 h-5 text-yellow-500 mr-1" fill="currentColor" />
                 <span className="font-semibold text-foreground">{logiciels.obat.note}</span>
               </div>
               <div className="text-sm text-muted-foreground mb-4">
@@ -212,21 +387,23 @@ export default function MetierPage({ params }: { params: { metier: string } }) {
                 {data.verdictObat}
               </p>
               <div className="space-y-2 text-xs text-muted-foreground mb-6 pt-4 border-t border-border">
-                <div className="flex justify-between">
-                  <span>Point fort :</span>
-                  <span className="text-green-500 font-medium text-right max-w-[60%]">{logiciels.obat.pointFort}</span>
+                <div className="flex items-start">
+                  <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
+                  <span><strong>Point fort :</strong> {logiciels.obat.pointFort}</span>
+                </div>
+                <div className="flex items-start">
+                  <X className="w-4 h-4 text-red-500 mr-2 flex-shrink-0 mt-0.5" />
+                  <span><strong>Point faible :</strong> {logiciels.obat.pointFaible}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>Point faible :</span>
-                  <span className="text-red-500 font-medium text-right max-w-[60%]">{logiciels.obat.pointFaible}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Tarif indicatif :</span>
-                  <span className="text-foreground font-medium">{logiciels.obat.tarif}</span>
+                  <span className="font-medium">Tarif :</span>
+                  <span className="text-foreground">{logiciels.obat.tarif}</span>
                 </div>
               </div>
               <a
                 href={logiciels.obat.lien}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="block w-full bg-green-500 text-white text-center py-3 rounded-lg font-medium hover:bg-green-600 transition-smooth"
               >
                 Essayer {logiciels.obat.nom}
@@ -244,7 +421,7 @@ export default function MetierPage({ params }: { params: { metier: string } }) {
               <div className="text-4xl mb-4 mt-2">{logiciels.axonaut.logo}</div>
               <h3 className="text-2xl font-bold text-foreground mb-2">{logiciels.axonaut.nom}</h3>
               <div className="flex items-center mb-4">
-                <span className="text-yellow-500 text-lg mr-2">★</span>
+                <Star className="w-5 h-5 text-yellow-500 mr-1" fill="currentColor" />
                 <span className="font-semibold text-foreground">{logiciels.axonaut.note}</span>
               </div>
               <div className="text-sm text-muted-foreground mb-4">
@@ -254,21 +431,23 @@ export default function MetierPage({ params }: { params: { metier: string } }) {
                 {data.verdictAxonaut}
               </p>
               <div className="space-y-2 text-xs text-muted-foreground mb-6 pt-4 border-t border-border">
-                <div className="flex justify-between">
-                  <span>Point fort :</span>
-                  <span className="text-blue-500 font-medium text-right max-w-[60%]">{logiciels.axonaut.pointFort}</span>
+                <div className="flex items-start">
+                  <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
+                  <span><strong>Point fort :</strong> {logiciels.axonaut.pointFort}</span>
+                </div>
+                <div className="flex items-start">
+                  <X className="w-4 h-4 text-red-500 mr-2 flex-shrink-0 mt-0.5" />
+                  <span><strong>Point faible :</strong> {logiciels.axonaut.pointFaible}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>Point faible :</span>
-                  <span className="text-red-500 font-medium text-right max-w-[60%]">{logiciels.axonaut.pointFaible}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Tarif indicatif :</span>
-                  <span className="text-foreground font-medium">{logiciels.axonaut.tarif}</span>
+                  <span className="font-medium">Tarif :</span>
+                  <span className="text-foreground">{logiciels.axonaut.tarif}</span>
                 </div>
               </div>
               <a
                 href={logiciels.axonaut.lien}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="block w-full bg-blue-500 text-white text-center py-3 rounded-lg font-medium hover:bg-blue-600 transition-smooth"
               >
                 Essayer {logiciels.axonaut.nom}
@@ -286,9 +465,18 @@ export default function MetierPage({ params }: { params: { metier: string } }) {
           viewport={{ once: true }}
           className="bg-card rounded-xl border border-border p-8 mb-16"
         >
-          <h2 className="text-3xl font-bold tracking-tight text-foreground mb-8">
-            Comparatif technique détaillé
-          </h2>
+          <div className="mb-6">
+            <div className="inline-flex items-center space-x-2 text-sm font-medium text-muted-foreground mb-3">
+              <Eye className="w-4 h-4" />
+              <span>Analyse détaillée</span>
+            </div>
+            <h2 className="text-3xl font-bold tracking-tight text-foreground mb-2">
+              Comparatif technique
+            </h2>
+            <p className="text-muted-foreground">
+              Fonctionnalité par fonctionnalité, voici ce qui les différencie vraiment.
+            </p>
+          </div>
           <ComparisonTable />
         </motion.section>
 
@@ -543,6 +731,8 @@ export default function MetierPage({ params }: { params: { metier: string } }) {
               </p>
               <a
                 href="https://qonto.com/?ref=btp_compare"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-foreground text-background px-6 py-3 rounded-lg font-medium hover:opacity-90 transition-smooth"
               >
                 Découvrir Qonto
