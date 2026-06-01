@@ -11,39 +11,40 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900 transition-colors">
       
-      {/* HEADER */}
-      <header className="fixed top-0 w-full z-50 glass">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="flex items-center"
-            >
-              <div className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-                🏗️ BTP-Compare
-              </div>
-            </motion.div>
-            
-            <nav className="hidden md:flex space-x-8">
-              {['Accueil', 'Plombiers', 'Électriciens', 'Maçons'].map((item, i) => (
-                <motion.a
-                  key={item}
-                  href={i === 0 ? '/' : `/${item.toLowerCase()}`}
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                  className="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 font-medium transition-colors"
-                >
-                  {item}
-                </motion.a>
-              ))}
-            </nav>
-
-            <ThemeToggle />
-          </div>
+    {/* HEADER */}
+<header className="fixed top-0 left-0 right-0 w-full z-50 glass border-b border-gray-200/50 dark:border-gray-800/50">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="flex justify-between items-center h-20">
+      <motion.a
+        href="/"
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        className="flex items-center"
+      >
+        <div className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
+          🏗️ BTP-Compare
         </div>
-      </header>
+      </motion.a>
+      
+      <nav className="hidden md:flex space-x-8">
+        {['Accueil', 'Plombiers', 'Électriciens', 'Maçons'].map((item, i) => (
+          <motion.a
+            key={item}
+            href={i === 0 ? '/' : `/${item.toLowerCase()}`}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.1 }}
+            className="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 font-medium transition-colors"
+          >
+            {item}
+          </motion.a>
+        ))}
+      </nav>
+
+      <ThemeToggle />
+    </div>
+  </div>
+</header>
 
       {/* HERO SECTION avec Gradient Mesh */}
       <section className="relative pt-32 pb-20 overflow-hidden">
