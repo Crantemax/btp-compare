@@ -13,7 +13,19 @@ const PROBLEMES_PAR_METIER = {
   menuisier: ['sur-mesure', 'escaliers', 'fenetres', 'agencement'],
   carreleur: ['motifs-complexes', 'preparation-supports', 'salles-de-bain', 'terrasses'],
   peintre: ['calculs-surface', 'preparation-murs', 'ravalement', 'decoration'],
-  chauffagiste: ['pompes-chaleur', 'chaudieres', 'plancher-chauffant', 'rge']
+  chauffagiste: ['pompes-chaleur', 'chaudieres', 'plancher-chauffant', 'rge'],
+  serrurier: ['depannage-urgent', 'serrures-haute-securite', 'coffres-forts', 'controle-acces'],
+  plaquiste: ['cloisons', 'faux-plafonds', 'isolation', 'enduits'],
+  vitrier: ['vitrages-doubles', 'miroirs', 'urgences-casse', 'stores'],
+  etancheur: ['toitures-terrasses', 'fondations', 'parkings', 'diagnostics'],
+  charpentier: ['charpentes-traditionnelles', 'ossature-bois', 'renovation', 'calculs-structure'],
+  zingueur: ['gouttières', 'descentes-ep', 'couvertines', 'zinguerie-ornementale'],
+  terrassier: ['vrd', 'fondations', 'assainissement', 'terrains-en-pente'],
+  paysagiste: ['jardins-creation', 'terrasses-exterieur', 'irrigation', 'contrats-entretien'],
+  pisciniste: ['construction-piscine', 'renovation-liner', 'equipements', 'maintenance'],
+  alarmiste: ['alarmes-intrusion', 'videoprotection', 'controle-acces', 'domotique'],
+  ascensoriste: ['installation', 'maintenance', 'modernisation', 'conformite-reglementaire'],
+  facadier: ['ravalement', 'isolation-exterieure', 'peinture-exterieure', 'nettoyage'],
 };
 
 export async function generateStaticParams() {

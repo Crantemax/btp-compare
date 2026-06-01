@@ -7,7 +7,10 @@ const TAILLES = ['auto-entrepreneur', 'artisan-seul', 'equipe-2-5', 'pme-5-15'];
 
 const METIERS_SLUGS = [
   'plombier', 'electricien', 'macon', 'couvreur',
-  'menuisier', 'carreleur', 'peintre', 'chauffagiste'
+  'menuisier', 'carreleur', 'peintre', 'chauffagiste',
+  'serrurier', 'plaquiste', 'vitrier', 'etancheur',
+  'charpentier', 'zingueur', 'terrassier', 'paysagiste',
+  'pisciniste', 'alarmiste', 'ascensoriste', 'facadier'
 ];
 
 const TAILLE_LABELS: Record<string, string> = {

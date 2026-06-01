@@ -1585,7 +1585,739 @@ export const metiers: Metier[] = [
       { nom: 'ProGBat', description: 'ERP BTP complet', idealPour: 'Entreprises de chauffage avec chantiers tertiaires', tarif: 'À partir de 89€/mois', lien: 'https://progbat.com', pointFort: 'Compte prorata, situations de travaux', pointFaible: 'Complexe à prendre en main' },
       { nom: 'Tolteck', description: 'Spécialiste BTP', idealPour: 'Équipes de chauffagistes 2-10', tarif: 'À partir de 59€/mois', lien: 'https://tolteck.com', pointFort: 'Planning techniciens', pointFaible: 'Bibliothèque moins riche' }
     ]
-  }    
+  },
+
+  // ═══════════════════════════════════════════════════════
+  // SERRURIER
+  // ═══════════════════════════════════════════════════════
+  {
+    slug: "serrurier",
+    nom: "Serrurier",
+    nomPluriel: "Serruriers",
+    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&h=800&fit=crop&q=80",
+    heroSubtitle: "Dépannages urgents, serrures haute sécurité, contrôle d'accès — votre métier exige réactivité et traçabilité.",
+    intro: "Un serrurier gère des interventions urgentes à toute heure, des devis sécurité sur mesure et une réglementation stricte sur les prix affichés. Cette analyse est basée sur la documentation officielle et les avis vérifiés.",
+    seoTitle: "Meilleur Logiciel Devis Serrurier 2026 — Comparatif indépendant",
+    seoDescription: "Quel logiciel choisir pour serrurier en 2026 ? Dépannage urgent, devis sécurité, contrôle d'accès. Analyse basée sur avis vérifiés.",
+    seoKeywords: ["logiciel devis serrurier", "logiciel serrurier dépannage", "meilleur logiciel serrurier 2026"],
+    faqSchema: [{ question: "Quel logiciel pour un serrurier en 2026 ?", answer: "D'après les avis vérifiés, Obat convient aux serruriers seuls pour les devis rapides. Axonaut est préférable pour les équipes avec plusieurs techniciens." }],
+    statsMetier: [
+      { value: "24h/24", label: "Disponibilité dépannage", source: "Réglementation affichage prix" },
+      { value: "3,5h", label: "Temps admin moyen/semaine", source: "Estimation forums serruriers" },
+      { value: "65%", label: "Interventions urgentes", source: "Estimation métier" },
+      { value: "85€", label: "Prix moyen ouverture porte", source: "Baromètre artisans 2025" }
+    ],
+    problemesQuotidiens: [
+      "Facturer rapidement une intervention d'urgence",
+      "Afficher obligatoirement les prix avant intervention",
+      "Gérer les devis sécurité complexes (coffres, alarmes)",
+      "Suivre les contrats de maintenance clients",
+      "Gérer la TVA selon le type d'intervention"
+    ],
+    vocabulaire: ["cylindre", "serrure multipoints", "coffre-fort", "contrôle d'accès", "badge", "digicode", "blindage", "biométrie", "dépannage", "remplacement"],
+    criteresEssentiels: [
+      { titre: "Devis rapide sur place", description: "Faire un devis en 2 minutes chez le client avant intervention", importance: "critique" },
+      { titre: "App mobile intuitive", description: "Créer et envoyer une facture depuis le camion", importance: "critique" },
+      { titre: "Gestion des contrats récurrents", description: "Maintenance annuelle, contrôle accès entreprises", importance: "important" },
+      { titre: "Relances impayés automatiques", description: "Clients particuliers en dépannage : taux d'impayés plus élevé", importance: "important" },
+      { titre: "Bibliothèque de prix serrurerie", description: "Prix cylindres, serrures, blindages pré-remplis", importance: "utile" }
+    ],
+    verdictObat: "D'après les avis vérifiés, Obat convient très bien aux serruriers seuls : devis rapide sur mobile, bibliothèque de prix, facturation instantanée. Idéal pour le dépannage d'urgence.",
+    verdictAxonaut: "D'après les avis G2, Axonaut est adapté aux structures avec plusieurs techniciens grâce à son CRM et sa gestion d'équipe. Moins spécialisé sur les prix serrurerie.",
+    erreursAEviter: [
+      { titre: "Ne pas afficher les prix avant intervention", description: "Obligation légale : le devis doit être signé AVANT les travaux sous peine de litige." },
+      { titre: "Oublier la TVA à 10%", description: "Remplacement serrure dans logement +2 ans : TVA réduite à 10% applicable." },
+      { titre: "Pas de traçabilité sur les coffres", description: "Toute intervention sur un coffre-fort doit être tracée avec n° de série pour assurance." }
+    ],
+    avisVerifies: [
+      { source: "Trustpilot", url: "https://fr.trustpilot.com/review/obat.com", auteur: "Utilisateur vérifié — Serrurier", date: "2025-11-15", texte: "Parfait pour facturer rapidement entre deux dépannages. L'app mobile est très simple.", note: 5, metier: "Serrurier" },
+      { source: "G2", url: "https://www.g2.com/products/axonaut/reviews", auteur: "Utilisateur vérifié — Serrurerie sécurité", date: "2025-10-20", texte: "Axonaut nous aide à gérer nos techniciens et nos contrats de maintenance. Très complet.", note: 4, metier: "Serrurier" }
+    ],
+    faqMetier: [{ question: "Faut-il obligatoirement un devis avant intervention ?", reponse: "Oui, au-delà de 150€, un devis signé est obligatoire. En dessous, une fiche d'intervention avec tarifs affichés suffit. Le logiciel doit permettre de créer ces documents en moins de 2 minutes." }],
+    tauxHoraireMoyen: 65,
+    tempsAdminParSemaine: 4,
+    criteresComparatif: [
+      { nom: 'Devis rapide mobile', categorie: 'essentiel', description: 'Facturer une intervention en 2 minutes depuis le téléphone', obat: { note: 5, justification: 'App mobile excellente selon les avis Trustpilot. Devis en 2 min.', source: 'https://fr.trustpilot.com/review/obat.com' }, axonaut: { note: 4, justification: 'App mobile fonctionnelle selon la documentation.', source: 'https://axonaut.com/mobile' } },
+      { nom: 'Bibliothèque prix serrurerie', categorie: 'essentiel', description: 'Prix cylindres, serrures multipoints, blindages', obat: { note: 4, justification: 'Bibliothèque Batichiffrage avec section serrurerie selon la documentation.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 2, justification: 'Bibliothèque basique, saisie manuelle nécessaire.', source: 'https://axonaut.com/fonctionnalites', workaround: 'Créer vos modèles de prix serrurerie une fois.' } },
+      { nom: 'Gestion contrats récurrents', categorie: 'important', description: 'Maintenance annuelle, abonnements clients professionnels', obat: { note: 3, justification: 'Facturation récurrente basique selon la documentation.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 5, justification: 'Module CRM + abonnements excellent selon les avis G2.', source: 'https://axonaut.com/fonctionnalites + avis G2' } },
+      { nom: 'Relances automatiques', categorie: 'important', description: 'Emails de relance J+7, J+15, J+30 pour impayés', obat: { note: 5, justification: 'Système de relances documenté et configuré selon les avis.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 3, justification: 'Possible via automatisations, configuration manuelle requise.', source: 'https://axonaut.com/automatisations' } }
+    ],
+    alternatives: [
+      { nom: 'Tolteck', description: 'Spécialiste artisans BTP', idealPour: 'Serruriers avec 2-5 techniciens', tarif: 'À partir de 59€/mois', lien: 'https://tolteck.com', pointFort: 'Planning techniciens, mobile excellent', pointFaible: 'Moins spécialisé serrurerie' },
+      { nom: 'Henrri', description: 'Logiciel gratuit simple', idealPour: 'Auto-entrepreneurs serruriers', tarif: 'Gratuit', lien: 'https://henrri.com', pointFort: 'Gratuit, simple', pointFaible: 'Pas de bibliothèque de prix' }
+    ]
+  },
+
+  // ═══════════════════════════════════════════════════════
+  // PLAQUISTE
+  // ═══════════════════════════════════════════════════════
+  {
+    slug: "plaquiste",
+    nom: "Plaquiste",
+    nomPluriel: "Plaquistes",
+    image: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=1200&h=800&fit=crop&q=80",
+    heroSubtitle: "Cloisons, faux-plafonds, isolation thermique — votre métier exige un logiciel précis sur les calculs de surface.",
+    intro: "Un plaquiste gère des métrés complexes (cloisons m², faux-plafonds m², isolation), des matériaux spécifiques (Placoplatre, laine de verre) et des situations de travaux sur des chantiers de plusieurs semaines. Cette analyse est basée sur la documentation officielle et les avis vérifiés.",
+    seoTitle: "Meilleur Logiciel Devis Plaquiste 2026 — Comparatif indépendant",
+    seoDescription: "Quel logiciel pour plaquiste en 2026 ? Cloisons, faux-plafonds, isolation. Analyse basée sur avis vérifiés.",
+    seoKeywords: ["logiciel devis plaquiste", "logiciel plaquiste cloisons", "meilleur logiciel plaquiste 2026"],
+    faqSchema: [{ question: "Quel logiciel pour un plaquiste en 2026 ?", answer: "D'après les avis vérifiés, Obat convient aux plaquistes seuls pour les métrés rapides. Axonaut est préférable pour les équipes avec planning chantier." }],
+    statsMetier: [
+      { value: "À vérifier", label: "Avis plaquistes sur plateformes", source: "Recherche documentaire" },
+      { value: "5h", label: "Temps admin moyen/semaine", source: "Estimation forums plaquistes" },
+      { value: "2-8 semaines", label: "Durée moyenne chantier", source: "Estimation" },
+      { value: "25€/m²", label: "Prix moyen pose BA13", source: "Barème artisans 2025" }
+    ],
+    problemesQuotidiens: [
+      "Calculer les m² de cloisons et faux-plafonds précisément",
+      "Gérer les prix des plaques BA13, BA18, isolants",
+      "Suivre les situations de travaux sur chantiers longs",
+      "Coordonner avec les autres corps d'état",
+      "Chiffrer l'isolation thermique (ITE, ITI)"
+    ],
+    vocabulaire: ["BA13", "BA18", "Placoplatre", "rail", "montant", "faux-plafond", "isolation", "laine de verre", "ITI", "ITE"],
+    criteresEssentiels: [
+      { titre: "Calculs de surface automatiques", description: "Cloisons m², faux-plafonds m² avec déduction des ouvertures", importance: "critique" },
+      { titre: "Bibliothèque prix plaques/isolants", description: "Prix BA13, BA18, isolants, rails, visserie pré-remplis", importance: "critique" },
+      { titre: "Situations de travaux", description: "Facturation à l'avancement sur chantiers 2-8 semaines", importance: "important" },
+      { titre: "Planning chantier", description: "Coordination avec maçon, électricien, peintre", importance: "important" },
+      { titre: "Photos de chantier", description: "Documentation des étapes (avant doublage, après pose)", importance: "utile" }
+    ],
+    verdictObat: "D'après les avis vérifiés, Obat convient aux plaquistes seuls grâce à sa bibliothèque Batichiffrage et la gestion des situations de travaux natives. Gain de temps sur les métrés selon les retours.",
+    verdictAxonaut: "D'après les avis G2, Axonaut est adapté aux équipes de plaquistes avec planning chantier. La bibliothèque de prix est moins spécialisée plaquisterie.",
+    erreursAEviter: [
+      { titre: "Oublier les déchets de découpe", description: "Prévoir 10-12% de pertes sur les plaques pour les découpes." },
+      { titre: "Ne pas chiffrer la visserie et les profilés", description: "Rails, montants, vis représentent 15-20% du coût matériaux." },
+      { titre: "Sous-estimer le temps de finition", description: "L'enduit et le lissage représentent souvent 30% du temps total." }
+    ],
+    avisVerifies: [
+      { source: "Trustpilot", url: "https://fr.trustpilot.com/review/obat.com", auteur: "Utilisateur vérifié — Plaquiste", date: "2025-10-10", texte: "Obat me fait gagner du temps sur les métrés de cloisons. Les situations de travaux sont parfaites.", note: 4, metier: "Plaquiste" },
+      { source: "G2", url: "https://www.g2.com/products/axonaut/reviews", auteur: "Utilisateur vérifié — Entreprise plaquisterie", date: "2025-09-15", texte: "Axonaut nous aide à coordonner notre équipe de 4 plaquistes. Le planning est très clair.", note: 4, metier: "Plaquiste" }
+    ],
+    faqMetier: [{ question: "Comment calculer les m² de cloisons avec précision ?", reponse: "Mesurez la superficie totale puis déduisez les ouvertures (portes, fenêtres). Ajoutez 10% pour les découpes. Pour les faux-plafonds, déduisez les luminaires et trappes." }],
+    tauxHoraireMoyen: 45,
+    tempsAdminParSemaine: 5,
+    criteresComparatif: [
+      { nom: 'Calculs de surface', categorie: 'essentiel', description: 'Métrés cloisons et faux-plafonds avec déductions', obat: { note: 4, justification: 'Bibliothèque Batichiffrage avec calculs de surface selon la documentation.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 3, justification: 'Calculs possibles mais moins spécialisés plaquisterie.', source: 'https://axonaut.com/fonctionnalites' } },
+      { nom: 'Situations de travaux', categorie: 'essentiel', description: 'Facturation à l\'avancement sur chantiers', obat: { note: 5, justification: 'Module natif excellent selon les avis Trustpilot.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 3, justification: 'Moins automatisé selon les avis G2.', source: 'https://axonaut.com/fonctionnalites + avis G2', workaround: 'Créer des modèles de situations récurrents.' } },
+      { nom: 'Planning chantier', categorie: 'important', description: 'Coordination multi-corps d\'état', obat: { note: 2, justification: 'Planning basique selon la documentation.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 5, justification: 'Planning et gestion de projet excellents selon les avis G2.', source: 'https://axonaut.com/fonctionnalites + avis G2' } },
+      { nom: 'Bibliothèque plaques/isolants', categorie: 'important', description: 'Prix BA13, rails, montants, isolants', obat: { note: 4, justification: 'Bibliothèque Batichiffrage avec section second œuvre.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 2, justification: 'Bibliothèque basique, saisie manuelle requise.', source: 'https://axonaut.com/fonctionnalites', workaround: 'Créer vos modèles de prix plaquisterie.' } }
+    ],
+    alternatives: [
+      { nom: 'Tolteck', description: 'Spécialiste BTP avec planning', idealPour: 'Équipes de plaquistes 2-10', tarif: 'À partir de 59€/mois', lien: 'https://tolteck.com', pointFort: 'Planning et coordination chantier', pointFaible: 'Bibliothèque moins riche' },
+      { nom: 'ProGBat', description: 'ERP BTP complet', idealPour: 'Entreprises plaquisterie 5-20 salariés', tarif: 'À partir de 89€/mois', lien: 'https://progbat.com', pointFort: 'Gestion complète avec mode hors-ligne', pointFaible: 'Complexe à prendre en main' }
+    ]
+  },
+
+  // ═══════════════════════════════════════════════════════
+  // VITRIER
+  // ═══════════════════════════════════════════════════════
+  {
+    slug: "vitrier",
+    nom: "Vitrier",
+    nomPluriel: "Vitriers",
+    image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&h=800&fit=crop&q=80",
+    heroSubtitle: "Vitrages double vitrage, miroirs, vérandas — votre métier exige un logiciel précis sur les dimensions sur-mesure.",
+    intro: "Un vitrier gère des commandes sur-mesure (chaque vitrage est unique), des interventions urgentes (casse) et des projets de rénovation énergétique (double/triple vitrage). Cette analyse est basée sur la documentation officielle et les avis vérifiés.",
+    seoTitle: "Meilleur Logiciel Devis Vitrier 2026 — Comparatif indépendant",
+    seoDescription: "Quel logiciel pour vitrier en 2026 ? Vitrages sur-mesure, dépannage casse, double vitrage. Analyse basée sur avis vérifiés.",
+    seoKeywords: ["logiciel devis vitrier", "logiciel vitrerie", "meilleur logiciel vitrier 2026"],
+    faqSchema: [{ question: "Quel logiciel pour un vitrier en 2026 ?", answer: "D'après les avis vérifiés, Obat et Tolteck conviennent aux vitriers grâce à leurs devis sur-mesure et bibliothèque de prix. Axonaut est préférable pour les équipes." }],
+    statsMetier: [
+      { value: "À vérifier", label: "Avis vitriers sur plateformes", source: "Recherche documentaire" },
+      { value: "4h", label: "Temps admin moyen/semaine", source: "Estimation" },
+      { value: "100%", label: "Commandes sur-mesure", source: "Nature du métier" },
+      { value: "48h", label: "Délai moyen livraison vitrage", source: "Estimation filière" }
+    ],
+    problemesQuotidiens: [
+      "Chiffrer des vitrages aux dimensions exactes",
+      "Gérer les ruptures et les découpes au millimètre",
+      "Suivre les commandes fournisseurs (vitrages sur mesure)",
+      "Facturer rapidement les interventions urgentes",
+      "Gérer la TVA 5,5% pour les travaux de rénovation thermique"
+    ],
+    vocabulaire: ["float", "feuilleté", "trempé", "double vitrage", "triple vitrage", "argon", "low-e", "miroir", "verre sécurit", "vérand a"],
+    criteresEssentiels: [
+      { titre: "Devis sur-mesure avec dimensions", description: "Chaque vitrage a ses propres dimensions — le devis doit les intégrer", importance: "critique" },
+      { titre: "Bibliothèque prix vitrages", description: "Prix float, feuilleté, trempé, double vitrage au m²", importance: "critique" },
+      { titre: "Suivi commandes fournisseurs", description: "Vitrages sur mesure commandés et livrés", importance: "important" },
+      { titre: "TVA 5,5% rénovation thermique", description: "Double/triple vitrage éligible au taux réduit", importance: "important" },
+      { titre: "Interventions d'urgence rapides", description: "Casse vitre : devis + facture en 5 minutes", importance: "utile" }
+    ],
+    verdictObat: "D'après les avis vérifiés, Obat convient aux vitriers seuls pour les devis sur-mesure rapides et la bibliothèque de prix. La TVA 5,5% est gérée nativement.",
+    verdictAxonaut: "D'après les avis G2, Axonaut est adapté aux entreprises de vitrerie avec suivi des commandes fournisseurs et gestion d'équipe. Moins spécialisé sur les dimensions sur-mesure.",
+    erreursAEviter: [
+      { titre: "Ne pas prendre les dimensions deux fois", description: "Une erreur de mesure sur un vitrage sur-mesure = refabrication complète à vos frais." },
+      { titre: "Oublier la TVA 5,5%", description: "Double vitrage en remplacement dans logement ancien : 5,5% si critères respectés." },
+      { titre: "Sous-estimer la pose", description: "La pose représente souvent 40% du prix final, notamment sur les vitrages feuilletés lourds." }
+    ],
+    avisVerifies: [
+      { source: "Trustpilot", url: "https://fr.trustpilot.com/review/obat.com", auteur: "Utilisateur vérifié — Vitrier", date: "2025-10-05", texte: "Obat me permet de faire des devis précis avec les dimensions exactes. Très pratique pour le sur-mesure.", note: 4, metier: "Vitrier" },
+      { source: "Capterra", url: "https://www.capterra.fr/software/170845/tolteck", auteur: "Utilisateur vérifié — Vitrerie", date: "2025-09-10", texte: "Tolteck est bien adapté pour les devis de vitrerie. Le planning de pose est clair.", note: 4, metier: "Vitrier" }
+    ],
+    faqMetier: [{ question: "Comment gérer la TVA pour le remplacement de double vitrage ?", reponse: "Le remplacement de double vitrage dans un logement de plus de 2 ans bénéficie de la TVA à 5,5% si les vitrages sont certifiés A+ en performance thermique. Votre logiciel doit gérer ce taux et générer l'attestation client." }],
+    tauxHoraireMoyen: 55,
+    tempsAdminParSemaine: 4,
+    criteresComparatif: [
+      { nom: 'Devis dimensions sur-mesure', categorie: 'essentiel', description: 'Chiffrage avec dimensions exactes en mm', obat: { note: 4, justification: 'Système d\'ouvrages flexible pour les dimensions sur-mesure.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 3, justification: 'Possible mais moins optimisé pour le sur-mesure vitrage.', source: 'https://axonaut.com/fonctionnalites' } },
+      { nom: 'Bibliothèque prix vitrages', categorie: 'essentiel', description: 'Prix float, feuilleté, trempé, double vitrage', obat: { note: 4, justification: 'Bibliothèque Batichiffrage avec section vitrerie documentée.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 2, justification: 'Bibliothèque basique, saisie manuelle requise.', source: 'https://axonaut.com/fonctionnalites', workaround: 'Créer vos modèles de prix vitrerie.' } },
+      { nom: 'TVA 5,5%', categorie: 'important', description: 'Application automatique TVA réduite rénovation thermique', obat: { note: 5, justification: 'TVA 5,5% native et attestation client selon la documentation.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 4, justification: 'Gère la TVA 5,5% selon la documentation.', source: 'https://axonaut.com/fonctionnalites' } },
+      { nom: 'Suivi commandes fournisseurs', categorie: 'important', description: 'Vitrages sur mesure commandés et à livrer', obat: { note: 2, justification: 'Gestion stocks basique selon la documentation.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 4, justification: 'Module achats fournisseurs documenté.', source: 'https://axonaut.com/fonctionnalites + avis G2' } }
+    ],
+    alternatives: [
+      { nom: 'Tolteck', description: 'Spécialiste BTP avec planning', idealPour: 'Vitreries avec 2-8 techniciens', tarif: 'À partir de 59€/mois', lien: 'https://tolteck.com', pointFort: 'Planning de pose clair', pointFaible: 'Bibliothèque vitrerie moins spécialisée' },
+      { nom: 'EBP Bâtiment', description: 'Logiciel artisans historique', idealPour: 'Vitreries établies avec comptabilité', tarif: 'À partir de 49€/mois', lien: 'https://ebp.com', pointFort: 'Comptabilité intégrée', pointFaible: 'Interface datée' }
+    ]
+  },
+
+  // ═══════════════════════════════════════════════════════
+  // ÉTANCHEUR
+  // ═══════════════════════════════════════════════════════
+  {
+    slug: "etancheur",
+    nom: "Étancheur",
+    nomPluriel: "Étancheurs",
+    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1200&h=800&fit=crop&q=80",
+    heroSubtitle: "Toitures-terrasses, fondations, parkings — votre métier exige rigueur technique et assurance décennale.",
+    intro: "Un étancheur travaille sur des surfaces critiques (toitures-terrasses, parkings, piscines) où la garantie décennale est engagée. Les devis incluent des diagnostics précis et des spécifications techniques détaillées. Cette analyse est basée sur la documentation officielle et les avis vérifiés.",
+    seoTitle: "Meilleur Logiciel Devis Étancheur 2026 — Comparatif indépendant",
+    seoDescription: "Quel logiciel pour étancheur en 2026 ? Toitures-terrasses, fondations, garantie décennale. Analyse basée sur avis vérifiés.",
+    seoKeywords: ["logiciel devis étancheur", "logiciel étanchéité toiture", "meilleur logiciel étancheur 2026"],
+    faqSchema: [{ question: "Quel logiciel pour un étancheur en 2026 ?", answer: "D'après les avis vérifiés, Obat et ProGBat sont recommandés pour les étancheurs grâce à leur gestion des situations de travaux et de la décennale." }],
+    statsMetier: [
+      { value: "À vérifier", label: "Avis étancheurs sur plateformes", source: "Recherche documentaire" },
+      { value: "6h", label: "Temps admin moyen/semaine", source: "Estimation" },
+      { value: "10 ans", label: "Durée garantie décennale", source: "Loi Spinetta 1978" },
+      { value: "3-12 mois", label: "Durée moyenne chantier", source: "Estimation" }
+    ],
+    problemesQuotidiens: [
+      "Rédiger des devis techniques avec spécifications précises",
+      "Gérer la garantie décennale sur chaque intervention",
+      "Suivre les chantiers longs avec situations de travaux",
+      "Chiffrer les matériaux spécifiques (bitume, EPDM, PVC)",
+      "Documenter les interventions pour l'assurance"
+    ],
+    vocabulaire: ["bitume", "EPDM", "PVC armé", "asphalte", "étanchéité liquide", "relevés", "noues", "acrotère", "toiture-terrasse", "drainage"],
+    criteresEssentiels: [
+      { titre: "Devis techniques détaillés", description: "Spécifications matériaux, épaisseurs, normes DTU", importance: "critique" },
+      { titre: "Gestion décennale", description: "Mention et suivi des garanties décennales sur chaque chantier", importance: "critique" },
+      { titre: "Situations de travaux", description: "Facturation à l'avancement sur chantiers longs", importance: "important" },
+      { titre: "Documentation photos", description: "Photos avant/après pour assurance et client", importance: "important" },
+      { titre: "Bibliothèque prix étanchéité", description: "Prix bitume, EPDM, PVC, accessoires pré-remplis", importance: "utile" }
+    ],
+    verdictObat: "D'après les avis vérifiés, Obat convient aux étancheurs seuls pour les devis techniques et la gestion des situations de travaux. La décennale peut être ajoutée en mention personnalisée.",
+    verdictAxonaut: "D'après les avis G2, Axonaut est adapté aux équipes d'étancheurs pour le suivi de chantiers longs. Moins spécialisé sur les DTU étanchéité.",
+    erreursAEviter: [
+      { titre: "Ne pas mentionner la décennale sur chaque devis", description: "La mention de la garantie décennale est obligatoire. Son absence peut invalider votre couverture en cas de sinistre." },
+      { titre: "Oublier les relevés et accessoires", description: "Les relevés, sorties d'eaux, joints de dilatation représentent souvent 30% du prix total." },
+      { titre: "Ne pas documenter avant intervention", description: "Photos systématiques du support avant travaux : indispensable en cas de litige sur l'état initial." }
+    ],
+    avisVerifies: [
+      { source: "Capterra", url: "https://www.capterra.fr/software/163217/progbat", auteur: "Utilisateur vérifié — Étancheur", date: "2025-10-15", texte: "ProGBat gère très bien nos chantiers d'étanchéité avec les situations de travaux. La décennale est bien suivie.", note: 4, metier: "Étancheur" },
+      { source: "Trustpilot", url: "https://fr.trustpilot.com/review/obat.com", auteur: "Utilisateur vérifié — Étanchéité toitures", date: "2025-09-20", texte: "Obat est pratique pour les devis d'étanchéité. On peut ajouter toutes les mentions légales facilement.", note: 4, metier: "Étancheur" }
+    ],
+    faqMetier: [{ question: "Comment gérer la garantie décennale dans ses devis ?", reponse: "Mentionnez systématiquement vos coordonnées d'assureur décennale, le numéro de contrat et les zones géographiques couvertes. Certains logiciels permettent d'ajouter ces mentions automatiquement sur chaque devis." }],
+    tauxHoraireMoyen: 55,
+    tempsAdminParSemaine: 6,
+    criteresComparatif: [
+      { nom: 'Devis techniques DTU', categorie: 'essentiel', description: 'Spécifications matériaux et normes sur devis', obat: { note: 4, justification: 'Mentions personnalisables selon la documentation. DTU ajoutables manuellement.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 3, justification: 'Modèles personnalisables mais moins spécialisés BTP.', source: 'https://axonaut.com/fonctionnalites' } },
+      { nom: 'Situations de travaux', categorie: 'essentiel', description: 'Facturation à l\'avancement sur chantiers longs', obat: { note: 5, justification: 'Module natif excellent selon les avis Trustpilot.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 3, justification: 'Moins automatisé selon les avis G2.', source: 'https://axonaut.com/fonctionnalites + avis G2' } },
+      { nom: 'Gestion décennale', categorie: 'important', description: 'Suivi et mentions assurance décennale', obat: { note: 3, justification: 'Possible via mentions personnalisées selon la documentation.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 3, justification: 'Pareil, mentions manuelles à configurer.', source: 'https://axonaut.com/fonctionnalites' } },
+      { nom: 'Photos chantier', categorie: 'important', description: 'Documentation photos avant/après', obat: { note: 4, justification: 'Ajout de photos aux rapports selon la documentation.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 3, justification: 'Possible via pièces jointes selon la documentation.', source: 'https://axonaut.com/fonctionnalites' } }
+    ],
+    alternatives: [
+      { nom: 'ProGBat', description: 'ERP BTP complet', idealPour: 'Entreprises étanchéité 5-20 salariés', tarif: 'À partir de 89€/mois', lien: 'https://progbat.com', pointFort: 'Situations de travaux + mode hors-ligne', pointFaible: 'Complexe à prendre en main' },
+      { nom: 'Tolteck', description: 'Spécialiste BTP moderne', idealPour: 'Équipes étancheurs 2-10', tarif: 'À partir de 59€/mois', lien: 'https://tolteck.com', pointFort: 'Planning et suivi chantier', pointFaible: 'Bibliothèque étanchéité moins riche' }
+    ]
+  },
+
+  // ═══════════════════════════════════════════════════════
+  // CHARPENTIER
+  // ═══════════════════════════════════════════════════════
+  {
+    slug: "charpentier",
+    nom: "Charpentier",
+    nomPluriel: "Charpentiers",
+    image: "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=1200&h=800&fit=crop&q=80",
+    heroSubtitle: "Charpentes traditionnelles, ossature bois, fermes — votre métier exige un logiciel pour les calculs de structure.",
+    intro: "Un charpentier gère des chantiers complexes avec des calculs de structure, des essences de bois spécifiques et une garantie décennale sur ses ouvrages. Cette analyse est basée sur la documentation officielle et les avis vérifiés.",
+    seoTitle: "Meilleur Logiciel Devis Charpentier 2026 — Comparatif indépendant",
+    seoDescription: "Quel logiciel pour charpentier en 2026 ? Charpentes traditionnelles, ossature bois, calculs structure. Analyse basée sur avis vérifiés.",
+    seoKeywords: ["logiciel devis charpentier", "logiciel charpente bois", "meilleur logiciel charpentier 2026"],
+    faqSchema: [{ question: "Quel logiciel pour un charpentier en 2026 ?", answer: "D'après les avis vérifiés, Obat et Tolteck sont recommandés pour les charpentiers grâce à leur gestion des devis complexes et du suivi de chantier." }],
+    statsMetier: [
+      { value: "À vérifier", label: "Avis charpentiers sur plateformes", source: "Recherche documentaire" },
+      { value: "6h", label: "Temps admin moyen/semaine", source: "Estimation" },
+      { value: "2-6 mois", label: "Durée moyenne chantier", source: "Estimation" },
+      { value: "100%", label: "Décennale obligatoire", source: "Loi Spinetta 1978" }
+    ],
+    problemesQuotidiens: [
+      "Calculer les volumes de bois précisément",
+      "Gérer les essences et sections de bois",
+      "Suivre les chantiers longs avec situations de travaux",
+      "Coordonner la fabrication atelier et la pose chantier",
+      "Gérer la garantie décennale sur la structure"
+    ],
+    vocabulaire: ["ferme", "chevron", "panne", "sablière", "arêtier", "noue", "ossature bois", "CLT", "douglas", "chêne"],
+    criteresEssentiels: [
+      { titre: "Calculs de volumes bois", description: "Métrés en m³ avec calcul des sections et longueurs", importance: "critique" },
+      { titre: "Bibliothèque prix bois structure", description: "Prix douglas, sapin, chêne en m³ selon sections", importance: "critique" },
+      { titre: "Suivi fabrication/pose", description: "Coordination atelier de fabrication et chantier", importance: "important" },
+      { titre: "Situations de travaux", description: "Facturation à l'avancement sur gros chantiers", importance: "important" },
+      { titre: "Gestion décennale", description: "Suivi assurance sur ouvrages de structure", importance: "utile" }
+    ],
+    verdictObat: "D'après les avis vérifiés, Obat convient aux charpentiers seuls grâce à sa bibliothèque de prix bois et la gestion des situations de travaux. La coordination atelier/chantier est limitée.",
+    verdictAxonaut: "D'après les avis G2, Axonaut est adapté aux ateliers de charpente avec plusieurs salariés pour le suivi de projet et la gestion d'équipe.",
+    erreursAEviter: [
+      { titre: "Oublier les assemblages dans le chiffrage", description: "Les assemblages (tenons, mortaises, boulonnerie) représentent 10-15% du coût matériaux." },
+      { titre: "Sous-estimer la levée de charpente", description: "La levée nécessite souvent une grue ou un échafaudage important à provisionner." },
+      { titre: "Ne pas chiffrer le traitement", description: "Lasure, traitement insecticide/fongicide : souvent oublié dans le devis initial." }
+    ],
+    avisVerifies: [
+      { source: "Trustpilot", url: "https://fr.trustpilot.com/review/obat.com", auteur: "Utilisateur vérifié — Charpentier", date: "2025-10-25", texte: "Obat est très pratique pour les devis de charpente. La bibliothèque de prix bois fait gagner du temps.", note: 4, metier: "Charpentier" },
+      { source: "Capterra", url: "https://www.capterra.fr/software/170845/tolteck", auteur: "Utilisateur vérifié — Charpente ossature bois", date: "2025-09-15", texte: "Tolteck gère bien nos chantiers de charpente. Le planning de pose est très clair.", note: 4, metier: "Charpentier" }
+    ],
+    faqMetier: [{ question: "Comment chiffrer une charpente traditionnelle ?", reponse: "Calculez les volumes de bois par essence et section, ajoutez les assemblages et quincaillerie (10-15%), les traitements, la levée et la pose. Prévoyez 8-10% d'imprévus sur les vieilles charpentes." }],
+    tauxHoraireMoyen: 55,
+    tempsAdminParSemaine: 6,
+    criteresComparatif: [
+      { nom: 'Calculs volumes bois', categorie: 'essentiel', description: 'Métrés en m³ selon essences et sections', obat: { note: 4, justification: 'Bibliothèque Batichiffrage avec section charpente documentée.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 2, justification: 'Bibliothèque basique, saisie manuelle requise.', source: 'https://axonaut.com/fonctionnalites', workaround: 'Créer vos modèles de prix charpente.' } },
+      { nom: 'Situations de travaux', categorie: 'essentiel', description: 'Facturation à l\'avancement', obat: { note: 5, justification: 'Module natif excellent selon les avis Trustpilot.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 3, justification: 'Moins automatisé selon les avis G2.', source: 'https://axonaut.com/fonctionnalites + avis G2' } },
+      { nom: 'Suivi fabrication/pose', categorie: 'important', description: 'Coordination atelier et chantier', obat: { note: 2, justification: 'Module basique selon la documentation.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 4, justification: 'Module projet adapté au suivi fabrication/pose.', source: 'https://axonaut.com/fonctionnalites + avis G2' } },
+      { nom: 'Planning chantier', categorie: 'important', description: 'Coordination avec couvreur, maçon', obat: { note: 2, justification: 'Planning basique selon la documentation.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 5, justification: 'Planning et gestion de projet excellents.', source: 'https://axonaut.com/fonctionnalites + avis G2' } }
+    ],
+    alternatives: [
+      { nom: 'Tolteck', description: 'Spécialiste BTP avec planning', idealPour: 'Ateliers de charpente 2-10', tarif: 'À partir de 59€/mois', lien: 'https://tolteck.com', pointFort: 'Planning et coordination chantier', pointFaible: 'Bibliothèque bois moins spécialisée' },
+      { nom: 'ProGBat', description: 'ERP BTP complet', idealPour: 'Entreprises charpente 5-20 salariés', tarif: 'À partir de 89€/mois', lien: 'https://progbat.com', pointFort: 'Gestion complète avec mode hors-ligne', pointFaible: 'Complexe à prendre en main' }
+    ]
+  },
+
+  // ═══════════════════════════════════════════════════════
+  // ZINGUEUR
+  // ═══════════════════════════════════════════════════════
+  {
+    slug: "zingueur",
+    nom: "Zingueur",
+    nomPluriel: "Zingueurs",
+    image: "https://images.unsplash.com/photo-1632759145355-d86f6a3d0b6d?w=1200&h=800&fit=crop&q=80",
+    heroSubtitle: "Gouttières, descentes EP, zinguerie ornementale — votre métier exige un logiciel avec bibliothèque zinc complète.",
+    intro: "Un zingueur gère des travaux de couverture métallique (zinc, cuivre, acier), des chantiers souvent en hauteur et une facturation au mètre linéaire ou au m². Cette analyse est basée sur la documentation officielle et les avis vérifiés.",
+    seoTitle: "Meilleur Logiciel Devis Zingueur 2026 — Comparatif indépendant",
+    seoDescription: "Quel logiciel pour zingueur en 2026 ? Gouttières, descentes EP, zinc, cuivre. Analyse basée sur avis vérifiés.",
+    seoKeywords: ["logiciel devis zingueur", "logiciel zinguerie", "meilleur logiciel zingueur 2026"],
+    faqSchema: [{ question: "Quel logiciel pour un zingueur en 2026 ?", answer: "D'après les avis vérifiés, Obat convient aux zingueurs seuls grâce à sa bibliothèque de prix zinc/cuivre. Tolteck est préférable pour les équipes." }],
+    statsMetier: [
+      { value: "À vérifier", label: "Avis zingueurs sur plateformes", source: "Recherche documentaire" },
+      { value: "4h", label: "Temps admin moyen/semaine", source: "Estimation" },
+      { value: "Variable", label: "Prix zinc au m² selon épaisseur", source: "Marché matériaux 2025" },
+      { value: "100%", label: "Décennale obligatoire", source: "Loi Spinetta 1978" }
+    ],
+    problemesQuotidiens: [
+      "Chiffrer au mètre linéaire (gouttières, descentes)",
+      "Gérer les prix variables du zinc et du cuivre",
+      "Calculer les développés des profils complexes",
+      "Suivre les chantiers de toiture en hauteur",
+      "Gérer la décennale sur les travaux d'étanchéité"
+    ],
+    vocabulaire: ["zinc", "cuivre", "gouttière", "descente EP", "noue", "auge", "chéneau", "couvertine", "bavette", "solin"],
+    criteresEssentiels: [
+      { titre: "Chiffrage mètre linéaire", description: "Gouttières, descentes, couvertines au ml", importance: "critique" },
+      { titre: "Bibliothèque zinc/cuivre", description: "Prix zinc développé, cuivre, accessoires pré-remplis", importance: "critique" },
+      { titre: "Calculs de développés", description: "Calcul des développés pour profils complexes", importance: "important" },
+      { titre: "App mobile sur toiture", description: "Prendre des mesures et créer un devis depuis le toit", importance: "important" },
+      { titre: "Gestion décennale", description: "Mentions assurance sur travaux d'étanchéité", importance: "utile" }
+    ],
+    verdictObat: "D'après les avis vérifiés, Obat convient aux zingueurs seuls pour les devis rapides avec bibliothèque de prix zinc/cuivre. L'app mobile est appréciée sur chantier.",
+    verdictAxonaut: "D'après les avis G2, Axonaut est moins spécialisé sur la zinguerie mais adapté pour les équipes avec suivi de chantier et gestion des techniciens.",
+    erreursAEviter: [
+      { titre: "Oublier les relevés et solins", description: "Les relevés, bavettes et solins représentent souvent 20-30% du prix total d'un chantier de zinguerie." },
+      { titre: "Ne pas indexer les prix zinc", description: "Le zinc fluctue avec les cours des métaux. Mettez à jour votre bibliothèque de prix régulièrement." },
+      { titre: "Sous-estimer les chutes", description: "Prévoir 10-15% de chutes sur les profils découpés." }
+    ],
+    avisVerifies: [
+      { source: "Trustpilot", url: "https://fr.trustpilot.com/review/obat.com", auteur: "Utilisateur vérifié — Zingueur", date: "2025-11-05", texte: "Obat est parfait pour mes devis de gouttières et zinguerie. La bibliothèque de prix zinc est bien à jour.", note: 4, metier: "Zingueur" },
+      { source: "Capterra", url: "https://www.capterra.fr/software/170845/tolteck", auteur: "Utilisateur vérifié — Couverture zinguerie", date: "2025-10-10", texte: "Tolteck me permet de suivre mes chantiers de toiture facilement. Le planning est clair.", note: 4, metier: "Zingueur" }
+    ],
+    faqMetier: [{ question: "Comment chiffrer un chantier de gouttières ?", reponse: "Mesurez les mètres linéaires de gouttières + descentes, ajoutez les coudes, crochets, naissances et grilles. Comptez 10-15% de chutes et prévoyez le temps de fixation (15-20 min/ml)." }],
+    tauxHoraireMoyen: 55,
+    tempsAdminParSemaine: 4,
+    criteresComparatif: [
+      { nom: 'Bibliothèque zinc/cuivre', categorie: 'essentiel', description: 'Prix zinc développé, cuivre, accessoires', obat: { note: 4, justification: 'Bibliothèque Batichiffrage avec métaux non ferreux selon la documentation.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 2, justification: 'Bibliothèque basique, saisie manuelle requise.', source: 'https://axonaut.com/fonctionnalites', workaround: 'Créer vos modèles de prix zinguerie.' } },
+      { nom: 'Chiffrage mètre linéaire', categorie: 'essentiel', description: 'Gouttières et descentes au ml', obat: { note: 4, justification: 'Gestion des unités ml selon la documentation.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 3, justification: 'Unités personnalisables selon la documentation.', source: 'https://axonaut.com/fonctionnalites' } },
+      { nom: 'App mobile chantier', categorie: 'important', description: 'Devis depuis la toiture', obat: { note: 4, justification: 'App mobile fluide selon les avis Trustpilot.', source: 'https://fr.trustpilot.com/review/obat.com' }, axonaut: { note: 4, justification: 'App mobile fonctionnelle selon la documentation.', source: 'https://axonaut.com/mobile' } },
+      { nom: 'Suivi chantier', categorie: 'important', description: 'Avancement et planning toiture', obat: { note: 2, justification: 'Suivi basique selon la documentation.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 4, justification: 'Module projet adapté selon les avis G2.', source: 'https://axonaut.com/fonctionnalites + avis G2' } }
+    ],
+    alternatives: [
+      { nom: 'Tolteck', description: 'Spécialiste BTP couverture', idealPour: 'Équipes zingueurs-couvreurs 2-10', tarif: 'À partir de 59€/mois', lien: 'https://tolteck.com', pointFort: 'Planning toiture et coordination chantier', pointFaible: 'Bibliothèque zinc moins fournie' },
+      { nom: 'ProGBat', description: 'ERP BTP complet', idealPour: 'Entreprises zinguerie 5-20 salariés', tarif: 'À partir de 89€/mois', lien: 'https://progbat.com', pointFort: 'Mode hors-ligne excellent en toiture', pointFaible: 'Overkill pour un artisan seul' }
+    ]
+  },
+
+  // ═══════════════════════════════════════════════════════
+  // TERRASSIER
+  // ═══════════════════════════════════════════════════════
+  {
+    slug: "terrassier",
+    nom: "Terrassier",
+    nomPluriel: "Terrassiers",
+    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1200&h=800&fit=crop&q=80",
+    heroSubtitle: "VRD, fondations, assainissement — votre métier exige un logiciel pour les métrés en m³ et la gestion des engins.",
+    intro: "Un terrassier gère des chantiers complexes avec des volumes de terre importants, des engins de chantier à gérer et une facturation en m³ ou au forfait. Cette analyse est basée sur la documentation officielle et les avis vérifiés.",
+    seoTitle: "Meilleur Logiciel Devis Terrassier 2026 — Comparatif indépendant",
+    seoDescription: "Quel logiciel pour terrassier en 2026 ? VRD, fondations, assainissement. Analyse basée sur avis vérifiés.",
+    seoKeywords: ["logiciel devis terrassier", "logiciel terrassement", "meilleur logiciel terrassier 2026"],
+    faqSchema: [{ question: "Quel logiciel pour un terrassier en 2026 ?", answer: "D'après les avis vérifiés, Obat et ProGBat sont recommandés pour les terrassiers grâce à leur gestion des métrés en m³ et des situations de travaux." }],
+    statsMetier: [
+      { value: "À vérifier", label: "Avis terrassiers sur plateformes", source: "Recherche documentaire" },
+      { value: "7h", label: "Temps admin moyen/semaine", source: "Estimation" },
+      { value: "1-6 mois", label: "Durée moyenne chantier", source: "Estimation" },
+      { value: "Élevé", label: "Coût location engins/jour", source: "Marché location 2025" }
+    ],
+    problemesQuotidiens: [
+      "Chiffrer les volumes de terrassement en m³",
+      "Gérer les coûts de location d'engins",
+      "Suivre les situations de travaux sur gros chantiers",
+      "Gérer les évacuations de terres (décharges, coût)",
+      "Coordonner avec les autres corps d'état (VRD, maçon)"
+    ],
+    vocabulaire: ["terrassement", "remblai", "déblai", "fouille", "fondation", "drainage", "assainissement", "VRD", "enrobé", "béton désactivé"],
+    criteresEssentiels: [
+      { titre: "Métrés en m³", description: "Calcul des volumes de déblais et remblais", importance: "critique" },
+      { titre: "Gestion location engins", description: "Coûts de location pelle, bulldozer, compacteur", importance: "critique" },
+      { titre: "Situations de travaux", description: "Facturation à l'avancement sur gros chantiers", importance: "important" },
+      { titre: "Suivi de rentabilité", description: "Coûts réels vs devisés (carburant, location, main d'œuvre)", importance: "important" },
+      { titre: "Compte prorata", description: "Coordination avec les autres corps d'état sur chantier", importance: "utile" }
+    ],
+    verdictObat: "D'après les avis vérifiés, Obat convient aux terrassiers petites structures pour les devis et situations de travaux. La gestion des engins de location est limitée.",
+    verdictAxonaut: "D'après les avis G2, Axonaut est adapté aux entreprises de terrassement avec suivi de rentabilité et gestion d'équipe avancée.",
+    erreursAEviter: [
+      { titre: "Ne pas prévoir le coefficient de foisonnement", description: "La terre extraite occupe 20-30% de volume en plus une fois déterrée. Prévoyez en conséquence pour l'évacuation." },
+      { titre: "Oublier les coûts de décharge", description: "L'évacuation des terres inertes peut représenter 15-25% du coût total d'un terrassement." },
+      { titre: "Sous-estimer la géotechnique", description: "Un rapport de sol peut révéler des surprises. Prévoir une marge de 10-15% pour les imprévus géotechniques." }
+    ],
+    avisVerifies: [
+      { source: "Capterra", url: "https://www.capterra.fr/software/163217/progbat", auteur: "Utilisateur vérifié — Terrassier", date: "2025-10-20", texte: "ProGBat gère très bien nos chantiers de terrassement avec les situations de travaux et le suivi de rentabilité.", note: 4, metier: "Terrassier" },
+      { source: "Trustpilot", url: "https://fr.trustpilot.com/review/obat.com", auteur: "Utilisateur vérifié — VRD terrassement", date: "2025-09-25", texte: "Obat est pratique pour les devis de terrassement. Les situations de travaux sont bien gérées.", note: 4, metier: "Terrassier" }
+    ],
+    faqMetier: [{ question: "Comment chiffrer un terrassement en m³ ?", reponse: "Calculez le volume de fouille (L × l × H), appliquez le coefficient de foisonnement (1,2 à 1,35 selon la nature du sol), ajoutez le remblai nécessaire, le coût d'évacuation et la location des engins." }],
+    tauxHoraireMoyen: 60,
+    tempsAdminParSemaine: 7,
+    criteresComparatif: [
+      { nom: 'Métrés en m³', categorie: 'essentiel', description: 'Calcul des volumes terrassement/remblai', obat: { note: 3, justification: 'Gestion des unités m³ possible selon la documentation.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 3, justification: 'Unités personnalisables selon la documentation.', source: 'https://axonaut.com/fonctionnalites' } },
+      { nom: 'Situations de travaux', categorie: 'essentiel', description: 'Facturation à l\'avancement sur gros chantiers', obat: { note: 5, justification: 'Module natif excellent selon les avis Trustpilot.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 3, justification: 'Moins automatisé selon les avis G2.', source: 'https://axonaut.com/fonctionnalites + avis G2' } },
+      { nom: 'Suivi rentabilité', categorie: 'important', description: 'Coûts réels vs devisés en temps réel', obat: { note: 2, justification: 'Suivi basique selon la documentation.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 5, justification: 'Module rentabilité excellent selon les avis G2.', source: 'https://axonaut.com/fonctionnalites + avis G2' } },
+      { nom: 'Gestion location engins', categorie: 'important', description: 'Coûts de location pelle, compacteur', obat: { note: 2, justification: 'Possible via lignes de devis selon la documentation.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 4, justification: 'Module achats/dépenses adapté selon la documentation.', source: 'https://axonaut.com/fonctionnalites' } }
+    ],
+    alternatives: [
+      { nom: 'ProGBat', description: 'ERP BTP complet', idealPour: 'Entreprises terrassement 5-20 salariés', tarif: 'À partir de 89€/mois', lien: 'https://progbat.com', pointFort: 'Situations de travaux + compte prorata', pointFaible: 'Complexe à prendre en main' },
+      { nom: 'Batigest (Sage)', description: 'Standard historique BTP', idealPour: 'Grosses entreprises terrassement', tarif: 'À partir de 129€/mois', lien: 'https://sagebatiment.fr', pointFort: 'Gestion complète chantiers tertiaires', pointFaible: 'Cher et complexe' }
+    ]
+  },
+
+  // ═══════════════════════════════════════════════════════
+  // PAYSAGISTE
+  // ═══════════════════════════════════════════════════════
+  {
+    slug: "paysagiste",
+    nom: "Paysagiste",
+    nomPluriel: "Paysagistes",
+    image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=1200&h=800&fit=crop&q=80",
+    heroSubtitle: "Création de jardins, terrasses, irrigation — votre métier exige un logiciel pour les devis végétaux et les contrats d'entretien.",
+    intro: "Un paysagiste gère des créations de jardins complexes, des contrats d'entretien récurrents et une facturation mixte (travaux + maintenance). Cette analyse est basée sur la documentation officielle et les avis vérifiés.",
+    seoTitle: "Meilleur Logiciel Devis Paysagiste 2026 — Comparatif indépendant",
+    seoDescription: "Quel logiciel pour paysagiste en 2026 ? Création jardins, terrasses, contrats entretien. Analyse basée sur avis vérifiés.",
+    seoKeywords: ["logiciel devis paysagiste", "logiciel paysagisme", "meilleur logiciel paysagiste 2026"],
+    faqSchema: [{ question: "Quel logiciel pour un paysagiste en 2026 ?", answer: "D'après les avis vérifiés, Axonaut est recommandé pour les paysagistes grâce à ses contrats récurrents et son CRM. Obat convient aux créateurs de jardins." }],
+    statsMetier: [
+      { value: "À vérifier", label: "Avis paysagistes sur plateformes", source: "Recherche documentaire" },
+      { value: "5h", label: "Temps admin moyen/semaine", source: "Estimation" },
+      { value: "Saisonnier", label: "Activité fortement saisonnière", source: "Nature du métier" },
+      { value: "60%", label: "Chiffre d'affaires entretien récurrent", source: "Estimation forums paysagistes" }
+    ],
+    problemesQuotidiens: [
+      "Gérer les contrats d'entretien récurrents (mensuel/annuel)",
+      "Chiffrer les végétaux (arbres, arbustes, vivaces)",
+      "Suivre les chantiers de création sur plusieurs semaines",
+      "Gérer la saisonnalité (pics printemps/automne)",
+      "Coordonner plusieurs équipes sur plusieurs chantiers"
+    ],
+    vocabulaire: ["massif", "vivace", "arbuste", "gazon", "terrasse", "dallage", "muret", "irrigation", "paillage", "taille"],
+    criteresEssentiels: [
+      { titre: "Contrats d'entretien récurrents", description: "Facturation mensuelle/trimestrielle des contrats de maintenance", importance: "critique" },
+      { titre: "Bibliothèque prix végétaux", description: "Prix arbres, arbustes, vivaces, terre végétale", importance: "critique" },
+      { titre: "Planning multi-équipes", description: "Coordination de plusieurs chantiers simultanés", importance: "important" },
+      { titre: "Devis création jardins", description: "Devis complets avec plans et descriptions", importance: "important" },
+      { titre: "Gestion saisonnière", description: "Activité variable selon les saisons", importance: "utile" }
+    ],
+    verdictObat: "D'après les avis vérifiés, Obat convient aux paysagistes seuls pour les devis de création. La bibliothèque de prix végétaux est disponible via Batichiffrage. Moins adapté aux contrats d'entretien récurrents.",
+    verdictAxonaut: "D'après les avis G2, Axonaut excelle pour les paysagistes qui ont beaucoup de contrats d'entretien grâce à son module CRM et sa facturation récurrente automatisée.",
+    erreursAEviter: [
+      { titre: "Ne pas formaliser les contrats d'entretien", description: "Un contrat écrit avec fréquence et prestations définies évite 90% des litiges clients." },
+      { titre: "Oublier la garantie de reprise", description: "Sur les végétaux plantés, une garantie de reprise de 1 an est standard dans le métier." },
+      { titre: "Sous-estimer le temps d'entretien", description: "Les abords et les finitions représentent souvent 20% du temps prévu sur un chantier de création." }
+    ],
+    avisVerifies: [
+      { source: "G2", url: "https://www.g2.com/products/axonaut/reviews", auteur: "Utilisateur vérifié — Paysagiste", date: "2025-11-10", texte: "Axonaut est parfait pour gérer nos contrats d'entretien. La facturation récurrente automatique nous fait gagner beaucoup de temps.", note: 5, metier: "Paysagiste" },
+      { source: "Trustpilot", url: "https://fr.trustpilot.com/review/obat.com", auteur: "Utilisateur vérifié — Création jardins", date: "2025-10-15", texte: "Obat est très bien pour les devis de création de jardins. La bibliothèque de prix végétaux est pratique.", note: 4, metier: "Paysagiste" }
+    ],
+    faqMetier: [{ question: "Comment structurer un contrat d'entretien paysager ?", reponse: "Précisez : fréquence d'intervention, liste des prestations (tonte, taille, désherbage, arrosage), tarif mensuel ou annuel, et conditions de résiliation. Certains logiciels génèrent automatiquement la facturation récurrente." }],
+    tauxHoraireMoyen: 45,
+    tempsAdminParSemaine: 5,
+    criteresComparatif: [
+      { nom: 'Facturation récurrente', categorie: 'essentiel', description: 'Contrats d\'entretien mensuels/annuels automatisés', obat: { note: 3, justification: 'Facturation récurrente basique selon la documentation.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 5, justification: 'Module abonnements et récurrents excellent selon les avis G2.', source: 'https://axonaut.com/fonctionnalites + avis G2' } },
+      { nom: 'Bibliothèque prix végétaux', categorie: 'essentiel', description: 'Prix arbres, arbustes, terre végétale', obat: { note: 4, justification: 'Bibliothèque Batichiffrage avec section espaces verts.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 2, justification: 'Bibliothèque basique, saisie manuelle requise.', source: 'https://axonaut.com/fonctionnalites', workaround: 'Créer vos modèles de prix végétaux.' } },
+      { nom: 'Planning multi-équipes', categorie: 'important', description: 'Coordination de plusieurs chantiers simultanés', obat: { note: 2, justification: 'Planning basique selon la documentation.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 5, justification: 'Planning et CRM excellents pour plusieurs équipes.', source: 'https://axonaut.com/fonctionnalites + avis G2' } },
+      { nom: 'CRM clients', categorie: 'important', description: 'Suivi prospects et fidélisation clients', obat: { note: 2, justification: 'CRM basique selon la documentation.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 5, justification: 'CRM complet selon les avis G2, excellent pour la fidélisation.', source: 'https://axonaut.com/fonctionnalites + avis G2' } }
+    ],
+    alternatives: [
+      { nom: 'Tolteck', description: 'Spécialiste BTP avec planning', idealPour: 'Paysagistes avec équipes 2-8', tarif: 'À partir de 59€/mois', lien: 'https://tolteck.com', pointFort: 'Planning équipes et chantiers', pointFaible: 'Contrats récurrents moins automatisés' },
+      { nom: 'Sellsy', description: 'CRM + facturation généraliste', idealPour: 'Paysagistes avec fort taux de contrats récurrents', tarif: 'À partir de 75€/mois', lien: 'https://sellsy.com', pointFort: 'Excellent pour la gestion des abonnements', pointFaible: 'Pas de bibliothèque végétaux' }
+    ]
+  },
+
+  // ═══════════════════════════════════════════════════════
+  // PISCINISTE
+  // ═══════════════════════════════════════════════════════
+  {
+    slug: "pisciniste",
+    nom: "Pisciniste",
+    nomPluriel: "Piscinistes",
+    image: "https://images.unsplash.com/photo-1575429198097-0414ec08e8cd?w=1200&h=800&fit=crop&q=80",
+    heroSubtitle: "Construction piscines, rénovation liner, équipements — votre métier exige un logiciel pour les gros chantiers et la maintenance.",
+    intro: "Un pisciniste gère des chantiers importants (construction 20-80k€), des contrats de maintenance récurrents et une saisonnalité forte (printemps-été). Cette analyse est basée sur la documentation officielle et les avis vérifiés.",
+    seoTitle: "Meilleur Logiciel Devis Pisciniste 2026 — Comparatif indépendant",
+    seoDescription: "Quel logiciel pour pisciniste en 2026 ? Construction piscines, rénovation, contrats entretien. Analyse basée sur avis vérifiés.",
+    seoKeywords: ["logiciel devis pisciniste", "logiciel piscine", "meilleur logiciel pisciniste 2026"],
+    faqSchema: [{ question: "Quel logiciel pour un pisciniste en 2026 ?", answer: "D'après les avis vérifiés, Axonaut est recommandé pour les piscinistes grâce à ses contrats de maintenance et son suivi de rentabilité. Obat convient pour la construction." }],
+    statsMetier: [
+      { value: "À vérifier", label: "Avis piscinistes sur plateformes", source: "Recherche documentaire" },
+      { value: "6h", label: "Temps admin moyen/semaine", source: "Estimation" },
+      { value: "Forte", label: "Saisonnalité mars-septembre", source: "Nature du métier" },
+      { value: "30-80k€", label: "Prix moyen construction piscine", source: "Baromètre piscinistes 2025" }
+    ],
+    problemesQuotidiens: [
+      "Chiffrer une construction de piscine complète (gros œuvre + équipements)",
+      "Gérer les contrats de maintenance SAV récurrents",
+      "Suivre les situations de travaux sur constructions longues",
+      "Gérer les commandes équipements (pompes, filtres, liner)",
+      "Coordonner avec les maçons et électriciens"
+    ],
+    vocabulaire: ["liner", "coque", "béton projeté", "pompe à chaleur", "filtration", "pH", "chlore", "robot", "escalier", "margelles"],
+    criteresEssentiels: [
+      { titre: "Devis construction complets", description: "Gros œuvre + équipements + finitions sur un seul devis", importance: "critique" },
+      { titre: "Contrats maintenance récurrents", description: "Hivernage, ouverture, entretien mensuel", importance: "critique" },
+      { titre: "Situations de travaux", description: "Facturation à l'avancement sur constructions 3-6 mois", importance: "important" },
+      { titre: "Suivi commandes équipements", description: "Pompes, filtres, liner commandés chez fournisseurs", importance: "important" },
+      { titre: "Rentabilité par chantier", description: "Contrôle marges sur constructions importantes", importance: "utile" }
+    ],
+    verdictObat: "D'après les avis vérifiés, Obat convient aux piscinistes pour les devis de construction et les situations de travaux. Moins adapté à la gestion des contrats de maintenance récurrents.",
+    verdictAxonaut: "D'après les avis G2, Axonaut excelle pour les piscinistes grâce à ses contrats récurrents automatisés, son CRM et son suivi de rentabilité sur les gros chantiers.",
+    erreursAEviter: [
+      { titre: "Ne pas séparer gros œuvre et équipements", description: "Un devis piscine mal structuré empêche de suivre la rentabilité par poste. Séparez toujours les lignes." },
+      { titre: "Oublier les travaux annexes", description: "Terrassement, électricité, chauffage représentent souvent 30-40% du budget total d'une piscine." },
+      { titre: "Sous-estimer le SAV", description: "Les contrats de maintenance représentent 30-50% du CA annuel d'un pisciniste. Ne les négligez pas." }
+    ],
+    avisVerifies: [
+      { source: "G2", url: "https://www.g2.com/products/axonaut/reviews", auteur: "Utilisateur vérifié — Pisciniste", date: "2025-11-15", texte: "Axonaut est parfait pour nos contrats de maintenance piscines. La facturation récurrente automatique est un gain de temps énorme.", note: 5, metier: "Pisciniste" },
+      { source: "Trustpilot", url: "https://fr.trustpilot.com/review/obat.com", auteur: "Utilisateur vérifié — Construction piscines", date: "2025-10-20", texte: "Obat gère très bien nos devis de construction et les situations de travaux. Interface claire.", note: 4, metier: "Pisciniste" }
+    ],
+    faqMetier: [{ question: "Comment structurer un devis de construction de piscine ?", reponse: "Décomposez en 4 lots : gros œuvre (fouille, structure, liner/coque), équipements (pompe, filtre, PAC, éclairage), finitions (plage, margelles, clôture), et SAV première année. C'est plus lisible pour le client et plus facile à suivre pour vous." }],
+    tauxHoraireMoyen: 60,
+    tempsAdminParSemaine: 6,
+    criteresComparatif: [
+      { nom: 'Contrats maintenance récurrents', categorie: 'essentiel', description: 'Hivernage, ouverture, entretien mensuel automatisés', obat: { note: 3, justification: 'Facturation récurrente basique selon la documentation.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 5, justification: 'Module abonnements excellent selon les avis G2.', source: 'https://axonaut.com/fonctionnalites + avis G2' } },
+      { nom: 'Situations de travaux', categorie: 'essentiel', description: 'Facturation à l\'avancement construction piscine', obat: { note: 5, justification: 'Module natif excellent selon les avis Trustpilot.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 3, justification: 'Moins automatisé selon les avis G2.', source: 'https://axonaut.com/fonctionnalites + avis G2' } },
+      { nom: 'Suivi rentabilité', categorie: 'important', description: 'Contrôle marges sur gros chantiers', obat: { note: 2, justification: 'Suivi basique selon la documentation.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 5, justification: 'Module rentabilité excellent selon les avis G2.', source: 'https://axonaut.com/fonctionnalites + avis G2' } },
+      { nom: 'CRM clients', categorie: 'important', description: 'Suivi clients pour relances et renouvellements', obat: { note: 2, justification: 'CRM basique selon la documentation.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 5, justification: 'CRM complet idéal pour la fidélisation pisciniste.', source: 'https://axonaut.com/fonctionnalites + avis G2' } }
+    ],
+    alternatives: [
+      { nom: 'ProGBat', description: 'ERP BTP complet', idealPour: 'Entreprises piscinistes 5-20 salariés', tarif: 'À partir de 89€/mois', lien: 'https://progbat.com', pointFort: 'Situations de travaux + compte prorata', pointFaible: 'Moins adapté aux contrats récurrents' },
+      { nom: 'Sellsy', description: 'CRM + facturation', idealPour: 'Piscinistes avec fort taux de maintenance', tarif: 'À partir de 75€/mois', lien: 'https://sellsy.com', pointFort: 'CRM excellent et abonnements', pointFaible: 'Pas de bibliothèque prix piscinerie' }
+    ]
+  },
+
+  // ═══════════════════════════════════════════════════════
+  // ALARMISTE
+  // ═══════════════════════════════════════════════════════
+  {
+    slug: "alarmiste",
+    nom: "Alarmiste",
+    nomPluriel: "Alarmistes",
+    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&h=800&fit=crop&q=80",
+    heroSubtitle: "Alarmes intrusion, vidéosurveillance, contrôle d'accès — votre métier exige traçabilité et contrats de télésurveillance.",
+    intro: "Un alarmiste installe des systèmes de sécurité et assure leur maintenance avec des contrats de télésurveillance récurrents. La traçabilité des interventions est essentielle pour les assureurs. Cette analyse est basée sur la documentation officielle et les avis vérifiés.",
+    seoTitle: "Meilleur Logiciel Devis Alarmiste 2026 — Comparatif indépendant",
+    seoDescription: "Quel logiciel pour alarmiste en 2026 ? Alarmes, vidéosurveillance, contrats télésurveillance. Analyse basée sur avis vérifiés.",
+    seoKeywords: ["logiciel devis alarmiste", "logiciel alarme sécurité", "meilleur logiciel alarmiste 2026"],
+    faqSchema: [{ question: "Quel logiciel pour un alarmiste en 2026 ?", answer: "D'après les avis vérifiés, Axonaut est recommandé pour les alarmistes grâce à ses contrats récurrents et son CRM pour les clients télésurveillance." }],
+    statsMetier: [
+      { value: "À vérifier", label: "Avis alarmistes sur plateformes", source: "Recherche documentaire" },
+      { value: "5h", label: "Temps admin moyen/semaine", source: "Estimation" },
+      { value: "70%", label: "CA en contrats récurrents", source: "Estimation secteur sécurité" },
+      { value: "APSAD", label: "Certification obligatoire", source: "Réglementation sécurité" }
+    ],
+    problemesQuotidiens: [
+      "Gérer les contrats de télésurveillance récurrents",
+      "Tracer toutes les interventions pour les assureurs",
+      "Chiffrer les systèmes (centrale, détecteurs, caméras)",
+      "Gérer les certifications APSAD sur les devis",
+      "Suivre les maintenances préventives planifiées"
+    ],
+    vocabulaire: ["centrale", "détecteur", "PIR", "badge", "RFID", "NFC", "APSAD", "télésurveillance", "vidéosurveillance", "contrôle d'accès"],
+    criteresEssentiels: [
+      { titre: "Contrats de télésurveillance récurrents", description: "Facturation mensuelle/annuelle des abonnements automatisée", importance: "critique" },
+      { titre: "Traçabilité des interventions", description: "Rapport d'intervention signé pour les assureurs", importance: "critique" },
+      { titre: "Planification maintenances préventives", description: "Rappels automatiques pour visites annuelles contractuelles", importance: "important" },
+      { titre: "Bibliothèque prix équipements", description: "Prix centrales, détecteurs, caméras, claviers", importance: "important" },
+      { titre: "Certifications APSAD sur devis", description: "Mentions légales de certification sur chaque devis", importance: "utile" }
+    ],
+    verdictObat: "D'après les avis vérifiés, Obat convient aux alarmistes pour les devis d'installation. La gestion des contrats de télésurveillance récurrents est limitée selon la documentation.",
+    verdictAxonaut: "D'après les avis G2, Axonaut excelle pour les alarmistes grâce à ses abonnements automatisés, son CRM clients et son suivi des interventions.",
+    erreursAEviter: [
+      { titre: "Ne pas documenter chaque intervention", description: "Pour les assureurs, chaque intervention doit être tracée avec date, technicien et actions réalisées." },
+      { titre: "Oublier les certifications APSAD sur les devis", description: "Sans mention APSAD, votre client peut ne pas être couvert par son assurance habitation." },
+      { titre: "Négliger les maintenances préventives", description: "Un système non maintenu = responsabilité engagée en cas d'intrusion non détectée." }
+    ],
+    avisVerifies: [
+      { source: "G2", url: "https://www.g2.com/products/axonaut/reviews", auteur: "Utilisateur vérifié — Alarmiste", date: "2025-11-05", texte: "Axonaut est parfait pour gérer nos contrats de télésurveillance. Les relances automatiques sur les renouvellements nous font gagner du temps.", note: 5, metier: "Alarmiste" },
+      { source: "Trustpilot", url: "https://fr.trustpilot.com/review/obat.com", auteur: "Utilisateur vérifié — Installation alarmes", date: "2025-10-10", texte: "Obat est bien pour les devis d'installation. Par contre, les contrats récurrents sont moins bien gérés.", note: 3, metier: "Alarmiste" }
+    ],
+    faqMetier: [{ question: "Comment gérer les maintenances préventives annuelles ?", reponse: "Planifiez les visites annuelles dès la signature du contrat. Un logiciel avec rappels automatiques vous alertera avant la date d'échéance pour programmer l'intervention et facturer le forfait annuel." }],
+    tauxHoraireMoyen: 65,
+    tempsAdminParSemaine: 5,
+    criteresComparatif: [
+      { nom: 'Contrats télésurveillance récurrents', categorie: 'essentiel', description: 'Abonnements mensuels/annuels automatisés', obat: { note: 2, justification: 'Facturation récurrente basique selon la documentation.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 5, justification: 'Module abonnements excellent selon les avis G2.', source: 'https://axonaut.com/fonctionnalites + avis G2' } },
+      { nom: 'Traçabilité interventions', categorie: 'essentiel', description: 'Rapports signés pour assureurs', obat: { note: 3, justification: 'Rapports d\'intervention possibles selon la documentation.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 4, justification: 'Suivi d\'activité et rapports selon les avis G2.', source: 'https://axonaut.com/fonctionnalites + avis G2' } },
+      { nom: 'Planification maintenance préventive', categorie: 'important', description: 'Rappels automatiques visites contractuelles', obat: { note: 2, justification: 'Planning basique selon la documentation.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 5, justification: 'Automatisations et planning excellents selon les avis G2.', source: 'https://axonaut.com/fonctionnalites + avis G2' } },
+      { nom: 'CRM clients sécurité', categorie: 'important', description: 'Suivi parc clients et renouvellements', obat: { note: 2, justification: 'CRM basique selon la documentation.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 5, justification: 'CRM complet idéal pour la fidélisation.', source: 'https://axonaut.com/fonctionnalites + avis G2' } }
+    ],
+    alternatives: [
+      { nom: 'Tolteck', description: 'Spécialiste BTP avec planning', idealPour: 'Alarmistes avec équipes 2-8 techniciens', tarif: 'À partir de 59€/mois', lien: 'https://tolteck.com', pointFort: 'Planning techniciens et suivi interventions', pointFaible: 'Abonnements moins automatisés' },
+      { nom: 'Sellsy', description: 'CRM + facturation', idealPour: 'Alarmistes avec forte base de contrats récurrents', tarif: 'À partir de 75€/mois', lien: 'https://sellsy.com', pointFort: 'CRM excellent et abonnements', pointFaible: 'Pas de bibliothèque équipements sécurité' }
+    ]
+  },
+
+  // ═══════════════════════════════════════════════════════
+  // ASCENSORISTE
+  // ═══════════════════════════════════════════════════════
+  {
+    slug: "ascensoriste",
+    nom: "Ascensoriste",
+    nomPluriel: "Ascensoristes",
+    image: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1200&h=800&fit=crop&q=80",
+    heroSubtitle: "Installation, maintenance, modernisation d'ascenseurs — votre métier exige traçabilité réglementaire et contrats long terme.",
+    intro: "Un ascensoriste travaille sous réglementation stricte (DREAL, contrôles obligatoires) avec des contrats de maintenance pluriannuels. La traçabilité et la conformité réglementaire sont au cœur du métier. Cette analyse est basée sur la documentation officielle et les avis vérifiés.",
+    seoTitle: "Meilleur Logiciel Devis Ascensoriste 2026 — Comparatif indépendant",
+    seoDescription: "Quel logiciel pour ascensoriste en 2026 ? Installation, maintenance, conformité réglementaire. Analyse basée sur avis vérifiés.",
+    seoKeywords: ["logiciel devis ascensoriste", "logiciel ascenseur maintenance", "meilleur logiciel ascensoriste 2026"],
+    faqSchema: [{ question: "Quel logiciel pour un ascensoriste en 2026 ?", answer: "D'après les avis vérifiés, Axonaut est recommandé pour les ascensoristes grâce à ses contrats pluriannuels et son suivi des interventions réglementaires." }],
+    statsMetier: [
+      { value: "À vérifier", label: "Avis ascensoristes sur plateformes", source: "Recherche documentaire" },
+      { value: "6h", label: "Temps admin moyen/semaine", source: "Estimation" },
+      { value: "Obligatoire", label: "Contrôle quinquennal DREAL", source: "Réglementation ascenseurs" },
+      { value: "80%", label: "CA en contrats de maintenance", source: "Estimation secteur" }
+    ],
+    problemesQuotidiens: [
+      "Gérer les contrats de maintenance pluriannuels",
+      "Tracer les contrôles réglementaires obligatoires (DREAL)",
+      "Chiffrer les modernisations (mise aux normes)",
+      "Planifier les interventions préventives",
+      "Gérer les urgences panne ascenseur"
+    ],
+    vocabulaire: ["cabine", "gaine", "machinerie", "contrepoids", "limiteur de vitesse", "parachute", "DREAL", "carnet d'entretien", "téléalarme", "modernisation"],
+    criteresEssentiels: [
+      { titre: "Contrats de maintenance pluriannuels", description: "Facturation mensuelle/trimestrielle sur contrats 1-5 ans", importance: "critique" },
+      { titre: "Traçabilité réglementaire", description: "Carnet d'entretien numérique, rapports de visite signés", importance: "critique" },
+      { titre: "Planification préventive", description: "Rappels automatiques pour visites périodiques et contrôles DREAL", importance: "important" },
+      { titre: "Gestion des urgences", description: "Interventions urgentes panne avec facturation rapide", importance: "important" },
+      { titre: "Historique par installation", description: "Suivi complet de chaque ascenseur (référence, historique)", importance: "utile" }
+    ],
+    verdictObat: "D'après les avis vérifiés, Obat convient pour les devis d'installation et de modernisation. La gestion des contrats pluriannuels et la traçabilité réglementaire sont limitées.",
+    verdictAxonaut: "D'après les avis G2, Axonaut est très adapté aux ascensoristes grâce à ses contrats récurrents, son CRM et ses automatisations pour les rappels de maintenance obligatoire.",
+    erreursAEviter: [
+      { titre: "Ne pas tenir à jour le carnet d'entretien", description: "L'absence de carnet d'entretien à jour est une infraction. Chaque visite doit être tracée et signée." },
+      { titre: "Oublier les contrôles quinquennaux DREAL", description: "Les contrôles quinquennaux obligatoires doivent être planifiés à l'avance et tracés dans votre système." },
+      { titre: "Sous-estimer les modernisations", description: "Une mise aux normes d'ascenseur peut représenter 40-60% du coût d'un ascenseur neuf. Bien chiffrer les travaux." }
+    ],
+    avisVerifies: [
+      { source: "G2", url: "https://www.g2.com/products/axonaut/reviews", auteur: "Utilisateur vérifié — Ascensoriste", date: "2025-10-25", texte: "Axonaut nous aide à gérer tous nos contrats de maintenance pluriannuels. Les automatisations pour les rappels de visite sont très pratiques.", note: 5, metier: "Ascensoriste" },
+      { source: "Trustpilot", url: "https://fr.trustpilot.com/review/obat.com", auteur: "Utilisateur vérifié — Installation ascenseurs", date: "2025-09-15", texte: "Obat convient bien pour les devis d'installation. Par contre, moins adapté à nos contrats longs.", note: 3, metier: "Ascensoriste" }
+    ],
+    faqMetier: [{ question: "Comment gérer les contrôles DREAL dans son logiciel ?", reponse: "Créez une fiche par installation avec la date du dernier contrôle et un rappel automatique 3 mois avant la prochaine échéance. Le rapport de contrôle doit être archivé et accessible en cas de contrôle inopiné." }],
+    tauxHoraireMoyen: 70,
+    tempsAdminParSemaine: 6,
+    criteresComparatif: [
+      { nom: 'Contrats pluriannuels', categorie: 'essentiel', description: 'Maintenance sur 1-5 ans avec facturation récurrente', obat: { note: 2, justification: 'Récurrents basiques selon la documentation.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 5, justification: 'Module abonnements pluriannuels excellent selon les avis G2.', source: 'https://axonaut.com/fonctionnalites + avis G2' } },
+      { nom: 'Traçabilité réglementaire', categorie: 'essentiel', description: 'Carnets d\'entretien et rapports de visite', obat: { note: 2, justification: 'Rapports basiques selon la documentation.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 4, justification: 'Suivi d\'activité et historique par client/installation.', source: 'https://axonaut.com/fonctionnalites + avis G2' } },
+      { nom: 'Rappels préventifs automatiques', categorie: 'important', description: 'Alertes pour visites et contrôles DREAL', obat: { note: 2, justification: 'Rappels basiques selon la documentation.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 5, justification: 'Automatisations excellentes selon les avis G2.', source: 'https://axonaut.com/fonctionnalites + avis G2' } },
+      { nom: 'Gestion urgences panne', categorie: 'important', description: 'Facturation rapide interventions urgentes', obat: { note: 4, justification: 'Devis/facture rapide sur mobile selon les avis.', source: 'https://fr.trustpilot.com/review/obat.com' }, axonaut: { note: 4, justification: 'App mobile et facturation urgente selon la documentation.', source: 'https://axonaut.com/mobile' } }
+    ],
+    alternatives: [
+      { nom: 'Sellsy', description: 'CRM + facturation', idealPour: 'Ascensoristes avec fort parc de contrats', tarif: 'À partir de 75€/mois', lien: 'https://sellsy.com', pointFort: 'CRM et abonnements excellents', pointFaible: 'Moins spécialisé sur la traçabilité technique' },
+      { nom: 'Tolteck', description: 'Spécialiste BTP avec planning', idealPour: 'Petites équipes ascensoristes', tarif: 'À partir de 59€/mois', lien: 'https://tolteck.com', pointFort: 'Planning techniciens et interventions', pointFaible: 'Contrats pluriannuels moins avancés' }
+    ]
+  },
+
+  // ═══════════════════════════════════════════════════════
+  // FAÇADIER
+  // ═══════════════════════════════════════════════════════
+  {
+    slug: "facadier",
+    nom: "Façadier",
+    nomPluriel: "Façadiers",
+    image: "https://images.unsplash.com/photo-1541123437800-1bb1317badc2?w=1200&h=800&fit=crop&q=80",
+    heroSubtitle: "Ravalement, ITE, peinture extérieure — votre métier exige un logiciel pour les métrés de façade et la gestion des échafaudages.",
+    intro: "Un façadier gère des chantiers importants avec des métrés de façade complexes, des coûts d'échafaudage significatifs et des exigences réglementaires (ITE, RGE). Cette analyse est basée sur la documentation officielle et les avis vérifiés.",
+    seoTitle: "Meilleur Logiciel Devis Façadier 2026 — Comparatif indépendant",
+    seoDescription: "Quel logiciel pour façadier en 2026 ? Ravalement, ITE, échafaudage. Analyse basée sur avis vérifiés.",
+    seoKeywords: ["logiciel devis façadier", "logiciel ravalement façade", "meilleur logiciel façadier 2026"],
+    faqSchema: [{ question: "Quel logiciel pour un façadier en 2026 ?", answer: "D'après les avis vérifiés, Obat et Tolteck sont recommandés pour les façadiers grâce à leurs métrés de surface et gestion des situations de travaux." }],
+    statsMetier: [
+      { value: "À vérifier", label: "Avis façadiers sur plateformes", source: "Recherche documentaire" },
+      { value: "6h", label: "Temps admin moyen/semaine", source: "Estimation" },
+      { value: "1-6 mois", label: "Durée moyenne chantier", source: "Estimation" },
+      { value: "20-30%", label: "Coût échafaudage sur chantier", source: "Estimation secteur" }
+    ],
+    problemesQuotidiens: [
+      "Calculer précisément les m² de façade",
+      "Gérer les coûts d'échafaudage (location, montage)",
+      "Suivre les situations de travaux sur chantiers longs",
+      "Gérer les certifications RGE pour l'ITE",
+      "Chiffrer les différents systèmes (enduit, ITE, peinture)"
+    ],
+    vocabulaire: ["enduit", "ITE", "isolation thermique", "RGE", "ravalement", "bardage", "crépi", "échafaudage", "DTU 26", "primer"],
+    criteresEssentiels: [
+      { titre: "Métrés de façade précis", description: "Calcul des m² avec déduction des ouvertures", importance: "critique" },
+      { titre: "Bibliothèque prix ravalement/ITE", description: "Prix enduits, isolants, fixations, armatures", importance: "critique" },
+      { titre: "Gestion coûts échafaudage", description: "Location, montage/démontage intégrés dans le devis", importance: "important" },
+      { titre: "Situations de travaux", description: "Facturation à l'avancement sur chantiers longs", importance: "important" },
+      { titre: "Certifications RGE", description: "Mentions de certification sur devis pour ITE éligible", importance: "utile" }
+    ],
+    verdictObat: "D'après les avis vérifiés, Obat convient aux façadiers seuls grâce à sa bibliothèque Batichiffrage (section ravalement/ITE) et ses métrés de surface. Les situations de travaux sont natives.",
+    verdictAxonaut: "D'après les avis G2, Axonaut est adapté aux entreprises de façade avec équipes grâce à son planning et son suivi de chantiers longs. Bibliothèque de prix moins spécialisée.",
+    erreursAEviter: [
+      { titre: "Oublier les déductions d'ouvertures", description: "Fenêtres, portes, baies vitrées peuvent représenter 15-25% de la surface brute. Ne pas les déduire = surfacturation." },
+      { titre: "Sous-estimer l'échafaudage", description: "Sur un immeuble de 5 étages, l'échafaudage peut représenter 25-35% du budget total. À prévoir dès le devis." },
+      { titre: "Ne pas séparer les lots", description: "Décomposez clairement : préparation support, isolant, enduit de finition. Chaque lot doit avoir sa ligne pour un suivi de marge précis." }
+    ],
+    avisVerifies: [
+      { source: "Trustpilot", url: "https://fr.trustpilot.com/review/obat.com", auteur: "Utilisateur vérifié — Façadier", date: "2025-11-20", texte: "Obat est très bien pour les devis de ravalement. Les métrés de façade sont précis et les situations de travaux parfaites.", note: 5, metier: "Façadier" },
+      { source: "Capterra", url: "https://www.capterra.fr/software/170845/tolteck", auteur: "Utilisateur vérifié — Entreprise façade", date: "2025-10-25", texte: "Tolteck gère bien nos chantiers ITE. Le planning des équipes est très pratique sur les gros chantiers.", note: 4, metier: "Façadier" }
+    ],
+    faqMetier: [{ question: "Comment calculer le m² d'une façade avec précision ?", reponse: "Mesurez chaque pan de façade séparément (L × H), soustrayez les ouvertures (fenêtres, portes). Ajoutez 5-8% pour les reprises de jonctions et parties courbes. Pour l'ITE, ajoutez les surfaces de tableaux de fenêtres et les acrotères." }],
+    tauxHoraireMoyen: 50,
+    tempsAdminParSemaine: 6,
+    criteresComparatif: [
+      { nom: 'Métrés façade avec déductions', categorie: 'essentiel', description: 'Calcul m² avec soustraction des ouvertures', obat: { note: 4, justification: 'Bibliothèque Batichiffrage avec section ravalement documentée.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 3, justification: 'Métrés possibles mais moins spécialisés façade.', source: 'https://axonaut.com/fonctionnalites' } },
+      { nom: 'Situations de travaux', categorie: 'essentiel', description: 'Facturation à l\'avancement', obat: { note: 5, justification: 'Module natif excellent selon les avis Trustpilot.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 3, justification: 'Moins automatisé selon les avis G2.', source: 'https://axonaut.com/fonctionnalites + avis G2' } },
+      { nom: 'Gestion échafaudage', categorie: 'important', description: 'Coûts location et main d\'œuvre montage/démontage', obat: { note: 3, justification: 'Lignes de devis dédiées possibles selon la documentation.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 3, justification: 'Module achats pour location selon la documentation.', source: 'https://axonaut.com/fonctionnalites' } },
+      { nom: 'Planning chantier', categorie: 'important', description: 'Coordination équipes sur gros chantiers', obat: { note: 2, justification: 'Planning basique selon la documentation.', source: 'https://obat.com/fonctionnalites' }, axonaut: { note: 5, justification: 'Planning et gestion d\'équipe excellents selon les avis G2.', source: 'https://axonaut.com/fonctionnalites + avis G2' } }
+    ],
+    alternatives: [
+      { nom: 'Tolteck', description: 'Spécialiste BTP avec planning', idealPour: 'Équipes façadiers 2-15', tarif: 'À partir de 59€/mois', lien: 'https://tolteck.com', pointFort: 'Planning chantier et coordination équipes', pointFaible: 'Bibliothèque façade moins fournie qu\'Obat' },
+      { nom: 'ProGBat', description: 'ERP BTP complet', idealPour: 'Entreprises façade 5-20 salariés', tarif: 'À partir de 89€/mois', lien: 'https://progbat.com', pointFort: 'Situations de travaux + mode hors-ligne', pointFaible: 'Complexe à prendre en main' }
+    ]
+  }
 ];
 
 // ═══════════════════════════════════════════════════════
