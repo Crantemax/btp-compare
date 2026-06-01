@@ -245,16 +245,16 @@ export function TaillePageClient({ metierSlug, tailleSlug }: TaillePageClientPro
                             </span>
                           )}
                         </div>
-                        <p className="text-sm text-muted-foreground mb-3">{logiciel.description}</p>
+                        <p className="text-sm text-muted-foreground mb-3">{logiciel.pitch}</p>
                         <div className="flex flex-wrap gap-2 mb-3">
-                          {logiciel.points_forts?.slice(0, 3).map((point, j) => (
+                          {logiciel.pointsForts?.slice(0, 3).map((point, j) => (
                             <span key={j} className="text-xs bg-muted px-2 py-1 rounded-full">
-                              {point}
+                              {point.titre}
                             </span>
                           ))}
                         </div>
                         <div className="flex items-center justify-between">
-                          <span className="text-sm font-medium">{logiciel.prix_indicatif}</span>
+                          <span className="text-sm font-medium">{logiciel.tarification?.formules?.[0]?.prix ?? '—'}</span>
                           <Link
                             href={`/logiciels/${logiciel.slug}`}
                             className="text-sm text-accent hover:underline flex items-center gap-1"
