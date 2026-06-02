@@ -97,7 +97,6 @@ export default function RootLayout({
       <head>
         <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)" />
         <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-        <link rel="dns-prefetch" href="https://plausible.io" />
       </head>
       <body className="antialiased">
         <ThemeProvider defaultTheme="system" storageKey="btp-compare-theme">
