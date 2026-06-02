@@ -3,6 +3,8 @@ import { Instrument_Serif, DM_Sans } from 'next/font/google';
 import { ThemeProvider } from './theme-provider';
 import { Analytics } from '../components/analytics';
 import { ExitIntent } from '../components/exit-intent';
+import { Analytics as VercelAnalytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const instrumentSerif = Instrument_Serif({
   weight: ['400'],
@@ -100,6 +102,8 @@ export default function RootLayout({
       <body className="antialiased">
         <ThemeProvider defaultTheme="system" storageKey="btp-compare-theme">
           <Analytics />
+          <VercelAnalytics />
+          <SpeedInsights />
           {children}
           <ExitIntent source="page_metier" />
           {/* Mention légale affilié — obligatoire ARPP, une seule fois */}
