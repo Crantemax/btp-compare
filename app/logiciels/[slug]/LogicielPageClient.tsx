@@ -39,7 +39,7 @@ export function LogicielPageClient({ logicielSlug }: LogicielPageClientProps) {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <a href="/" className="flex items-center space-x-2 group">
-              <div className="w-8 h-8 rounded-lg bg-foreground flex items-center justify-center text-background text-sm font-bold group-hover:scale-105 transition-transform">B</div>
+              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white text-sm font-bold group-hover:scale-105 transition-transform">B</div>
               <div className="text-lg font-semibold text-foreground tracking-tight">BTP-Compare</div>
             </a>
             <nav className="hidden md:flex items-center space-x-8">
@@ -51,6 +51,9 @@ export function LogicielPageClient({ logicielSlug }: LogicielPageClientProps) {
           </div>
         </div>
       </header>
+
+      {/* Barre orange signature */}
+      <div className="h-1 w-full bg-gradient-to-r from-primary via-amber-400 to-primary fixed top-0 z-[60]" />
 
       {/* HERO */}
       <div className="relative pt-32 pb-16 gradient-mesh">
@@ -65,27 +68,33 @@ export function LogicielPageClient({ logicielSlug }: LogicielPageClientProps) {
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="flex items-start space-x-6 mb-6">
-            <div className="text-6xl">{data.logo}</div>
+            {/* Logo dans un cercle coloré */}
+            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary/20 to-amber-400/20 border border-primary/20 flex items-center justify-center text-4xl flex-shrink-0 shadow-lg">
+              {data.logo}
+            </div>
             <div>
               <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-foreground mb-2">{data.nom}</h1>
               <p className="text-xl text-muted-foreground">{data.pitch}</p>
             </div>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="flex flex-wrap gap-4 mb-8">
-            <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-              <Shield className="w-4 h-4" />
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="flex flex-wrap gap-3 mb-8">
+            <span className="inline-flex items-center space-x-2 text-sm px-3 py-1.5 rounded-full bg-card border border-border text-muted-foreground">
+              <Shield className="w-3.5 h-3.5" />
               <span>{data.pays} • Depuis {data.anneeCreation}</span>
-            </div>
+            </span>
+            <span className="inline-flex items-center space-x-2 text-sm px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary font-medium">
+              <span>{data.tarification.formules[0]?.prix}</span>
+            </span>
             {sourcePrincipale && (
-              <a 
-                href={sourcePrincipale.url} 
-                target="_blank" 
+              <a
+                href={sourcePrincipale.url}
+                target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center space-x-2 text-sm text-muted-foreground hover:text-foreground transition-smooth"
+                className="inline-flex items-center space-x-2 text-sm px-3 py-1.5 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-600 hover:bg-yellow-500/20 transition-colors"
               >
-                <Star className="w-4 h-4 text-yellow-500" fill="currentColor" />
-                <span>{sourcePrincipale.note} sur {sourcePrincipale.plateforme} ({sourcePrincipale.nombreAvis} avis)</span>
+                <Star className="w-3.5 h-3.5 fill-yellow-500 text-yellow-500" />
+                <span>{sourcePrincipale.note} • {sourcePrincipale.plateforme} ({sourcePrincipale.nombreAvis} avis)</span>
               </a>
             )}
           </motion.div>
@@ -95,18 +104,10 @@ export function LogicielPageClient({ logicielSlug }: LogicielPageClientProps) {
               href={data.lienAffiliation}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center justify-center px-8 py-4 rounded-lg bg-foreground text-background font-semibold hover:opacity-90 transition-smooth"
+              className="group inline-flex items-center justify-center px-8 py-4 rounded-lg bg-primary text-white font-semibold hover:bg-primary/90 transition-smooth shadow-lg shadow-primary/25"
             >
               Essayer {data.nom} gratuitement
               <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-            </a>
-            <a
-              href={data.site}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-8 py-4 rounded-lg border border-border text-foreground font-medium hover:bg-accent transition-smooth"
-            >
-              Voir le site officiel
             </a>
           </motion.div>
         </div>
@@ -123,9 +124,9 @@ export function LogicielPageClient({ logicielSlug }: LogicielPageClientProps) {
         </motion.section>
 
         {/* MÉTHODOLOGIE */}
-        <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-16 bg-accent rounded-xl border border-border p-6">
+        <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-16 bg-primary/5 rounded-xl border border-primary/20 p-6">
           <h3 className="text-lg font-bold text-foreground mb-3 flex items-center">
-            <Zap className="w-5 h-5 mr-2" />
+            <Zap className="w-5 h-5 mr-2 text-primary" />
             Notre méthodologie d'analyse
           </h3>
           <p className="text-sm text-muted-foreground mb-3">
@@ -165,10 +166,11 @@ export function LogicielPageClient({ logicielSlug }: LogicielPageClientProps) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="bg-card rounded-xl border border-border p-6 hover-lift"
+                className={`rounded-xl border p-6 hover-lift overflow-hidden relative ${i === 0 ? 'bg-primary/5 border-primary/30' : 'bg-card border-border'}`}
               >
+                {i === 0 && <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-amber-400" />}
                 <h3 className="text-xl font-bold text-foreground mb-2">{formule.nom}</h3>
-                <div className="text-2xl font-bold text-foreground mb-1">{formule.prix}</div>
+                <div className={`text-2xl font-bold mb-1 ${i === 0 ? 'text-primary' : 'text-foreground'}`}>{formule.prix}</div>
                 <div className="text-sm text-muted-foreground mb-6">{formule.idealPour}</div>
                 <ul className="space-y-2">
                   {formule.fonctionnalites.map((f, j) => (
@@ -268,7 +270,7 @@ export function LogicielPageClient({ logicielSlug }: LogicielPageClientProps) {
               </h3>
               <div className="space-y-3">
                 {data.pointsForts.map((point, i) => (
-                  <div key={i} className="bg-card rounded-xl border border-border p-4">
+                  <div key={i} className="bg-card rounded-xl border border-border border-l-4 border-l-green-500 p-4">
                     <div className="flex items-start space-x-3">
                       <div className="text-2xl">{point.icone}</div>
                       <div className="flex-1">
@@ -296,7 +298,7 @@ export function LogicielPageClient({ logicielSlug }: LogicielPageClientProps) {
               </h3>
               <div className="space-y-3">
                 {data.pointsFaibles.map((point, i) => (
-                  <div key={i} className="bg-card rounded-xl border border-border p-4">
+                  <div key={i} className="bg-card rounded-xl border border-border border-l-4 border-l-red-400 p-4">
                     <div className="flex items-start space-x-3">
                       <div className="text-2xl">{point.icone}</div>
                       <div className="flex-1">
@@ -421,18 +423,22 @@ export function LogicielPageClient({ logicielSlug }: LogicielPageClientProps) {
         </motion.section>
 
         {/* CTA FINAL */}
-        <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-foreground rounded-2xl p-12 text-background text-center">
-          <h2 className="text-4xl font-bold tracking-tight mb-4">Prêt à essayer {data.nom} ?</h2>
-          <p className="text-lg text-background/70 mb-8">{data.tarification.essaiGratuit}</p>
-          <a
-            href={data.lienAffiliation}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group inline-flex items-center justify-center px-8 py-4 rounded-lg bg-background text-foreground font-semibold hover:opacity-90 transition-smooth"
-          >
-            Démarrer l'essai gratuit
-            <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-          </a>
+        <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-primary rounded-2xl p-12 text-white text-center relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+          <div className="absolute bottom-0 left-0 w-48 h-48 bg-black/10 rounded-full translate-y-1/2 -translate-x-1/2" />
+          <div className="relative">
+            <h2 className="text-4xl font-bold tracking-tight mb-4">Prêt à essayer {data.nom} ?</h2>
+            <p className="text-lg text-white/80 mb-8">{data.tarification.essaiGratuit}</p>
+            <a
+              href={data.lienAffiliation}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center justify-center px-8 py-4 rounded-lg bg-white text-primary font-semibold hover:bg-white/90 transition-smooth shadow-xl"
+            >
+              Démarrer l'essai gratuit
+              <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+            </a>
+          </div>
         </motion.section>
 
         {/* RETOUR */}
