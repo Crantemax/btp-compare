@@ -1888,6 +1888,7 @@ export const logiciels: Logiciel[] = [
     slug: "abby",
     nom: "Abby",
     logo: "🟣",
+    lienAffiliation: "https://c3po.link/QPVwBpRypn",
     site: "https://www.abby.fr",
     pays: "France",
     anneeCreation: 2019,
