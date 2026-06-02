@@ -3,7 +3,7 @@ import { metiers } from '../data/metiers';
 import { logiciels } from '../data/logiciels';
 import { comparaisons } from '../data/comparaisons';
 
-const BASE_URL = 'https://www.btp-compare.fr';
+const BASE_URL = 'https://btp-compare.fr';
 
 const TAILLES = ['auto-entrepreneur', 'artisan-seul', 'equipe-2-5', 'pme-5-15'];
 
@@ -21,7 +21,7 @@ const PROBLEMES_PAR_METIER: Record<string, string[]> = {
   vitrier:       ['vitrages-doubles', 'miroirs', 'urgences-casse', 'stores'],
   etancheur:     ['toitures-terrasses', 'fondations', 'parkings', 'diagnostics'],
   charpentier:   ['charpentes-traditionnelles', 'ossature-bois', 'renovation', 'calculs-structure'],
-  zingueur:      ['gouttières', 'descentes-ep', 'couvertines', 'zinguerie-ornementale'],
+  zingueur:      ['gouttieres', 'descentes-ep', 'couvertines', 'zinguerie-ornementale'],
   terrassier:    ['vrd', 'fondations', 'assainissement', 'terrains-en-pente'],
   paysagiste:    ['jardins-creation', 'terrasses-exterieur', 'irrigation', 'contrats-entretien'],
   pisciniste:    ['construction-piscine', 'renovation-liner', 'equipements', 'maintenance'],
