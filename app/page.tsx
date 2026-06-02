@@ -531,7 +531,7 @@ export default function HomePage() {
               transition={{ delay: i * 0.07 }}
             >
               <Link
-                href={`/comparaisons/${comp.slug}`}
+                href={`/comparer/${comp.slug}`}
                 className="group block bg-card rounded-xl border border-border p-5 hover-lift hover:border-primary/40 transition-colors h-full"
               >
                 <div className="flex items-start justify-between mb-3">
