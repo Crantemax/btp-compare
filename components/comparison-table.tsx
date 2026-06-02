@@ -36,26 +36,40 @@ interface ComparisonTableProps {
 }
 
 function NoteDisplay({ note }: { note: number }) {
-  if (note === 0) return <X className="w-5 h-5 text-destructive mx-auto" />;
-  if (note === 5) return <Check className="w-5 h-5 text-success mx-auto" />;
+  if (note === 0) return (
+    <div className="flex flex-col items-center gap-1">
+      <X className="w-4 h-4 text-red-500" />
+      <span className="text-[10px] text-red-500 font-semibold">Absent</span>
+    </div>
+  );
+  if (note === 5) return (
+    <div className="flex flex-col items-center gap-1">
+      <Check className="w-4 h-4 text-green-500" />
+      <span className="text-[10px] text-green-500 font-semibold">Excellent</span>
+    </div>
+  );
 
-  // Couleur graduée : rouge (1) → orange (2-3) → vert (4)
-  const colorClass =
-    note === 1 ? 'bg-destructive' :
-    note === 2 ? 'bg-orange-400' :
-    note === 3 ? 'bg-warning' :
-    'bg-success';
+  const config: Record<number, { dot: string; label: string; text: string }> = {
+    1: { dot: 'bg-red-500',    label: 'Faible',  text: 'text-red-500' },
+    2: { dot: 'bg-orange-400', label: 'Moyen',   text: 'text-orange-400' },
+    3: { dot: 'bg-yellow-400', label: 'Correct', text: 'text-yellow-500' },
+    4: { dot: 'bg-green-500',  label: 'Bon',     text: 'text-green-500' },
+  };
+  const c = config[note] ?? { dot: 'bg-primary', label: `${note}/5`, text: 'text-primary' };
 
-  const bars = Array.from({ length: 5 }, (_, i) => (
-    <div
-      key={i}
-      className={`h-3 w-4 rounded-sm mx-0.5 transition-colors ${
-        i < note ? colorClass : 'bg-border'
-      }`}
-    />
-  ));
-
-  return <div className="flex justify-center items-end">{bars}</div>;
+  return (
+    <div className="flex flex-col items-center gap-1.5">
+      <div className="flex items-center gap-1">
+        {Array.from({ length: 5 }, (_, i) => (
+          <div
+            key={i}
+            className={`w-3 h-3 rounded-full ${i < note ? c.dot : 'bg-foreground/15'}`}
+          />
+        ))}
+      </div>
+      <span className={`text-[10px] font-semibold ${c.text}`}>{c.label}</span>
+    </div>
+  );
 }
 
 export function ComparisonTable({ criteres, alternatives, metierNom }: ComparisonTableProps) {
