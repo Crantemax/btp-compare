@@ -4,15 +4,84 @@ import { motion } from 'framer-motion';
 import { ThemeToggle } from '../../components/theme-toggle';
 import { ComparisonTable } from '../../components/comparison-table';
 import { ROICalculator } from '../../components/roi-calculator';
-import { Quiz } from '../../components/quiz';
 import { AffiliateDisclosure } from '../../components/affiliate-disclosure';
 import { TransparencyBanner } from '../../components/transparency-banner';
-import { metiers, logiciels } from '../../data/metiers';
-import { 
-  ArrowLeft, Zap, ChevronRight, Check, X, 
-  Quote, Target, AlertTriangle, Award, 
-  Calculator, HelpCircle, Star, Eye, ExternalLink
+import { metiers } from '../../data/metiers';
+import { logiciels as allLogiciels } from '../../data/logiciels';
+import {
+  ArrowLeft, Zap, ChevronRight, Check, X,
+  Quote, Target, AlertTriangle, Award,
+  Calculator, HelpCircle, Star, Eye, ExternalLink,
+  Users, User, Building2, Briefcase, ArrowRight,
+  Wrench, Shield, TrendingUp, Clock
 } from 'lucide-react';
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+const LOGO_STYLES: Record<string, { bg: string; text: string }> = {
+  '🟢': { bg: 'bg-green-500/15',  text: 'text-green-700 dark:text-green-400' },
+  '🔵': { bg: 'bg-blue-500/15',   text: 'text-blue-700 dark:text-blue-400' },
+  '🟠': { bg: 'bg-orange-500/15', text: 'text-orange-600 dark:text-orange-400' },
+  '🟣': { bg: 'bg-purple-500/15', text: 'text-purple-700 dark:text-purple-400' },
+  '🔴': { bg: 'bg-red-500/15',    text: 'text-red-700 dark:text-red-400' },
+  '🟡': { bg: 'bg-yellow-500/15', text: 'text-yellow-700 dark:text-yellow-500' },
+  '🔷': { bg: 'bg-cyan-500/15',   text: 'text-cyan-700 dark:text-cyan-400' },
+  '🟤': { bg: 'bg-amber-700/15',  text: 'text-amber-800 dark:text-amber-400' },
+};
+function getLogoStyle(logo: string) {
+  return LOGO_STYLES[logo] ?? { bg: 'bg-primary/15', text: 'text-primary' };
+}
+function getInitials(nom: string): string {
+  const words = nom.trim().split(/[\s\-]+/);
+  if (words.length >= 2) return (words[0][0] + words[1][0]).toUpperCase();
+  return nom.slice(0, 2).toUpperCase();
+}
+function formatPrix(prix: string): string {
+  if (!prix) return '—';
+  if (prix.startsWith('0€')) return 'Gratuit';
+  if (prix.toLowerCase().includes('sur devis')) return 'Sur devis';
+  const m = prix.match(/(\d+€(?:\/[a-zA-Zé]+(?:\/[a-zA-Zé]+)*)?)/);
+  return m ? `Dès ${m[1]}` : prix.split('(')[0].replace(/^À partir de\s*/i, 'Dès ').trim();
+}
+
+// Problèmes par métier (pour les liens internes)
+const PROBLEMES_PAR_METIER: Record<string, { slug: string; label: string; icon: string }[]> = {
+  plombier:      [{ slug: 'depannage-urgent', label: 'Dépannage urgent', icon: '🔧' }, { slug: 'salle-de-bain', label: 'Salle de bain', icon: '🚿' }, { slug: 'chauffage', label: 'Chauffage', icon: '🔥' }, { slug: 'tva-10-pourcent', label: 'TVA 10%', icon: '📋' }],
+  electricien:   [{ slug: 'nfc-15-100', label: 'NFC 15-100', icon: '⚡' }, { slug: 'domotique', label: 'Domotique', icon: '🏠' }, { slug: 'bornes-irve', label: 'Bornes IRVE', icon: '🔌' }, { slug: 'tableaux-electriques', label: 'Tableaux élec.', icon: '🔲' }],
+  macon:         [{ slug: 'situations-travaux', label: 'Situations de travaux', icon: '🏗️' }, { slug: 'compte-prorata', label: 'Compte prorata', icon: '📊' }, { slug: 'extensions', label: 'Extensions', icon: '🏠' }, { slug: 'murs-porteurs', label: 'Murs porteurs', icon: '🧱' }],
+  couvreur:      [{ slug: 'toitures-complexes', label: 'Toitures complexes', icon: '🏠' }, { slug: 'zinguerie', label: 'Zinguerie', icon: '🔩' }, { slug: 'decennale', label: 'Décennale', icon: '📋' }, { slug: 'calculs-surface', label: 'Calculs surface', icon: '📐' }],
+  menuisier:     [{ slug: 'sur-mesure', label: 'Sur-mesure', icon: '📏' }, { slug: 'escaliers', label: 'Escaliers', icon: '🪜' }, { slug: 'fenetres', label: 'Fenêtres', icon: '🪟' }, { slug: 'agencement', label: 'Agencement', icon: '🪑' }],
+  carreleur:     [{ slug: 'carrelage-grand-format', label: 'Grand format', icon: '⬜' }, { slug: 'devis-metrage', label: 'Dévis métrage', icon: '📐' }, { slug: 'sous-traitance', label: 'Sous-traitance', icon: '🤝' }, { slug: 'salle-de-bain', label: 'Salle de bain', icon: '🚿' }],
+  peintre:       [{ slug: 'devis-colorimetrie', label: 'Colorimétrie', icon: '🎨' }, { slug: 'multi-corps', label: 'Multi-corps', icon: '👥' }, { slug: 'ravalement', label: 'Ravalement', icon: '🏢' }, { slug: 'sous-traitants', label: 'Sous-traitants', icon: '🤝' }],
+  chauffagiste:  [{ slug: 'pac-chaudiere', label: 'PAC / Chaudière', icon: '♨️' }, { slug: 'maintenance-contrats', label: 'Contrats maintenance', icon: '📋' }, { slug: 'qualification-rge', label: 'Qualification RGE', icon: '🏆' }, { slug: 'subventions', label: 'Subventions', icon: '💶' }],
+  serrurier:     [{ slug: 'depannage-urgent', label: 'Dépannage urgent', icon: '🔑' }, { slug: 'serrures-haute-securite', label: 'Haute sécurité', icon: '🔒' }, { slug: 'coffres-forts', label: 'Coffres-forts', icon: '🏦' }, { slug: 'controle-acces', label: 'Contrôle accès', icon: '🚪' }],
+  plaquiste:     [{ slug: 'cloisons', label: 'Cloisons', icon: '🏗️' }, { slug: 'faux-plafonds', label: 'Faux-plafonds', icon: '⬆️' }, { slug: 'isolation', label: 'Isolation', icon: '🌡️' }, { slug: 'enduits', label: 'Enduits', icon: '🖌️' }],
+  vitrier:       [{ slug: 'vitrages-doubles', label: 'Double vitrage', icon: '🪟' }, { slug: 'miroirs', label: 'Miroirs', icon: '🪞' }, { slug: 'urgences-casse', label: 'Urgences casse', icon: '⚠️' }, { slug: 'stores', label: 'Stores', icon: '🪟' }],
+  etancheur:     [{ slug: 'toitures-terrasses', label: 'Toitures-terrasses', icon: '🏢' }, { slug: 'fondations', label: 'Fondations', icon: '🏗️' }, { slug: 'parkings', label: 'Parkings', icon: '🅿️' }, { slug: 'diagnostics', label: 'Diagnostics', icon: '🔍' }],
+  charpentier:   [{ slug: 'charpentes-traditionnelles', label: 'Charpentes trad.', icon: '🪵' }, { slug: 'ossature-bois', label: 'Ossature bois', icon: '🌲' }, { slug: 'renovation', label: 'Rénovation', icon: '🔨' }, { slug: 'calculs-structure', label: 'Calculs structure', icon: '📐' }],
+  zingueur:      [{ slug: 'gouttieres', label: 'Gouttières', icon: '💧' }, { slug: 'descentes-ep', label: 'Descentes EP', icon: '⬇️' }, { slug: 'couvertines', label: 'Couvertines', icon: '🔩' }, { slug: 'zinguerie-ornementale', label: 'Zinguerie orn.', icon: '✨' }],
+  terrassier:    [{ slug: 'vrd', label: 'VRD', icon: '🚜' }, { slug: 'fondations', label: 'Fondations', icon: '🏗️' }, { slug: 'assainissement', label: 'Assainissement', icon: '💧' }, { slug: 'terrains-en-pente', label: 'Terrains en pente', icon: '⛰️' }],
+  paysagiste:    [{ slug: 'jardins-creation', label: 'Création jardins', icon: '🌿' }, { slug: 'terrasses-exterieur', label: 'Terrasses', icon: '🪴' }, { slug: 'irrigation', label: 'Irrigation', icon: '💧' }, { slug: 'contrats-entretien', label: 'Contrats entretien', icon: '📋' }],
+  pisciniste:    [{ slug: 'construction-piscine', label: 'Construction', icon: '🏊' }, { slug: 'renovation-liner', label: 'Rénovation liner', icon: '🔧' }, { slug: 'equipements', label: 'Équipements', icon: '⚙️' }, { slug: 'maintenance', label: 'Maintenance', icon: '🛠️' }],
+  alarmiste:     [{ slug: 'alarmes-intrusion', label: 'Alarmes intrusion', icon: '🚨' }, { slug: 'videoprotection', label: 'Vidéoprotection', icon: '📹' }, { slug: 'controle-acces', label: 'Contrôle accès', icon: '🚪' }, { slug: 'domotique', label: 'Domotique', icon: '🏠' }],
+  ascensoriste:  [{ slug: 'installation', label: 'Installation', icon: '🔧' }, { slug: 'maintenance', label: 'Maintenance', icon: '🛠️' }, { slug: 'modernisation', label: 'Modernisation', icon: '⬆️' }, { slug: 'conformite-reglementaire', label: 'Conformité régl.', icon: '📋' }],
+  facadier:      [{ slug: 'ravalement', label: 'Ravalement', icon: '🏢' }, { slug: 'isolation-exterieure', label: 'ITE', icon: '🌡️' }, { slug: 'peinture-exterieure', label: 'Peinture ext.', icon: '🎨' }, { slug: 'nettoyage', label: 'Nettoyage', icon: '🧹' }],
+};
+
+const TAILLES = [
+  { slug: 'auto-entrepreneur', label: 'Auto-entrepreneur', icon: User, color: 'text-green-600', bg: 'bg-green-500/10', border: 'border-green-500/30' },
+  { slug: 'artisan-seul', label: 'Artisan seul', icon: Briefcase, color: 'text-blue-600', bg: 'bg-blue-500/10', border: 'border-blue-500/30' },
+  { slug: 'equipe-2-5', label: 'Équipe 2-5 pers.', icon: Users, color: 'text-orange-600', bg: 'bg-orange-500/10', border: 'border-orange-500/30' },
+  { slug: 'pme-5-15', label: 'PME 5-15 pers.', icon: Building2, color: 'text-purple-600', bg: 'bg-purple-500/10', border: 'border-purple-500/30' },
+];
+
+// Top 3 logiciels à recommander sur les pages métier
+const TOP_LOGICIELS = ['obat', 'axonaut', 'tolteck'];
+const TOP_LABELS = ['Pour artisans seuls', 'Pour équipes', 'Alternative BTP'];
+const TOP_COLORS = [
+  { border: 'border-green-500', badge: 'bg-green-500', btn: 'bg-green-500 hover:bg-green-600' },
+  { border: 'border-blue-500',  badge: 'bg-blue-500',  btn: 'bg-blue-500 hover:bg-blue-600' },
+  { border: 'border-primary',   badge: 'bg-primary',   btn: 'bg-primary hover:bg-primary/90' },
+];
 
 interface MetierPageClientProps {
   metierSlug: string;
@@ -20,7 +89,7 @@ interface MetierPageClientProps {
 
 export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
   const data = metiers.find(m => m.slug === metierSlug);
-  
+
   if (!data) {
     return (
       <div className="min-h-screen flex items-center justify-center gradient-subtle">
@@ -32,19 +101,23 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
     );
   }
 
+  const topLogiciels = TOP_LOGICIELS.map(slug => allLogiciels.find(l => l.slug === slug)).filter(Boolean) as typeof allLogiciels;
+  const problemes = PROBLEMES_PAR_METIER[data.slug] ?? [];
+
   return (
     <div className="min-h-screen gradient-subtle">
-      
+
       {/* HEADER */}
       <header className="fixed top-0 left-0 right-0 w-full z-50 glass-subtle">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <a href="/" className="flex items-center space-x-2 group">
-              <div className="w-8 h-8 rounded-lg bg-foreground flex items-center justify-center text-background text-sm font-bold group-hover:scale-105 transition-transform">B</div>
+              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white text-sm font-bold group-hover:scale-105 transition-transform">B</div>
               <div className="text-lg font-semibold text-foreground tracking-tight">BTP-Compare</div>
             </a>
-            <nav className="hidden md:flex items-center space-x-8">
+            <nav className="hidden md:flex items-center space-x-6">
               <a href={`/${data.slug}#verdict`} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-smooth">Verdict</a>
+              <a href={`/${data.slug}#problemes`} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-smooth">Problématiques</a>
               <a href={`/${data.slug}#criteres`} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-smooth">Critères</a>
               <a href={`/${data.slug}#faq`} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-smooth">FAQ</a>
             </nav>
@@ -53,28 +126,54 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
         </div>
       </header>
 
-      {/* HERO */}
-      <div className="relative h-[560px] overflow-hidden pt-16 gradient-mesh">
+      {/* HERO — image pleine + gradient */}
+      <div className="relative h-[580px] overflow-hidden">
+        {/* Image de fond */}
         <div className="absolute inset-0">
           <img
             src={data.image}
             alt={data.nom}
-            className="w-full h-full object-cover opacity-30 dark:opacity-20"
-            onError={(e) => { e.currentTarget.style.display = 'none'; }}
+            className="w-full h-full object-cover"
+            onError={(e) => { (e.currentTarget as HTMLImageElement).style.opacity = '0'; }}
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20" />
         </div>
-        <div className="relative h-full flex items-end">
-          <div className="max-w-4xl mx-auto px-6 lg:px-8 pb-16">
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-              <div className="inline-flex items-center space-x-2 glass-subtle px-4 py-2 rounded-full mb-4">
-                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                <span className="text-sm font-medium text-foreground">Analyse mise à jour — Janvier 2026</span>
-              </div>
+
+        {/* Contenu hero */}
+        <div className="relative h-full flex flex-col justify-end pt-16">
+          <div className="max-w-5xl mx-auto px-6 lg:px-8 pb-12 w-full">
+            {/* Breadcrumb */}
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-2 text-white/60 text-sm mb-4">
+              <a href="/" className="hover:text-white transition-colors">Accueil</a>
+              <ChevronRight className="w-3.5 h-3.5" />
+              <span className="text-white/80">{data.nom}</span>
             </motion.div>
-            <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="text-5xl md:text-6xl font-bold tracking-tight text-foreground mb-4 leading-tight">
-              Le meilleur logiciel pour<br /><span className="text-muted-foreground">les {data.nomPluriel}.</span>
+
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mb-4">
+              <span className="inline-flex items-center gap-2 bg-primary/90 text-white px-4 py-1.5 rounded-full text-sm font-medium">
+                <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                Analyse indépendante 2026
+              </span>
+            </motion.div>
+
+            <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="text-4xl md:text-6xl font-bold text-white mb-4 leading-tight">
+              Meilleur logiciel pour<br />
+              <span className="text-primary">les {data.nomPluriel}</span>
             </motion.h1>
-            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="text-xl text-muted-foreground max-w-3xl leading-relaxed">{data.heroSubtitle}</motion.p>
+
+            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="text-lg text-white/80 max-w-2xl mb-8 leading-relaxed">
+              {data.heroSubtitle}
+            </motion.p>
+
+            {/* Stats rapides */}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="flex flex-wrap gap-3">
+              {data.statsMetier.slice(0, 3).map((stat, i) => (
+                <div key={i} className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl px-4 py-2.5">
+                  <div className="text-xl font-bold text-white">{stat.value}</div>
+                  <div className="text-xs text-white/70">{stat.label}</div>
+                </div>
+              ))}
+            </motion.div>
           </div>
         </div>
       </div>
@@ -82,236 +181,392 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
       <AffiliateDisclosure />
       <TransparencyBanner />
 
-      <main className="max-w-4xl mx-auto px-6 lg:px-8 py-16">
-        
-        {/* STATS */}
-        <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-card rounded-xl border border-border p-8 mb-16">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {data.statsMetier.map((stat, i) => (
-              <motion.div key={i} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: i * 0.1 }} className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-1">{stat.value}</div>
-                <div className="text-xs md:text-sm text-muted-foreground leading-tight mb-2">{stat.label}</div>
-                {stat.source && (
-                  <a href={stat.source} target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground hover:text-foreground underline">
-                    Source
-                  </a>
-                )}
-              </motion.div>
-            ))}
+      {/* PAR TAILLE D'ENTREPRISE — navigation rapide */}
+      <section className="border-b border-border bg-card">
+        <div className="max-w-5xl mx-auto px-6 lg:px-8 py-8">
+          <div className="flex items-center gap-3 mb-5">
+            <Users className="w-5 h-5 text-primary" />
+            <h2 className="text-lg font-bold text-foreground">Filtrer par taille d'entreprise</h2>
           </div>
-        </motion.section>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {TAILLES.map((taille) => {
+              const Icon = taille.icon;
+              return (
+                <a
+                  key={taille.slug}
+                  href={`/${data.slug}/taille/${taille.slug}`}
+                  className={`group flex items-center gap-3 p-4 rounded-xl border ${taille.border} ${taille.bg} hover:opacity-90 transition-all hover-lift`}
+                >
+                  <Icon className={`w-5 h-5 ${taille.color} flex-shrink-0`} />
+                  <div>
+                    <div className={`text-sm font-semibold ${taille.color}`}>{taille.label}</div>
+                    <div className="text-xs text-muted-foreground">Voir les conseils →</div>
+                  </div>
+                </a>
+              );
+            })}
+          </div>
+        </div>
+      </section>
 
-        {/* INTRO */}
+      <main className="max-w-5xl mx-auto px-6 lg:px-8 py-16">
+
+        {/* INTRO + QUOTIDIEN */}
         <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-16">
-          <div className="prose prose-lg max-w-none mb-8">
-            <p className="text-xl text-muted-foreground leading-relaxed">{data.intro}</p>
-          </div>
-          <div className="bg-accent rounded-xl p-6 border-l-4 border-primary">
-            <div className="flex items-start">
-              <Target className="w-6 h-6 text-primary mr-4 flex-shrink-0 mt-1" />
-              <div>
-                <h3 className="font-semibold text-foreground mb-3 text-lg">Votre quotidien, en {data.problemesQuotidiens.length} points</h3>
-                <ul className="space-y-2">
-                  {data.problemesQuotidiens.map((probleme, i) => (
-                    <li key={i} className="flex items-start text-muted-foreground">
-                      <span className="text-primary mr-2">→</span><span>{probleme}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-        </motion.section>
-
-        {/* VERDICT */}
-        <motion.section id="verdict" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
-          <div className="mb-8">
-            <div className="inline-flex items-center space-x-2 text-sm font-medium text-muted-foreground mb-3">
-              <Award className="w-4 h-4" /><span>Le verdict de notre analyse</span>
-            </div>
-            <h2 className="text-4xl font-bold tracking-tight text-foreground mb-4 leading-tight">Deux profils,<br /><span className="text-muted-foreground">deux logiciels.</span></h2>
-            <p className="text-lg text-muted-foreground">Il n'y a pas de "meilleur logiciel dans l'absolu". Tout dépend de la taille de votre équipe.</p>
-          </div>
+          <p className="text-xl text-muted-foreground leading-relaxed mb-8">{data.intro}</p>
 
           <div className="grid md:grid-cols-2 gap-6">
-            <motion.div whileHover={{ y: -4 }} className="relative bg-card rounded-xl border-2 border-green-500 p-8 hover-lift">
-              <div className="absolute -top-3 left-6 bg-green-500 text-white px-3 py-1 rounded-full text-xs font-semibold">POUR ARTISANS SEULS</div>
-              <div className="text-4xl mb-4 mt-2">{logiciels.obat.logo}</div>
-              <h3 className="text-2xl font-bold text-foreground mb-2">{logiciels.obat.nom}</h3>
-              <div className="flex items-center mb-4">
-                <Star className="w-5 h-5 text-yellow-500 mr-1" fill="currentColor" />
-                <span className="font-semibold text-foreground">{logiciels.obat.note}</span>
-                <a href={logiciels.obat.sourceAvis} target="_blank" rel="noopener noreferrer" className="ml-2 text-xs text-muted-foreground hover:text-foreground underline">
-                  Vérifier
-                </a>
+            <div className="bg-primary/5 rounded-xl border border-primary/20 p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <Target className="w-5 h-5 text-primary" />
+                <h3 className="font-bold text-foreground">Votre quotidien</h3>
               </div>
-              <div className="text-sm text-muted-foreground mb-4"><strong className="text-foreground">Idéal pour :</strong> {logiciels.obat.idealPour}</div>
-              <p className="text-muted-foreground mb-6 leading-relaxed text-sm">{data.verdictObat}</p>
-              <div className="space-y-2 text-xs text-muted-foreground mb-6 pt-4 border-t border-border">
-                <div className="flex items-start"><Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" /><span><strong>Point fort :</strong> {logiciels.obat.pointFort}</span></div>
-                <div className="flex items-start"><X className="w-4 h-4 text-red-500 mr-2 flex-shrink-0 mt-0.5" /><span><strong>Point faible :</strong> {logiciels.obat.pointFaible}</span></div>
-                <div className="flex justify-between"><span className="font-medium">Tarif :</span><span className="text-foreground">{logiciels.obat.tarif}</span></div>
+              <ul className="space-y-2">
+                {data.problemesQuotidiens.map((p, i) => (
+                  <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <ArrowRight className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
+                    {p}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="bg-card rounded-xl border border-border p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <TrendingUp className="w-5 h-5 text-primary" />
+                <h3 className="font-bold text-foreground">Chiffres clés</h3>
               </div>
-              <a href={logiciels.obat.lien} target="_blank" rel="noopener noreferrer" className="block w-full bg-green-500 text-white text-center py-3 rounded-lg font-medium hover:bg-green-600 transition-smooth">Essayer {logiciels.obat.nom}</a>
-            </motion.div>
-
-            <motion.div whileHover={{ y: -4 }} className="relative bg-card rounded-xl border-2 border-blue-500 p-8 hover-lift">
-              <div className="absolute -top-3 left-6 bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-semibold">POUR ÉQUIPES</div>
-              <div className="text-4xl mb-4 mt-2">{logiciels.axonaut.logo}</div>
-              <h3 className="text-2xl font-bold text-foreground mb-2">{logiciels.axonaut.nom}</h3>
-              <div className="flex items-center mb-4">
-                <Star className="w-5 h-5 text-yellow-500 mr-1" fill="currentColor" />
-                <span className="font-semibold text-foreground">{logiciels.axonaut.note}</span>
-                <a href={logiciels.axonaut.sourceAvis} target="_blank" rel="noopener noreferrer" className="ml-2 text-xs text-muted-foreground hover:text-foreground underline">
-                  Vérifier
-                </a>
+              <div className="space-y-3">
+                {data.statsMetier.map((stat, i) => (
+                  <div key={i} className="flex items-center justify-between">
+                    <span className="text-sm text-muted-foreground">{stat.label}</span>
+                    <span className="text-lg font-bold text-primary">{stat.value}</span>
+                  </div>
+                ))}
               </div>
-              <div className="text-sm text-muted-foreground mb-4"><strong className="text-foreground">Idéal pour :</strong> {logiciels.axonaut.idealPour}</div>
-              <p className="text-muted-foreground mb-6 leading-relaxed text-sm">{data.verdictAxonaut}</p>
-              <div className="space-y-2 text-xs text-muted-foreground mb-6 pt-4 border-t border-border">
-                <div className="flex items-start"><Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" /><span><strong>Point fort :</strong> {logiciels.axonaut.pointFort}</span></div>
-                <div className="flex items-start"><X className="w-4 h-4 text-red-500 mr-2 flex-shrink-0 mt-0.5" /><span><strong>Point faible :</strong> {logiciels.axonaut.pointFaible}</span></div>
-                <div className="flex justify-between"><span className="font-medium">Tarif :</span><span className="text-foreground">{logiciels.axonaut.tarif}</span></div>
-              </div>
-              <a href={logiciels.axonaut.lien} target="_blank" rel="noopener noreferrer" className="block w-full bg-blue-500 text-white text-center py-3 rounded-lg font-medium hover:bg-blue-600 transition-smooth">Essayer {logiciels.axonaut.nom}</a>
-            </motion.div>
+            </div>
           </div>
         </motion.section>
 
-        {/* COMPARATIF DYNAMIQUE */}
+        {/* VERDICT — TOP 3 LOGICIELS */}
+        <motion.section id="verdict" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
+          <div className="mb-8">
+            <div className="inline-flex items-center gap-2 text-sm font-medium text-primary mb-3">
+              <Award className="w-4 h-4" />
+              <span>Notre sélection pour les {data.nomPluriel.toLowerCase()}</span>
+            </div>
+            <h2 className="text-4xl font-bold tracking-tight text-foreground mb-3 leading-tight">
+              Top 3 logiciels,<br />
+              <span className="text-muted-foreground">selon votre profil.</span>
+            </h2>
+            <p className="text-lg text-muted-foreground">Analyses basées sur la documentation officielle et les avis vérifiés.</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-5">
+            {topLogiciels.map((logiciel, i) => {
+              const style = getLogoStyle(logiciel.logo);
+              const initials = getInitials(logiciel.nom);
+              const prix = formatPrix(logiciel.tarification.formules[0]?.prix ?? '');
+              const note = (logiciel.sources?.trustpilot || logiciel.sources?.g2)?.note;
+              const colors = TOP_COLORS[i];
+              return (
+                <motion.div
+                  key={logiciel.slug}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  whileHover={{ y: -4 }}
+                  className={`relative bg-card rounded-xl border-2 ${colors.border} p-6 hover-lift flex flex-col`}
+                >
+                  {/* Badge profil */}
+                  <div className={`absolute -top-3 left-5 ${colors.badge} text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide`}>
+                    {TOP_LABELS[i]}
+                  </div>
+
+                  {/* Logo + nom */}
+                  <div className="flex items-center gap-3 mb-4 mt-2">
+                    <div className={`w-12 h-12 rounded-xl ${style.bg} flex items-center justify-center flex-shrink-0`}>
+                      <span className={`text-base font-bold ${style.text}`}>{initials}</span>
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-foreground">{logiciel.nom}</h3>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-xs font-semibold text-primary">{prix}</span>
+                        {note && (
+                          <>
+                            <span className="text-muted-foreground/40">·</span>
+                            <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                            <span className="text-xs text-muted-foreground">{note}</span>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Idéal pour */}
+                  <p className="text-xs text-muted-foreground mb-3 bg-accent rounded-lg px-3 py-2">
+                    <strong className="text-foreground">Idéal :</strong> {logiciel.idealPour?.split(',')[0]}
+                  </p>
+
+                  {/* Verdict métier */}
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-4 flex-1">
+                    {i === 0 ? data.verdictObat : i === 1 ? data.verdictAxonaut : logiciel.pitch}
+                  </p>
+
+                  {/* Pro / Con */}
+                  <div className="space-y-1.5 mb-5 text-xs border-t border-border pt-4">
+                    <div className="flex items-start gap-2">
+                      <Check className="w-3.5 h-3.5 text-green-500 flex-shrink-0 mt-0.5" />
+                      <span className="text-muted-foreground">{logiciel.pointsForts[0]?.titre}</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <X className="w-3.5 h-3.5 text-red-400 flex-shrink-0 mt-0.5" />
+                      <span className="text-muted-foreground">{logiciel.pointsFaibles[0]?.titre}</span>
+                    </div>
+                  </div>
+
+                  {/* CTA */}
+                  <div className="flex gap-2">
+                    {logiciel.lienAffiliation ? (
+                      <a
+                        href={logiciel.lienAffiliation}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`flex-1 text-center py-2.5 rounded-lg text-white text-sm font-semibold transition-all ${colors.btn}`}
+                      >
+                        Essayer {logiciel.nom}
+                      </a>
+                    ) : (
+                      <a
+                        href={`/logiciels/${logiciel.slug}`}
+                        className="flex-1 text-center py-2.5 rounded-lg bg-accent text-foreground text-sm font-semibold hover:bg-accent/80 transition-all"
+                      >
+                        Voir l'analyse
+                      </a>
+                    )}
+                    <a
+                      href={`/logiciels/${logiciel.slug}`}
+                      className="px-3 py-2.5 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-all"
+                      title="Voir l'analyse complète"
+                    >
+                      <Eye className="w-4 h-4" />
+                    </a>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* Lien vers toutes les comparaisons */}
+          <div className="mt-6 text-center">
+            <a href="/comparer/obat-vs-axonaut" className="inline-flex items-center gap-2 text-sm text-primary hover:text-primary/80 font-medium transition-colors">
+              Voir la comparaison détaillée Obat vs Axonaut
+              <ArrowRight className="w-4 h-4" />
+            </a>
+          </div>
+        </motion.section>
+
+        {/* PROBLÉMATIQUES SPÉCIFIQUES */}
+        {problemes.length > 0 && (
+          <motion.section id="problemes" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
+            <div className="mb-8">
+              <div className="inline-flex items-center gap-2 text-sm font-medium text-primary mb-3">
+                <Wrench className="w-4 h-4" />
+                <span>Guides par problématique</span>
+              </div>
+              <h2 className="text-4xl font-bold tracking-tight text-foreground mb-3 leading-tight">
+                Vos 4 problématiques,<br />
+                <span className="text-muted-foreground">analysées en détail.</span>
+              </h2>
+              <p className="text-lg text-muted-foreground">Chaque guide compare les logiciels sur une problématique spécifique à votre métier.</p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-4">
+              {problemes.map((p, i) => (
+                <motion.a
+                  key={p.slug}
+                  href={`/${data.slug}/${p.slug}`}
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.08 }}
+                  className="group flex items-center gap-4 bg-card border border-border rounded-xl p-5 hover:border-primary/40 hover-lift transition-colors"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-2xl flex-shrink-0 group-hover:bg-primary/20 transition-colors">
+                    {p.icon}
+                  </div>
+                  <div className="flex-1">
+                    <div className="font-semibold text-foreground group-hover:text-primary transition-colors">{p.label}</div>
+                    <div className="text-sm text-muted-foreground">Quel logiciel pour ce cas ?</div>
+                  </div>
+                  <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                </motion.a>
+              ))}
+            </div>
+          </motion.section>
+        )}
+
+        {/* COMPARATIF TABLE */}
         <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-card rounded-xl border border-border p-8 mb-16">
           <div className="mb-6">
-            <div className="inline-flex items-center space-x-2 text-sm font-medium text-muted-foreground mb-3">
-              <Eye className="w-4 h-4" /><span>Analyse détaillée spécifique aux {data.nomPluriel.toLowerCase()}</span>
+            <div className="inline-flex items-center gap-2 text-sm font-medium text-primary mb-3">
+              <Eye className="w-4 h-4" />
+              <span>Analyse spécifique aux {data.nomPluriel.toLowerCase()}</span>
             </div>
             <h2 className="text-3xl font-bold tracking-tight text-foreground mb-2">Comparatif technique</h2>
             <p className="text-muted-foreground">
-              {data.criteresComparatif.length} critères évalués spécifiquement pour les {data.nomPluriel.toLowerCase()}, avec commentaires détaillés pour chaque logiciel.
+              {data.criteresComparatif.length} critères évalués spécifiquement pour les {data.nomPluriel.toLowerCase()}.
             </p>
           </div>
-          <ComparisonTable 
-            criteres={data.criteresComparatif} 
+          <ComparisonTable
+            criteres={data.criteresComparatif}
             alternatives={data.alternatives}
             metierNom={data.nom}
           />
         </motion.section>
 
-        {/* CRITÈRES */}
+        {/* CRITÈRES ESSENTIELS */}
         <motion.section id="criteres" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
           <div className="mb-8">
-            <div className="inline-flex items-center space-x-2 text-sm font-medium text-muted-foreground mb-3">
-              <Target className="w-4 h-4" /><span>Ce qui compte vraiment pour vous</span>
+            <div className="inline-flex items-center gap-2 text-sm font-medium text-primary mb-3">
+              <Target className="w-4 h-4" />
+              <span>Ce qui compte vraiment pour vous</span>
             </div>
-            <h2 className="text-4xl font-bold tracking-tight text-foreground mb-4 leading-tight">Les 5 critères<br /><span className="text-muted-foreground">qui font la différence.</span></h2>
+            <h2 className="text-4xl font-bold tracking-tight text-foreground mb-3 leading-tight">
+              Les critères clés<br />
+              <span className="text-muted-foreground">qui font la différence.</span>
+            </h2>
           </div>
-          <div className="space-y-4">
-            {data.criteresEssentiels.map((critere, index) => (
-              <motion.div key={index} initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.1 }} className="bg-card rounded-xl border border-border p-6 hover-lift">
-                <div className="flex items-start space-x-4">
-                  <div className={`rounded-full w-10 h-10 flex items-center justify-center font-bold text-sm flex-shrink-0 ${critere.importance === 'critique' ? 'bg-red-500 text-white' : critere.importance === 'important' ? 'bg-orange-500 text-white' : 'bg-foreground text-background'}`}>
-                    {index + 1}
+          <div className="space-y-3">
+            {data.criteresEssentiels.map((critere, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08 }}
+                className="bg-card rounded-xl border border-border p-5 hover-lift flex items-start gap-4"
+              >
+                <div className={`rounded-xl w-10 h-10 flex items-center justify-center font-bold text-sm flex-shrink-0 ${
+                  critere.importance === 'critique' ? 'bg-red-500/10 text-red-500' :
+                  critere.importance === 'important' ? 'bg-primary/10 text-primary' :
+                  'bg-muted text-muted-foreground'
+                }`}>
+                  {i + 1}
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between mb-1">
+                    <h3 className="font-semibold text-foreground">{critere.titre}</h3>
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                      critere.importance === 'critique' ? 'bg-red-500/10 text-red-500' :
+                      critere.importance === 'important' ? 'bg-primary/10 text-primary' :
+                      'bg-muted text-muted-foreground'
+                    }`}>
+                      {critere.importance?.toUpperCase()}
+                    </span>
                   </div>
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="text-lg font-semibold text-foreground">{critere.titre}</h3>
-                      <span className={`text-xs font-medium px-2 py-1 rounded-full ${critere.importance === 'critique' ? 'bg-red-500/10 text-red-500' : critere.importance === 'important' ? 'bg-orange-500/10 text-orange-500' : 'bg-muted text-muted-foreground'}`}>
-                        {critere.importance === 'critique' ? 'CRITIQUE' : critere.importance === 'important' ? 'IMPORTANT' : 'UTILE'}
-                      </span>
-                    </div>
-                    <p className="text-muted-foreground leading-relaxed">{critere.description}</p>
-                  </div>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{critere.description}</p>
                 </div>
               </motion.div>
             ))}
           </div>
         </motion.section>
 
-        {/* AVIS VÉRIFIÉS (remplace l'ancien témoignage inventé) */}
+        {/* AVIS VÉRIFIÉS */}
         <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
           <div className="mb-8">
-            <div className="inline-flex items-center space-x-2 text-sm font-medium text-muted-foreground mb-3">
-              <Quote className="w-4 h-4" /><span>Avis vérifiés d'utilisateurs</span>
+            <div className="inline-flex items-center gap-2 text-sm font-medium text-primary mb-3">
+              <Quote className="w-4 h-4" />
+              <span>Avis sourcés — Trustpilot & G2</span>
             </div>
-            <h2 className="text-4xl font-bold tracking-tight text-foreground mb-4 leading-tight">Ce qu'en disent<br /><span className="text-muted-foreground">les vrais utilisateurs.</span></h2>
-            <p className="text-lg text-muted-foreground">Avis sourcés depuis Trustpilot et G2. Cliquez sur "Vérifier" pour voir l'avis original.</p>
+            <h2 className="text-4xl font-bold tracking-tight text-foreground mb-3 leading-tight">
+              Ce qu'en disent<br />
+              <span className="text-muted-foreground">les vrais utilisateurs.</span>
+            </h2>
           </div>
-
-          <div className="space-y-6">
+          <div className="space-y-4">
             {data.avisVerifies.map((avis, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="bg-card rounded-xl border border-border p-6"
+              >
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
+                      {avis.auteur.charAt(0)}
+                    </div>
+                    <div>
+                      <div className="font-semibold text-foreground text-sm">{avis.auteur}</div>
+                      <div className="text-xs text-muted-foreground">{avis.source} · {new Date(avis.date).toLocaleDateString('fr-FR')}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-0.5">
+                    {Array.from({ length: 5 }, (_, k) => (
+                      <Star key={k} className={`w-4 h-4 ${k < avis.note ? 'text-yellow-400 fill-yellow-400' : 'text-muted-foreground/30'}`} />
+                    ))}
+                  </div>
+                </div>
+                <p className="text-foreground leading-relaxed italic text-sm mb-3">"{avis.texte}"</p>
+                <a href={avis.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground underline">
+                  Vérifier l'avis <ExternalLink className="w-3 h-3" />
+                </a>
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
+
+        {/* ERREURS À ÉVITER */}
+        <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
+          <div className="mb-8">
+            <div className="inline-flex items-center gap-2 text-sm font-medium text-red-500 mb-3">
+              <AlertTriangle className="w-4 h-4" />
+              <span>Ce qu'on voit trop souvent</span>
+            </div>
+            <h2 className="text-4xl font-bold tracking-tight text-foreground mb-3 leading-tight">
+              3 erreurs classiques<br />
+              <span className="text-muted-foreground">à éviter absolument.</span>
+            </h2>
+          </div>
+          <div className="grid md:grid-cols-3 gap-5">
+            {data.erreursAEviter.map((erreur, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="bg-card rounded-xl border border-border p-6"
+                className="bg-card rounded-xl border border-border border-t-4 border-t-red-400 p-6"
               >
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center text-foreground font-bold text-lg">
-                      {avis.auteur.charAt(0)}
-                    </div>
-                    <div>
-                      <div className="font-semibold text-foreground">{avis.auteur}</div>
-                      <div className="text-sm text-muted-foreground">{avis.source} • {new Date(avis.date).toLocaleDateString('fr-FR')}</div>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-1">
-                    {Array.from({ length: 5 }, (_, k) => (
-                      <Star
-                        key={k}
-                        className={`w-4 h-4 ${k < avis.note ? 'text-yellow-500' : 'text-muted-foreground/30'}`}
-                        fill={k < avis.note ? 'currentColor' : 'none'}
-                      />
-                    ))}
-                  </div>
+                <div className="w-8 h-8 rounded-lg bg-red-500/10 flex items-center justify-center mb-3">
+                  <span className="text-red-500 font-bold text-sm">{i + 1}</span>
                 </div>
-                <p className="text-foreground leading-relaxed mb-4 italic">"{avis.texte}"</p>
-                <a
-                  href={avis.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground underline"
-                >
-                  Vérifier l'avis sur {avis.source}
-                  <ExternalLink className="w-3 h-3" />
-                </a>
-              </motion.div>
-            ))}
-          </div>
-        </motion.section>
-
-        {/* ERREURS */}
-        <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
-          <div className="mb-8">
-            <div className="inline-flex items-center space-x-2 text-sm font-medium text-muted-foreground mb-3">
-              <AlertTriangle className="w-4 h-4" /><span>Ce qu'on voit trop souvent</span>
-            </div>
-            <h2 className="text-4xl font-bold tracking-tight text-foreground mb-4 leading-tight">Les 3 erreurs classiques<br /><span className="text-muted-foreground">à éviter.</span></h2>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            {data.erreursAEviter.map((erreur, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="bg-card rounded-xl border border-border p-6">
-                <div className="w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center mb-4"><span className="text-red-500 font-bold">{i + 1}</span></div>
-                <h3 className="text-lg font-semibold text-foreground mb-3">{erreur.titre}</h3>
+                <h3 className="font-semibold text-foreground mb-2">{erreur.titre}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{erreur.description}</p>
               </motion.div>
             ))}
           </div>
         </motion.section>
 
-        {/* ROI */}
+        {/* ROI CALCULATOR */}
         <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
           <div className="mb-8 text-center">
-            <div className="inline-flex items-center space-x-2 text-sm font-medium text-muted-foreground mb-3">
-              <Calculator className="w-4 h-4" /><span>Calculateur personnalisé pour {data.nomPluriel.toLowerCase()}</span>
+            <div className="inline-flex items-center gap-2 text-sm font-medium text-primary mb-3">
+              <Calculator className="w-4 h-4" />
+              <span>Calculateur personnalisé</span>
             </div>
-            <h2 className="text-4xl font-bold tracking-tight text-foreground mb-4 leading-tight">Combien vous coûte<br /><span className="text-muted-foreground">votre admin actuelle ?</span></h2>
-            <p className="text-lg text-muted-foreground">
-              Les curseurs sont pré-remplis avec les moyennes observées chez les {data.nomPluriel.toLowerCase()} ({data.tauxHoraireMoyen}€/h, {data.tempsAdminParSemaine}h d'admin/semaine).
+            <h2 className="text-4xl font-bold tracking-tight text-foreground mb-3 leading-tight">
+              Combien vous coûte<br />
+              <span className="text-muted-foreground">votre admin actuelle ?</span>
+            </h2>
+            <p className="text-muted-foreground">
+              Pré-rempli avec les moyennes des {data.nomPluriel.toLowerCase()} ({data.tauxHoraireMoyen}€/h · {data.tempsAdminParSemaine}h d'admin/semaine).
             </p>
           </div>
-          <ROICalculator 
+          <ROICalculator
             tauxHoraireDefaut={data.tauxHoraireMoyen}
             tempsAdminDefaut={data.tempsAdminParSemaine}
             metierNom={data.nom}
@@ -321,90 +576,90 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
         {/* FAQ */}
         <motion.section id="faq" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
           <div className="mb-8 text-center">
-            <div className="inline-flex items-center space-x-2 text-sm font-medium text-muted-foreground mb-3">
-              <HelpCircle className="w-4 h-4" /><span>Questions spécifiques au métier</span>
+            <div className="inline-flex items-center gap-2 text-sm font-medium text-primary mb-3">
+              <HelpCircle className="w-4 h-4" />
+              <span>Questions fréquentes</span>
             </div>
-            <h2 className="text-4xl font-bold tracking-tight text-foreground mb-4 leading-tight">Vos questions,<br /><span className="text-muted-foreground">nos réponses.</span></h2>
+            <h2 className="text-4xl font-bold tracking-tight text-foreground mb-3 leading-tight">
+              Vos questions,<br />
+              <span className="text-muted-foreground">nos réponses.</span>
+            </h2>
           </div>
-          <div className="space-y-4">
+          <div className="space-y-3">
             {data.faqMetier.map((item, i) => (
-              <motion.details key={i} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }} className="group bg-card rounded-xl border border-border p-6 hover:border-foreground/20 transition-colors">
+              <motion.details
+                key={i}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.05 }}
+                className="group bg-card rounded-xl border border-border p-5 hover:border-primary/30 transition-colors"
+              >
                 <summary className="flex items-center justify-between cursor-pointer list-none">
-                  <h3 className="text-lg font-semibold text-foreground pr-4">{item.question}</h3>
-                  <ChevronRight className="w-5 h-5 text-muted-foreground group-open:rotate-90 transition-transform flex-shrink-0" />
+                  <h3 className="font-semibold text-foreground pr-4">{item.question}</h3>
+                  <ChevronRight className="w-5 h-5 text-muted-foreground group-open:rotate-90 transition-transform flex-shrink-0 text-primary" />
                 </summary>
-                <p className="mt-4 text-muted-foreground leading-relaxed">{item.reponse}</p>
+                <p className="mt-3 text-muted-foreground leading-relaxed text-sm">{item.reponse}</p>
               </motion.details>
             ))}
           </div>
         </motion.section>
 
-        {/* QUIZ */}
-        <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
-          <div className="mb-8 text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-foreground mb-4">Encore un doute ?</h2>
-            <p className="text-lg text-muted-foreground">3 questions pour confirmer votre choix en 30 secondes.</p>
-          </div>
-          <Quiz />
-        </motion.section>
-
-        {/* CROSS-SELL QONTO */}
-        <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-card rounded-xl border-2 border-yellow-500 p-8 mb-16">
-          <div className="flex items-start">
-            <div className="text-5xl mr-6">💳</div>
-            <div className="flex-1">
-              <h2 className="text-2xl font-bold text-foreground mb-4">N'oubliez pas votre compte pro</h2>
-              <p className="text-muted-foreground mb-6 leading-relaxed">Pour automatiser votre comptabilité avec {logiciels.obat.nom} ou {logiciels.axonaut.nom}, nous recommandons <strong className="text-foreground">Qonto</strong>. La synchronisation bancaire se fait en 1 clic.</p>
-              <a href="https://qonto.com/?ref=btp_compare" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-foreground text-background px-6 py-3 rounded-lg font-medium hover:opacity-90 transition-smooth">
-                Découvrir Qonto<ChevronRight className="w-4 h-4" />
-              </a>
-            </div>
+        {/* CTA FINAL */}
+        <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-primary rounded-2xl p-10 text-white text-center mb-16 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+          <div className="relative">
+            <h2 className="text-3xl font-bold mb-3">Encore un doute ?</h2>
+            <p className="text-white/80 mb-6">Notre quiz identifie le meilleur logiciel pour votre situation en 2 minutes.</p>
+            <a href="/#quiz" className="inline-flex items-center gap-2 bg-white text-primary px-8 py-3 rounded-lg font-semibold hover:bg-white/90 transition-all">
+              <Zap className="w-4 h-4" />
+              Faire le quiz gratuit
+            </a>
           </div>
         </motion.section>
 
         {/* RETOUR */}
-        <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center">
+        <div className="text-center">
           <a href="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground font-medium transition-smooth">
             <ArrowLeft className="w-4 h-4" />Voir tous les métiers
           </a>
-        </motion.section>
+        </div>
       </main>
 
       {/* FOOTER */}
       <footer className="border-t border-border mt-16 py-12">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-8 mb-12">
+          <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div className="md:col-span-2">
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="w-8 h-8 rounded-lg bg-foreground flex items-center justify-center text-background text-sm font-bold">B</div>
-                <div className="text-lg font-semibold text-foreground tracking-tight">BTP-Compare</div>
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white text-sm font-bold">B</div>
+                <div className="text-lg font-semibold text-foreground">BTP-Compare</div>
               </div>
-              <p className="text-sm text-muted-foreground leading-relaxed max-w-sm mb-4">Le comparateur indépendant des logiciels pour artisans du bâtiment.</p>
-              <p className="text-xs text-muted-foreground">Projet éditorial indépendant — Aucune participation financière des éditeurs.</p>
+              <p className="text-sm text-muted-foreground leading-relaxed max-w-sm mb-3">Comparateur indépendant de logiciels pour artisans du bâtiment. Analyses sourcées et vérifiables.</p>
             </div>
             <div>
               <h3 className="font-semibold text-foreground mb-4">Autres métiers</h3>
-              <ul className="space-y-2">
-                {metiers.filter(m => m.slug !== data.slug).map((m) => (
-                  <li key={m.slug}><a href={`/${m.slug}`} className="text-sm text-muted-foreground hover:text-foreground transition-smooth">Comparatif {m.nomPluriel}</a></li>
+              <ul className="space-y-1.5">
+                {metiers.filter(m => m.slug !== data.slug).slice(0, 8).map(m => (
+                  <li key={m.slug}>
+                    <a href={`/${m.slug}`} className="text-sm text-muted-foreground hover:text-foreground transition-smooth">{m.nom}</a>
+                  </li>
                 ))}
               </ul>
             </div>
             <div>
               <h3 className="font-semibold text-foreground mb-4">Informations</h3>
-              <ul className="space-y-2">
+              <ul className="space-y-1.5">
                 <li><a href="/legal/mentions-legales" className="text-sm text-muted-foreground hover:text-foreground transition-smooth">Mentions légales</a></li>
-                <li><a href="/legal/politique-confidentialite" className="text-sm text-muted-foreground hover:text-foreground transition-smooth">Politique de confidentialité</a></li>
-                <li><a href="/legal/cgu" className="text-sm text-muted-foreground hover:text-foreground transition-smooth">CGU</a></li>
-                <li><a href="/legal/cookies" className="text-sm text-muted-foreground hover:text-foreground transition-smooth">Cookies</a></li>
+                <li><a href="/legal/politique-confidentialite" className="text-sm text-muted-foreground hover:text-foreground transition-smooth">Confidentialité</a></li>
                 <li><a href="/legal/affiliation" className="text-sm text-muted-foreground hover:text-foreground transition-smooth">Transparence affiliation</a></li>
                 <li><a href="/legal/contact" className="text-sm text-muted-foreground hover:text-foreground transition-smooth">Contact</a></li>
               </ul>
             </div>
           </div>
-          <div className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="text-xs text-muted-foreground">© 2026 BTP-Compare.fr — Tous droits réservés</div>
-            <div className="text-xs text-muted-foreground">Fait avec soin à Rennes, France 🇫🇷</div>
+          <div className="pt-6 border-t border-border flex justify-between items-center">
+            <div className="text-xs text-muted-foreground">© 2026 BTP-Compare.fr</div>
+            <div className="text-xs text-muted-foreground">Rennes, France 🇫🇷</div>
           </div>
         </div>
       </footer>
