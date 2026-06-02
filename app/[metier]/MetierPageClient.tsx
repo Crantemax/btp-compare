@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ThemeToggle } from '../../components/theme-toggle';
 import { ComparisonTable } from '../../components/comparison-table';
@@ -74,11 +75,48 @@ const TAILLES = [
   { slug: 'pme-5-15', label: 'PME 5-15 pers.', icon: Building2, color: 'text-purple-600', bg: 'bg-purple-500/10', border: 'border-purple-500/30' },
 ];
 
-// Top 3 logiciels à recommander sur les pages métier
-const TOP_LOGICIELS = ['obat', 'axonaut', 'tolteck'];
-const TOP_LABELS = ['Pour artisans seuls', 'Pour équipes', 'Alternative BTP'];
+// ── Catégories des logiciels ───────────────────────────────────────────────────
+const LOGICIEL_CATEGORIES: Record<string, string> = {
+  obat: 'BTP Spécialisé', tolteck: 'BTP Spécialisé', progbat: 'BTP Spécialisé',
+  batigest: 'BTP Spécialisé', ebp: 'BTP Spécialisé', 'sage-100-btp': 'BTP Spécialisé',
+  axonaut: 'ERP Généraliste', sellsy: 'ERP Généraliste', holded: 'ERP Généraliste',
+  abby: 'Auto-entrepreneur', henrri: 'Auto-entrepreneur', freebe: 'Auto-entrepreneur',
+  'facture-net': 'Auto-entrepreneur', tiime: 'Auto-entrepreneur',
+  pennylane: 'Comptabilité', quickbooks: 'Comptabilité', 'zoho-invoice': 'Comptabilité',
+};
+const CATEGORY_STYLE: Record<string, { bg: string; text: string }> = {
+  'BTP Spécialisé':    { bg: 'bg-orange-500/10', text: 'text-orange-600 dark:text-orange-400' },
+  'ERP Généraliste':   { bg: 'bg-blue-500/10',   text: 'text-blue-600 dark:text-blue-400' },
+  'Auto-entrepreneur': { bg: 'bg-green-500/10',  text: 'text-green-600 dark:text-green-400' },
+  'Comptabilité':      { bg: 'bg-purple-500/10', text: 'text-purple-600 dark:text-purple-400' },
+};
+
+// ── Top 3 recommandés par métier ───────────────────────────────────────────────
+const METIER_TOP3: Record<string, string[]> = {
+  plombier:     ['obat', 'tolteck', 'axonaut'],
+  electricien:  ['obat', 'tolteck', 'axonaut'],
+  macon:        ['obat', 'progbat', 'batigest'],
+  couvreur:     ['obat', 'progbat', 'tolteck'],
+  menuisier:    ['obat', 'tolteck', 'axonaut'],
+  carreleur:    ['obat', 'tolteck', 'axonaut'],
+  peintre:      ['obat', 'axonaut', 'abby'],
+  chauffagiste: ['obat', 'progbat', 'axonaut'],
+  serrurier:    ['obat', 'axonaut', 'tolteck'],
+  plaquiste:    ['obat', 'progbat', 'tolteck'],
+  vitrier:      ['obat', 'tolteck', 'axonaut'],
+  etancheur:    ['obat', 'progbat', 'batigest'],
+  charpentier:  ['obat', 'progbat', 'batigest'],
+  zingueur:     ['obat', 'progbat', 'tolteck'],
+  terrassier:   ['progbat', 'batigest', 'obat'],
+  paysagiste:   ['obat', 'axonaut', 'tolteck'],
+  pisciniste:   ['obat', 'axonaut', 'tolteck'],
+  alarmiste:    ['axonaut', 'obat', 'sellsy'],
+  ascensoriste: ['batigest', 'axonaut', 'obat'],
+  facadier:     ['obat', 'progbat', 'tolteck'],
+};
+
 const TOP_COLORS = [
-  { border: 'border-green-500', badge: 'bg-green-500', btn: 'bg-green-500 hover:bg-green-600' },
+  { border: 'border-amber-400', badge: 'bg-amber-400', btn: 'bg-amber-500 hover:bg-amber-600' },
   { border: 'border-blue-500',  badge: 'bg-blue-500',  btn: 'bg-blue-500 hover:bg-blue-600' },
   { border: 'border-primary',   badge: 'bg-primary',   btn: 'bg-primary hover:bg-primary/90' },
 ];
@@ -101,7 +139,12 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
     );
   }
 
-  const topLogiciels = TOP_LOGICIELS.map(slug => allLogiciels.find(l => l.slug === slug)).filter(Boolean) as typeof allLogiciels;
+  const [activeTab, setActiveTab] = useState<string>('tous');
+  const topSlugs = METIER_TOP3[data.slug] ?? ['obat', 'axonaut', 'tolteck'];
+  const topLogiciels = topSlugs.map(slug => allLogiciels.find(l => l.slug === slug)).filter(Boolean) as typeof allLogiciels;
+  const filteredLogiciels = activeTab === 'tous'
+    ? allLogiciels
+    : allLogiciels.filter(l => LOGICIEL_CATEGORIES[l.slug] === activeTab);
   const problemes = PROBLEMES_PAR_METIER[data.slug] ?? [];
 
   return (
@@ -247,122 +290,219 @@ export function MetierPageClient({ metierSlug }: MetierPageClientProps) {
           </div>
         </motion.section>
 
-        {/* VERDICT — TOP 3 LOGICIELS */}
-        <motion.section id="verdict" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
-          <div className="mb-8">
+        {/* ═══ TOP 3 RECOMMANDÉS ══════════════════════════════════════════════ */}
+        <motion.section id="verdict" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-10">
+          <div className="mb-6">
             <div className="inline-flex items-center gap-2 text-sm font-medium text-primary mb-3">
               <Award className="w-4 h-4" />
               <span>Notre sélection pour les {data.nomPluriel.toLowerCase()}</span>
             </div>
-            <h2 className="text-4xl font-bold tracking-tight text-foreground mb-3 leading-tight">
+            <h2 className="text-4xl font-bold tracking-tight text-foreground mb-2 leading-tight">
               Top 3 logiciels,<br />
-              <span className="text-muted-foreground">selon votre profil.</span>
+              <span className="text-muted-foreground">selon votre métier.</span>
             </h2>
-            <p className="text-lg text-muted-foreground">Analyses basées sur la documentation officielle et les avis vérifiés.</p>
+            <p className="text-muted-foreground">Classement basé sur documentation officielle + avis vérifiés + pertinence métier.</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-5">
+          <div className="grid md:grid-cols-3 gap-5 mb-6">
             {topLogiciels.map((logiciel, i) => {
               const style = getLogoStyle(logiciel.logo);
               const initials = getInitials(logiciel.nom);
               const prix = formatPrix(logiciel.tarification.formules[0]?.prix ?? '');
-              const note = (logiciel.sources?.trustpilot || logiciel.sources?.g2)?.note;
+              const source = logiciel.sources?.trustpilot || logiciel.sources?.g2;
               const colors = TOP_COLORS[i];
+              const cat = LOGICIEL_CATEGORIES[logiciel.slug] ?? 'Autre';
+              const catStyle = CATEGORY_STYLE[cat] ?? CATEGORY_STYLE['ERP Généraliste'];
+              const MEDAL = ['🥇', '🥈', '🥉'];
               return (
-                <motion.div
-                  key={logiciel.slug}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  whileHover={{ y: -4 }}
-                  className={`relative bg-card rounded-xl border-2 ${colors.border} p-6 hover-lift flex flex-col`}
-                >
-                  {/* Badge profil */}
-                  <div className={`absolute -top-3 left-5 ${colors.badge} text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide`}>
-                    {TOP_LABELS[i]}
-                  </div>
-
-                  {/* Logo + nom */}
-                  <div className="flex items-center gap-3 mb-4 mt-2">
-                    <div className={`w-12 h-12 rounded-xl ${style.bg} flex items-center justify-center flex-shrink-0`}>
-                      <span className={`text-base font-bold ${style.text}`}>{initials}</span>
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-foreground">{logiciel.nom}</h3>
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-xs font-semibold text-primary">{prix}</span>
-                        {note && (
-                          <>
-                            <span className="text-muted-foreground/40">·</span>
-                            <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                            <span className="text-xs text-muted-foreground">{note}</span>
-                          </>
-                        )}
+                <motion.div key={logiciel.slug} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
+                  className={`relative bg-card rounded-xl border-2 ${colors.border} overflow-hidden flex flex-col`}>
+                  <div className="h-1 bg-gradient-to-r from-primary to-amber-400" />
+                  <div className="p-5 flex flex-col flex-1">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex items-center gap-2.5">
+                        <div className={`w-11 h-11 rounded-xl ${style.bg} flex items-center justify-center flex-shrink-0`}>
+                          <span className={`text-sm font-bold ${style.text}`}>{initials}</span>
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-base">{MEDAL[i]}</span>
+                            <h3 className="font-bold text-foreground">{logiciel.nom}</h3>
+                          </div>
+                          <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${catStyle.bg} ${catStyle.text}`}>{cat}</span>
+                        </div>
+                      </div>
+                      <div className="text-right flex-shrink-0">
+                        <div className="text-sm font-bold text-primary">{prix}</div>
+                        {source && <div className="flex items-center gap-0.5 justify-end text-xs text-muted-foreground"><Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />{source.note}</div>}
                       </div>
                     </div>
-                  </div>
-
-                  {/* Idéal pour */}
-                  <p className="text-xs text-muted-foreground mb-3 bg-accent rounded-lg px-3 py-2">
-                    <strong className="text-foreground">Idéal :</strong> {logiciel.idealPour?.split(',')[0]}
-                  </p>
-
-                  {/* Verdict métier */}
-                  <p className="text-sm text-muted-foreground leading-relaxed mb-4 flex-1">
-                    {i === 0 ? data.verdictObat : i === 1 ? data.verdictAxonaut : logiciel.pitch}
-                  </p>
-
-                  {/* Pro / Con */}
-                  <div className="space-y-1.5 mb-5 text-xs border-t border-border pt-4">
-                    <div className="flex items-start gap-2">
-                      <Check className="w-3.5 h-3.5 text-green-500 flex-shrink-0 mt-0.5" />
-                      <span className="text-muted-foreground">{logiciel.pointsForts[0]?.titre}</span>
+                    <p className="text-sm text-muted-foreground leading-relaxed mb-3 flex-1">{logiciel.pitch}</p>
+                    <div className="space-y-1 mb-3 text-xs">
+                      {logiciel.pointsForts.slice(0, 3).map((pf, j) => (
+                        <div key={j} className="flex items-start gap-1.5"><Check className="w-3.5 h-3.5 text-green-500 flex-shrink-0 mt-0.5" /><span>{pf.titre}</span></div>
+                      ))}
+                      {logiciel.pointsFaibles.slice(0, 1).map((pf, j) => (
+                        <div key={j} className="flex items-start gap-1.5"><X className="w-3.5 h-3.5 text-red-400 flex-shrink-0 mt-0.5" /><span className="text-muted-foreground">{pf.titre}</span></div>
+                      ))}
                     </div>
-                    <div className="flex items-start gap-2">
-                      <X className="w-3.5 h-3.5 text-red-400 flex-shrink-0 mt-0.5" />
-                      <span className="text-muted-foreground">{logiciel.pointsFaibles[0]?.titre}</span>
+                    <div className="flex gap-2 pt-3 border-t border-border">
+                      {logiciel.lienAffiliation ? (
+                        <a href={logiciel.lienAffiliation} target="_blank" rel="noopener sponsored"
+                          className={`flex-1 text-center py-2 rounded-lg text-white text-sm font-semibold transition-all ${colors.btn}`}>
+                          Essayer {logiciel.nom}
+                        </a>
+                      ) : (
+                        <a href={`/logiciels/${logiciel.slug}`} className="flex-1 text-center py-2 rounded-lg bg-muted text-foreground text-sm font-semibold hover:bg-muted/80 transition-all">
+                          Voir l'analyse
+                        </a>
+                      )}
+                      <a href={`/logiciels/${logiciel.slug}`} className="px-3 py-2 rounded-lg border border-border text-muted-foreground hover:text-foreground transition-all" title="Fiche détaillée">
+                        <Eye className="w-4 h-4" />
+                      </a>
                     </div>
-                  </div>
-
-                  {/* CTA */}
-                  <div className="flex gap-2">
-                    {logiciel.lienAffiliation ? (
-                      <a
-                        href={logiciel.lienAffiliation}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`flex-1 text-center py-2.5 rounded-lg text-white text-sm font-semibold transition-all ${colors.btn}`}
-                      >
-                        Essayer {logiciel.nom}
-                      </a>
-                    ) : (
-                      <a
-                        href={`/logiciels/${logiciel.slug}`}
-                        className="flex-1 text-center py-2.5 rounded-lg bg-accent text-foreground text-sm font-semibold hover:bg-accent/80 transition-all"
-                      >
-                        Voir l'analyse
-                      </a>
-                    )}
-                    <a
-                      href={`/logiciels/${logiciel.slug}`}
-                      className="px-3 py-2.5 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-all"
-                      title="Voir l'analyse complète"
-                    >
-                      <Eye className="w-4 h-4" />
-                    </a>
                   </div>
                 </motion.div>
               );
             })}
           </div>
+        </motion.section>
 
-          {/* Lien vers toutes les comparaisons */}
-          <div className="mt-6 text-center">
-            <a href="/comparer/obat-vs-axonaut" className="inline-flex items-center gap-2 text-sm text-primary hover:text-primary/80 font-medium transition-colors">
-              Voir la comparaison détaillée Obat vs Axonaut
-              <ArrowRight className="w-4 h-4" />
-            </a>
+        {/* ═══ COMPARATIF COMPLET — TOUS LES LOGICIELS ═══════════════════════ */}
+        <motion.section id="comparatif" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
+          <div className="mb-6">
+            <div className="inline-flex items-center gap-2 text-sm font-medium text-primary mb-3">
+              <Shield className="w-4 h-4" />
+              <span>Analyse indépendante et complète</span>
+            </div>
+            <h2 className="text-4xl font-bold tracking-tight text-foreground mb-2 leading-tight">
+              Tous les logiciels,<br />
+              <span className="text-muted-foreground">comparés sans filtre.</span>
+            </h2>
+            <p className="text-muted-foreground">{allLogiciels.length} logiciels analysés — points forts, points faibles et prix réels.</p>
+          </div>
+
+          {/* Onglets filtre */}
+          <div className="flex flex-wrap gap-2 mb-8">
+            {(['tous', 'BTP Spécialisé', 'ERP Généraliste', 'Auto-entrepreneur', 'Comptabilité'] as const).map(tab => {
+              const count = tab === 'tous' ? allLogiciels.length : allLogiciels.filter(l => LOGICIEL_CATEGORIES[l.slug] === tab).length;
+              const isActive = activeTab === tab;
+              return (
+                <button key={tab} onClick={() => setActiveTab(tab)}
+                  className={`px-4 py-2 rounded-full text-sm font-semibold transition-all ${
+                    isActive ? 'bg-primary text-white shadow-md shadow-primary/25' : 'bg-card border border-border text-muted-foreground hover:border-primary/40 hover:text-foreground'
+                  }`}>
+                  {tab === 'tous' ? `Tous (${count})` : `${tab} (${count})`}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Grille complète */}
+          <div className="grid md:grid-cols-2 gap-5">
+            {filteredLogiciels.map((logiciel) => {
+              const style = getLogoStyle(logiciel.logo);
+              const initials = getInitials(logiciel.nom);
+              const prix = formatPrix(logiciel.tarification.formules[0]?.prix ?? '');
+              const source = logiciel.sources?.trustpilot || logiciel.sources?.g2;
+              const cat = LOGICIEL_CATEGORIES[logiciel.slug] ?? 'Autre';
+              const catStyle = CATEGORY_STYLE[cat] ?? CATEGORY_STYLE['ERP Généraliste'];
+              const isTop = topSlugs.includes(logiciel.slug);
+              const topRank = topSlugs.indexOf(logiciel.slug);
+              const MEDAL = ['🥇', '🥈', '🥉'];
+
+              return (
+                <div key={logiciel.slug} className={`bg-card rounded-xl border overflow-hidden ${isTop ? 'border-primary/40 ring-1 ring-primary/10' : 'border-border'}`}>
+                  <div className={`h-1 ${isTop ? 'bg-gradient-to-r from-primary to-amber-400' : 'bg-border'}`} />
+                  <div className="p-5">
+                    {/* Header */}
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex items-center gap-3">
+                        <div className={`w-12 h-12 rounded-xl ${style.bg} flex items-center justify-center flex-shrink-0 relative`}>
+                          <span className={`text-sm font-bold ${style.text}`}>{initials}</span>
+                          {isTop && (
+                            <span className="absolute -top-1.5 -right-1.5 text-sm">{MEDAL[topRank]}</span>
+                          )}
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2 mb-1">
+                            <h3 className="font-bold text-foreground text-base">{logiciel.nom}</h3>
+                            {logiciel.lienAffiliation && (
+                              <span className="text-[9px] font-bold bg-green-500/10 text-green-600 dark:text-green-400 px-1.5 py-0.5 rounded-full">Lien affilié</span>
+                            )}
+                          </div>
+                          <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${catStyle.bg} ${catStyle.text}`}>{cat}</span>
+                        </div>
+                      </div>
+                      <div className="text-right flex-shrink-0 ml-2">
+                        <div className="text-sm font-bold text-primary mb-0.5">{prix}</div>
+                        {source && (
+                          <div className="flex items-center gap-0.5 justify-end">
+                            <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                            <span className="text-xs font-medium">{source.note}</span>
+                            <span className="text-xs text-muted-foreground">({source.nombreAvis})</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Pitch */}
+                    <p className="text-sm text-muted-foreground leading-relaxed mb-4">{logiciel.pitch}</p>
+
+                    {/* Points forts */}
+                    <div className="mb-3">
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-green-600 dark:text-green-400 mb-2">Points forts</p>
+                      <div className="space-y-1.5">
+                        {logiciel.pointsForts.slice(0, 3).map((pf, j) => (
+                          <div key={j} className="flex items-start gap-2 text-xs">
+                            <Check className="w-3.5 h-3.5 text-green-500 flex-shrink-0 mt-0.5" />
+                            <span className="text-foreground/90">{pf.titre} — <span className="text-muted-foreground">{pf.description}</span></span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Points faibles */}
+                    <div className="mb-4 pb-4 border-b border-border">
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-red-500 mb-2">Points faibles</p>
+                      <div className="space-y-1.5">
+                        {logiciel.pointsFaibles.slice(0, 2).map((pf, j) => (
+                          <div key={j} className="flex items-start gap-2 text-xs">
+                            <X className="w-3.5 h-3.5 text-red-400 flex-shrink-0 mt-0.5" />
+                            <span className="text-muted-foreground">{pf.titre} — {pf.description}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Idéal pour */}
+                    <p className="text-xs text-muted-foreground mb-4 bg-muted/50 rounded-lg px-3 py-2">
+                      <span className="font-semibold text-foreground">Idéal pour : </span>{logiciel.idealPour}
+                    </p>
+
+                    {/* CTA */}
+                    <div className="flex gap-2">
+                      {logiciel.lienAffiliation ? (
+                        <a href={logiciel.lienAffiliation} target="_blank" rel="noopener sponsored"
+                          className="flex-1 text-center bg-primary text-white text-sm font-semibold py-2.5 rounded-lg hover:bg-primary/90 transition-colors">
+                          Essayer {logiciel.nom} →
+                        </a>
+                      ) : (
+                        <a href={`/logiciels/${logiciel.slug}`}
+                          className="flex-1 text-center border border-border text-sm font-medium py-2.5 rounded-lg hover:bg-muted transition-colors">
+                          Voir l'analyse complète
+                        </a>
+                      )}
+                      <a href={`/logiciels/${logiciel.slug}`}
+                        className="px-3 py-2.5 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:border-primary/40 transition-colors"
+                        title="Fiche détaillée">
+                        <Eye className="w-4 h-4" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </motion.section>
 
