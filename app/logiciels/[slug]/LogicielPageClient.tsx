@@ -5,10 +5,30 @@ import { ThemeToggle } from '../../../components/theme-toggle';
 import { AffiliateDisclosure } from '../../../components/affiliate-disclosure';
 import { TransparencyBanner } from '../../../components/transparency-banner';
 import { logiciels } from '../../../data/logiciels';
-import { 
-  ArrowLeft, Check, X, Star, ExternalLink, 
+import {
+  ArrowLeft, Check, X, Star, ExternalLink,
   Shield, Clock, Zap, Users, ChevronRight
 } from 'lucide-react';
+
+// Initiales + couleur basée sur l'emoji-logo
+const LOGO_STYLES: Record<string, { bg: string; text: string }> = {
+  '🟢': { bg: 'bg-green-500/15',  text: 'text-green-700 dark:text-green-400' },
+  '🔵': { bg: 'bg-blue-500/15',   text: 'text-blue-700 dark:text-blue-400' },
+  '🟠': { bg: 'bg-orange-500/15', text: 'text-orange-600 dark:text-orange-400' },
+  '🟣': { bg: 'bg-purple-500/15', text: 'text-purple-700 dark:text-purple-400' },
+  '🔴': { bg: 'bg-red-500/15',    text: 'text-red-700 dark:text-red-400' },
+  '🟡': { bg: 'bg-yellow-500/15', text: 'text-yellow-700 dark:text-yellow-500' },
+  '🔷': { bg: 'bg-cyan-500/15',   text: 'text-cyan-700 dark:text-cyan-400' },
+  '🟤': { bg: 'bg-amber-700/15',  text: 'text-amber-800 dark:text-amber-400' },
+};
+function getLogoStyle(logo: string) {
+  return LOGO_STYLES[logo] ?? { bg: 'bg-primary/15', text: 'text-primary' };
+}
+function getInitials(nom: string): string {
+  const words = nom.trim().split(/[\s\-]+/);
+  if (words.length >= 2) return (words[0][0] + words[1][0]).toUpperCase();
+  return nom.slice(0, 2).toUpperCase();
+}
 
 interface LogicielPageClientProps {
   logicielSlug: string;
@@ -30,6 +50,16 @@ export function LogicielPageClient({ logicielSlug }: LogicielPageClientProps) {
 
   // Récupération de la source principale (Trustpilot en priorité, sinon G2)
   const sourcePrincipale = data.sources.trustpilot || data.sources.g2;
+  const logoStyle = getLogoStyle(data.logo);
+  const initials = getInitials(data.nom);
+  const prixCourt = (() => {
+    const prix = data.tarification.formules[0]?.prix ?? '';
+    if (!prix) return '—';
+    if (prix.startsWith('0€')) return 'Gratuit';
+    if (prix.toLowerCase().includes('sur devis')) return 'Sur devis';
+    const m = prix.match(/(\d+€(?:\/[a-zA-Zé]+(?:\/[a-zA-Zé]+)*)?)/);
+    return m ? `Dès ${m[1]}` : prix.split('(')[0].replace(/^À partir de\s*/i, 'Dès ').trim();
+  })();
 
   return (
     <div className="min-h-screen gradient-subtle">
@@ -68,9 +98,9 @@ export function LogicielPageClient({ logicielSlug }: LogicielPageClientProps) {
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="flex items-start space-x-6 mb-6">
-            {/* Logo dans un cercle coloré */}
-            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary/20 to-amber-400/20 border border-primary/20 flex items-center justify-center text-4xl flex-shrink-0 shadow-lg">
-              {data.logo}
+            {/* Logo — initiales colorées */}
+            <div className={`w-20 h-20 rounded-2xl ${logoStyle.bg} border border-border flex items-center justify-center flex-shrink-0 shadow-lg`}>
+              <span className={`text-3xl font-bold ${logoStyle.text}`}>{initials}</span>
             </div>
             <div>
               <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-foreground mb-2">{data.nom}</h1>
@@ -84,7 +114,7 @@ export function LogicielPageClient({ logicielSlug }: LogicielPageClientProps) {
               <span>{data.pays} • Depuis {data.anneeCreation}</span>
             </span>
             <span className="inline-flex items-center space-x-2 text-sm px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary font-medium">
-              <span>{data.tarification.formules[0]?.prix}</span>
+              <span>{prixCourt}</span>
             </span>
             {sourcePrincipale && (
               <a

@@ -16,6 +16,42 @@ import {
   BarChart3, Award, Layers
 } from 'lucide-react';
 
+// ─── Helpers visuels ─────────────────────────────────────────────────────────
+
+// Raccourcit le prix pour les badges (ex: "À partir de 89€/mois (à vérifier)" → "Dès 89€/mois")
+function formatPrix(prix: string): string {
+  if (!prix) return '—';
+  const lower = prix.toLowerCase();
+  if (lower.startsWith('0€') || lower === '0€/mois') return 'Gratuit';
+  if (prix.startsWith('0€')) return 'Gratuit';
+  if (lower.includes('sur devis')) return 'Sur devis';
+  const match = prix.match(/(\d+€(?:\/[a-zA-Zé]+(?:\/[a-zA-Zé]+)*)?)/);
+  if (match) return `Dès ${match[1]}`;
+  return prix.split('(')[0].replace(/^À partir de\s*/i, 'Dès ').trim();
+}
+
+// Initiales du logiciel (2 caractères max)
+function getInitials(nom: string): string {
+  const words = nom.trim().split(/[\s\-]+/);
+  if (words.length >= 2) return (words[0][0] + words[1][0]).toUpperCase();
+  return nom.slice(0, 2).toUpperCase();
+}
+
+// Couleur associée à l'emoji-logo
+const LOGO_STYLES: Record<string, { bg: string; text: string }> = {
+  '🟢': { bg: 'bg-green-500/15',  text: 'text-green-700 dark:text-green-400' },
+  '🔵': { bg: 'bg-blue-500/15',   text: 'text-blue-700 dark:text-blue-400' },
+  '🟠': { bg: 'bg-orange-500/15', text: 'text-orange-600 dark:text-orange-400' },
+  '🟣': { bg: 'bg-purple-500/15', text: 'text-purple-700 dark:text-purple-400' },
+  '🔴': { bg: 'bg-red-500/15',    text: 'text-red-700 dark:text-red-400' },
+  '🟡': { bg: 'bg-yellow-500/15', text: 'text-yellow-700 dark:text-yellow-500' },
+  '🔷': { bg: 'bg-cyan-500/15',   text: 'text-cyan-700 dark:text-cyan-400' },
+  '🟤': { bg: 'bg-amber-700/15',  text: 'text-amber-800 dark:text-amber-400' },
+};
+function getLogoStyle(logo: string) {
+  return LOGO_STYLES[logo] ?? { bg: 'bg-primary/15', text: 'text-primary' };
+}
+
 // Compteur animé
 function AnimatedCounter({ target, suffix = '', prefix = '' }: { target: number; suffix?: string; prefix?: string }) {
   const [count, setCount] = useState(0);
@@ -167,7 +203,9 @@ export default function HomePage() {
               <div className="relative">
                 <div className="absolute inset-0 bg-primary/5 rounded-3xl blur-3xl" />
                 <div className="relative space-y-3">
-                  {logiciels.slice(0, 5).map((l, i) => (
+                  {logiciels.slice(0, 5).map((l, i) => {
+                    const style = getLogoStyle(l.logo);
+                    return (
                     <motion.div
                       key={l.slug}
                       initial={{ opacity: 0, x: 30 }}
@@ -176,15 +214,16 @@ export default function HomePage() {
                       style={{ marginLeft: i * 16 }}
                       className="bg-card border border-border rounded-xl p-4 flex items-center gap-4 shadow-sm hover:border-primary/30 transition-colors"
                     >
-                      <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-xl flex-shrink-0">
-                        {l.logo}
+                      {/* Initiales colorées */}
+                      <div className={`w-10 h-10 rounded-lg ${style.bg} flex items-center justify-center flex-shrink-0`}>
+                        <span className={`text-sm font-bold ${style.text}`}>{getInitials(l.nom)}</span>
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="font-semibold text-sm text-foreground">{l.nom}</div>
                         <div className="text-xs text-muted-foreground truncate">{l.idealPour?.split(',')[0]}</div>
                       </div>
                       <div className="text-right flex-shrink-0">
-                        <div className="text-xs font-bold text-primary">{l.tarification.formules[0]?.prix}</div>
+                        <div className="text-xs font-bold text-primary">{formatPrix(l.tarification.formules[0]?.prix ?? '')}</div>
                         {(l.sources?.trustpilot || l.sources?.g2) && (
                           <div className="flex items-center gap-0.5 justify-end">
                             <Star className="w-2.5 h-2.5 fill-yellow-400 text-yellow-400" />
@@ -195,7 +234,8 @@ export default function HomePage() {
                         )}
                       </div>
                     </motion.div>
-                  ))}
+                    );
+                  })}
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -307,7 +347,12 @@ export default function HomePage() {
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {logiciels.map((logiciel, i) => (
+          {logiciels.map((logiciel, i) => {
+            const style = getLogoStyle(logiciel.logo);
+            const initials = getInitials(logiciel.nom);
+            const prixCourt = formatPrix(logiciel.tarification.formules[0]?.prix ?? '');
+            const note = (logiciel.sources?.trustpilot || logiciel.sources?.g2)?.note;
+            return (
             <motion.div
               key={logiciel.slug}
               initial={{ opacity: 0, y: 20 }}
@@ -319,21 +364,22 @@ export default function HomePage() {
                 href={`/logiciels/${logiciel.slug}`}
                 className="group block rounded-xl border border-border overflow-hidden hover-lift h-full bg-card hover:border-primary/40 transition-colors"
               >
-                {/* Barre orange en haut */}
-                <div className="h-1 w-full bg-gradient-to-r from-primary to-amber-400" />
+                {/* Barre de couleur en haut — couleur du logiciel */}
+                <div className={`h-1 w-full ${style.bg.replace('/15', '')} opacity-70`}
+                  style={{ background: 'linear-gradient(to right, var(--color-primary), #f59e0b)' }} />
 
                 <div className="p-5">
-                  {/* Logo + prix */}
+                  {/* Logo (initiales) + prix */}
                   <div className="flex items-start justify-between mb-4">
-                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-2xl group-hover:bg-primary/20 transition-colors">
-                      {logiciel.logo}
+                    <div className={`w-12 h-12 rounded-xl ${style.bg} flex items-center justify-center flex-shrink-0 transition-colors group-hover:opacity-80`}>
+                      <span className={`text-base font-bold ${style.text}`}>{initials}</span>
                     </div>
-                    <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-primary/10 text-primary">
-                      {logiciel.tarification.formules[0]?.prix}
+                    <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-primary/10 text-primary whitespace-nowrap">
+                      {prixCourt}
                     </span>
                   </div>
 
-                  {/* Nom + IdéalPour */}
+                  {/* Nom + meta */}
                   <h3 className="text-lg font-bold text-foreground mb-0.5">{logiciel.nom}</h3>
                   <p className="text-xs text-muted-foreground mb-3 line-clamp-1">
                     {logiciel.pays} · {logiciel.anneeCreation} · {logiciel.nombreUtilisateurs}
@@ -358,15 +404,13 @@ export default function HomePage() {
 
                   {/* Footer */}
                   <div className="pt-3 border-t border-border flex items-center justify-between">
-                    {(logiciel.sources?.trustpilot || logiciel.sources?.g2) && (
+                    {note ? (
                       <div className="flex items-center gap-1">
                         <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                        <span className="text-xs text-muted-foreground">
-                          {(logiciel.sources.trustpilot || logiciel.sources.g2)?.note}
-                        </span>
+                        <span className="text-xs text-muted-foreground">{note}</span>
                       </div>
-                    )}
-                    <div className="flex items-center text-sm font-medium text-foreground group-hover:text-primary transition-colors ml-auto">
+                    ) : <div />}
+                    <div className="flex items-center text-sm font-medium text-foreground group-hover:text-primary transition-colors">
                       Voir l'analyse
                       <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                     </div>
@@ -374,7 +418,8 @@ export default function HomePage() {
                 </div>
               </Link>
             </motion.div>
-          ))}
+            );
+          })}
         </div>
       </section>
 
@@ -417,13 +462,13 @@ export default function HomePage() {
                   href={`/${metier.slug}`}
                   className="group block bg-background rounded-xl border border-border overflow-hidden hover-lift hover:border-primary/40 transition-colors"
                 >
-                  <div className="relative h-28 overflow-hidden">
+                  <div className="relative h-28 overflow-hidden bg-gradient-to-br from-primary/40 to-primary/20">
                     <img
                       src={metier.image}
                       alt={metier.nom}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       onError={(e) => {
-                        (e.currentTarget as HTMLImageElement).style.display = 'none';
+                        (e.currentTarget as HTMLImageElement).style.opacity = '0';
                       }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
