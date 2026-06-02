@@ -1,16 +1,16 @@
 # BTP-Compare — Documentation projet pour Claude
 
 > Fichier de référence à lire en priorité à chaque session.
-> Mis à jour : juin 2026
+> Mis à jour : juin 2026 (session 2)
 
 ---
 
 ## 1. Présentation du projet
 
-**Objectif :** Site affilié comparateur de logiciels BTP. Générer des revenus via liens affiliés Obat et Axonaut (et futurs partenaires) en rankant sur Google pour des requêtes type "meilleur logiciel BTP [métier]", "logiciel devis [métier]", etc.
+**Objectif :** Site affilié comparateur de logiciels BTP. Revenus via liens affiliés (Obat, Axonaut, Abby, Tiime, Pennylane, Indy, Shine, Keobiz...) en rankant sur Google pour "meilleur logiciel BTP [métier]", "logiciel devis [métier]", etc.
 
-**URL prod :** https://btp-compare.fr  
-**Repo GitHub :** https://github.com/Crantemax/btp-compare  
+**URL prod :** https://btp-compare.fr
+**Repo GitHub :** https://github.com/Crantemax/btp-compare
 **Déploiement :** Vercel (auto-deploy sur push main)
 
 **Stack :**
@@ -18,8 +18,10 @@
 - TypeScript 5 strict
 - Tailwind CSS 3.4
 - Framer Motion 11
-- Brevo (capture leads uniquement — pas d'envoi email)
+- Brevo (capture leads uniquement — liste #3, pas d'envoi email)
 - Vercel Analytics + Speed Insights
+- Impact.com (réseau affilié — site vérifié avec meta tag `content`)
+- Affilae (réseau affilié FR — profil créé)
 
 ---
 
@@ -32,7 +34,7 @@
 /[metier]                       → Page métier (20 métiers)
 /[metier]/[probleme]            → Page problème (20 × 4 = 80 pages)
 /[metier]/taille/[taille]       → Page taille entreprise (20 × 4 = 80 pages)
-/legal/[slug]                   → Pages légales (mentions, CGU, etc.)
+/legal/[slug]                   → Pages légales
 ```
 
 **⚠️ Conflit de routes résolu :** `/[metier]/[probleme]` et `/[metier]/taille/[taille]` coexistent grâce au préfixe statique `/taille/`.
@@ -42,44 +44,41 @@
 ## 3. Données — fichiers clés
 
 ### `data/logiciels.ts`
-**17 logiciels** dans le tableau `logiciels: Logiciel[]` :
+**17 logiciels** dans `logiciels: Logiciel[]` :
 ```
 obat, axonaut, tolteck, progbat, batigest, ebp, sellsy,
 henrri, sage-100-btp, quickbooks, tiime, holded, freebe,
 zoho-invoice, facture-net, abby, pennylane
 ```
 
-**Interface TypeScript critique (ne pas se tromper) :**
+**Interface TypeScript critique :**
 ```typescript
 interface Logiciel {
   slug: string
   nom: string
   logo: string          // emoji couleur : 🟢🔵🟠🟣🔴🟡🔷🟤
-  lienAffiliation?: string  // lien affilié — OPTIONNEL
-  site: string          // site officiel direct (NE PAS utiliser pour CTA)
+  lienAffiliation?: string  // OPTIONNEL — toujours vérifier avant usage
+  site: string          // site officiel direct — NE PAS utiliser pour CTA
   pitch: string         // ← PAS description
   idealPour: string
   pointsForts: { titre: string; description: string; source: string; icone: string }[]
   pointsFaibles: { titre: string; description: string; source: string; icone: string }[]
   tarification: {
     formules: { nom: string; prix: string; idealPour: string; fonctionnalites: string[] }[]
-    // prix = texte long ex: "À partir de 89€/mois (à vérifier...)"
-    // → toujours utiliser formatPrix() pour l'afficher dans les cards
+    // prix = texte long → toujours utiliser formatPrix() pour afficher
   }
-  sources: {
-    trustpilot?: SourceAvis  // optionnel
-    g2?: SourceAvis          // optionnel
-  }
+  sources: { trustpilot?: SourceAvis; g2?: SourceAvis }
 }
 ```
 
-**Liens affiliés réels configurés :**
-- Obat : `https://obat.com/?ref=btp_compare`
-- Axonaut : `https://axonaut.com/?a=ADE1CH12F6`
-- Autres logiciels : `lienAffiliation` absent ou placeholder → **à compléter**
+**Liens affiliés configurés :**
+- Obat : `https://obat.com/?ref=btp_compare` ✅
+- Axonaut : `https://axonaut.com/?a=ADE1CH12F6` ✅
+- Abby, Tiime, Pennylane, Indy, Shine, Keobiz → **à récupérer sur Affilae/Impact et mettre à jour**
+- Autres : `lienAffiliation` absent → 0€ de revenu
 
 ### `data/metiers.ts`
-**20 métiers** dans le tableau `metiers: Metier[]` :
+**20 métiers** dans `metiers: Metier[]` :
 ```
 plombier, electricien, macon, couvreur, menuisier, carreleur,
 peintre, chauffagiste, serrurier, plaquiste, vitrier, etancheur,
@@ -87,27 +86,26 @@ charpentier, zingueur, terrassier, paysagiste, pisciniste,
 alarmiste, ascensoriste, facadier
 ```
 
+**⚠️ Import :** `import { metiers } from '../../data/metiers'` — ce fichier exporte aussi un objet `logiciels` legacy (obat/axonaut hardcodés) utilisé uniquement dans `comparison-table.tsx`. Ne pas confondre avec le tableau principal `logiciels` de `data/logiciels.ts`.
+
 ### `data/comparaisons.ts`
 **21 comparaisons** entre les 7 logiciels historiques (obat, axonaut, tolteck, progbat, batigest, ebp, sellsy).
 
 ---
 
-## 4. Helpers visuels — à réutiliser partout
-
-Ces fonctions existent dans `app/page.tsx` et `app/logiciels/[slug]/LogicielPageClient.tsx`. Les copier si besoin dans d'autres composants.
+## 4. Helpers visuels — copier dans chaque nouveau composant
 
 ```typescript
-// Raccourcit le prix pour les badges
+// Prix court pour badges : "À partir de 89€/mois (à vérifier...)" → "Dès 89€/mois"
 function formatPrix(prix: string): string {
   if (!prix) return '—';
   if (prix.startsWith('0€')) return 'Gratuit';
   if (prix.toLowerCase().includes('sur devis')) return 'Sur devis';
-  const match = prix.match(/(\d+€(?:\/[a-zA-Zé]+(?:\/[a-zA-Zé]+)*)?)/);
-  if (match) return `Dès ${match[1]}`;
-  return prix.split('(')[0].replace(/^À partir de\s*/i, 'Dès ').trim();
+  const m = prix.match(/(\d+€(?:\/[a-zA-Zé]+(?:\/[a-zA-Zé]+)*)?)/);
+  return m ? `Dès ${m[1]}` : prix.split('(')[0].replace(/^À partir de\s*/i, 'Dès ').trim();
 }
 
-// Initiales du nom (2 chars)
+// Initiales (2 chars) : "Sage 100 BTP" → "SB", "Obat" → "OB"
 function getInitials(nom: string): string {
   const words = nom.trim().split(/[\s\-]+/);
   if (words.length >= 2) return (words[0][0] + words[1][0]).toUpperCase();
@@ -125,198 +123,155 @@ const LOGO_STYLES: Record<string, { bg: string; text: string }> = {
   '🔷': { bg: 'bg-cyan-500/15',   text: 'text-cyan-700 dark:text-cyan-400' },
   '🟤': { bg: 'bg-amber-700/15',  text: 'text-amber-800 dark:text-amber-400' },
 };
+function getLogoStyle(logo: string) {
+  return LOGO_STYLES[logo] ?? { bg: 'bg-primary/15', text: 'text-primary' };
+}
 ```
 
 ---
 
 ## 5. Design system
 
-**Couleurs CSS (globals.css) — mode clair :**
+**Couleurs CSS (`--primary: 22 85% 48%` = orange BTP)**
+
+**Classes custom (globals.css) :**
 ```
---primary: 22 85% 48%      → orange BTP (#d4611a environ)
---background: 36 20% 98%   → blanc cassé
---foreground: 20 15% 8%    → presque noir
---card: 0 0% 100%          → blanc
---muted-foreground: 20 8% 46%  → gris moyen
---border: 30 12% 88%       → gris clair
+.hover-lift        .glass-subtle      .gradient-subtle
+.gradient-mesh     .transition-smooth .card-base
+.heading-editorial
 ```
 
-**Classes utilitaires custom (globals.css) :**
-```
-.hover-lift          → translateY(-2px) + shadow au hover
-.glass-subtle        → backdrop-blur léger
-.gradient-subtle     → bg basique (= background)
-.gradient-mesh       → variante avec légère texture
-.transition-smooth   → transition 0.18s cubic-bezier
-.card-base           → bg-card + border + radius + hover
-.heading-editorial   → Instrument Serif, grands titres
-```
-
-**Fonts :**
-- Corps : DM Sans (300/400/500/600)
-- Titres éditoriaux : Instrument Serif (400 normal + italic)
-
-**Patterns de card récurrents :**
+**Patterns récurrents :**
 ```tsx
-// Card logiciel avec barre couleur
-<div className="rounded-xl border border-border overflow-hidden bg-card hover-lift">
+// Card logiciel
+<div className="rounded-xl border border-border overflow-hidden bg-card hover-lift hover:border-primary/40">
   <div className="h-1 bg-gradient-to-r from-primary to-amber-400" />
-  <div className="p-5">...</div>
+  <div className="p-5">
+    <div className={`w-12 h-12 rounded-xl ${style.bg} flex items-center justify-center`}>
+      <span className={`text-base font-bold ${style.text}`}>{initials}</span>
+    </div>
+    <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-primary/10 text-primary">
+      {formatPrix(prix)}
+    </span>
+  </div>
 </div>
 
-// Logo initiales colorées
-<div className={`w-12 h-12 rounded-xl ${style.bg} flex items-center justify-center`}>
-  <span className={`text-base font-bold ${style.text}`}>{initials}</span>
-</div>
+// CTA principal
+<a href={lienAffiliation} className="bg-primary text-white px-8 py-4 rounded-lg font-semibold hover:bg-primary/90 shadow-lg shadow-primary/25">
 
-// Badge prix
-<span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-primary/10 text-primary">
-  {formatPrix(prix)}
-</span>
+// CTA final section
+<section className="bg-primary rounded-2xl p-12 text-white relative overflow-hidden">
+  <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
 ```
 
 ---
 
-## 6. Pages taille entreprise (`/[metier]/taille/[taille]`)
+## 6. Pages métier (`/[metier]`) — structure actuelle
 
-**4 tailles :** `auto-entrepreneur` · `artisan-seul` · `equipe-2-5` · `pme-5-15`
+**Sections dans l'ordre :**
+1. Hero : image pleine + gradient overlay + breadcrumb + stats pills
+2. Navigation taille : 4 boutons colorés → `/[metier]/taille/[taille]`
+3. Intro + Quotidien (2 colonnes)
+4. Verdict Top 3 : Obat / Axonaut / Tolteck (depuis `data/logiciels.ts`)
+5. Problématiques : 4 cards emoji → `/[metier]/[probleme]`
+6. Comparatif table (`ComparisonTable` component)
+7. Critères essentiels
+8. Avis vérifiés
+9. Erreurs à éviter
+10. ROI Calculator
+11. FAQ accordion
+12. CTA orange → Quiz
 
-Données dans `TaillePageClient.tsx` — objet `TAILLE_DATA` avec pour chaque combinaison métier/taille :
-- `besoins[]` — liste des besoins spécifiques
-- `budget` — fourchette budget
-- `logicielsRecommandes[]` — 3 slugs de logiciels
-
----
-
-## 7. Pages problèmes (`/[metier]/[probleme]`)
-
-**4 problèmes par métier.** Définis dans `PROBLEMES_PAR_METIER` (page.tsx du problème) :
-
-```typescript
-plombier:      ['depannage-urgent', 'salle-de-bain', 'chauffage', 'tva-10-pourcent']
-electricien:   ['nfc-15-100', 'domotique', 'bornes-irve', 'tableaux-electriques']
-macon:         ['situations-travaux', 'compte-prorata', 'extensions', 'murs-porteurs']
-couvreur:      ['toitures-complexes', 'zinguerie', 'decennale', 'calculs-surface']
-menuisier:     ['sur-mesure', 'escaliers', 'fenetres', 'agencement']
-carreleur:     ['carrelage-grand-format', 'devis-metrage', 'sous-traitance', 'salle-de-bain']
-peintre:       ['devis-colorimetrie', 'multi-corps', 'ravalement', 'sous-traitants']
-chauffagiste:  ['pac-chaudiere', 'maintenance-contrats', 'qualification-rge', 'subventions']
-serrurier:     ['depannage-urgent', 'serrures-haute-securite', 'coffres-forts', 'controle-acces']
-plaquiste:     ['cloisons', 'faux-plafonds', 'isolation', 'enduits']
-vitrier:       ['vitrages-doubles', 'miroirs', 'urgences-casse', 'stores']
-etancheur:     ['toitures-terrasses', 'fondations', 'parkings', 'diagnostics']
-charpentier:   ['charpentes-traditionnelles', 'ossature-bois', 'renovation', 'calculs-structure']
-zingueur:      ['gouttières', 'descentes-ep', 'couvertines', 'zinguerie-ornementale']
-terrassier:    ['vrd', 'fondations', 'assainissement', 'terrains-en-pente']
-paysagiste:    ['jardins-creation', 'terrasses-exterieur', 'irrigation', 'contrats-entretien']
-pisciniste:    ['construction-piscine', 'renovation-liner', 'equipements', 'maintenance']
-alarmiste:     ['alarmes-intrusion', 'videoprotection', 'controle-acces', 'domotique']
-ascensoriste:  ['installation', 'maintenance', 'modernisation', 'conformite-reglementaire']
-facadier:      ['ravalement', 'isolation-exterieure', 'peinture-exterieure', 'nettoyage']
-```
+**Top 3 hardcodés :** `['obat', 'axonaut', 'tolteck']` avec labels `['Pour artisans seuls', 'Pour équipes', 'Alternative BTP']`
 
 ---
 
-## 8. Composants importants
+## 7. Composant `ComparisonTable`
 
-```
-components/
-  analytics.tsx         → retourne null (Plausible supprimé, remplacé par Vercel)
-  affiliate-disclosure.tsx → retourne null (mention dans footer layout)
-  transparency-banner.tsx  → retourne null (idem)
-  exit-intent.tsx       → popup exit-intent avec LeadForm
-  lead-form.tsx         → formulaire Brevo (honeypot + rate limiting)
-  quiz.tsx              → quiz 7 questions → recommandation logiciel
-  roi-calculator.tsx    → calculateur ROI temps admin
-  theme-toggle.tsx      → dark/light mode
-```
-
-**API Routes :**
-```
-app/api/leads/route.ts  → POST : capture lead → Brevo liste #3
-                          Rate limit : 5 req/min/IP (in-memory)
-                          Honeypot : champ "website" caché
-```
-
-**Variables d'env Vercel à configurer :**
-```
-BREVO_API_KEY=xsmtpsib-...   (⚠️ clé exposée dans chat, à régénérer)
-BREVO_LIST_ID=3
-```
+Fichier : `components/comparison-table.tsx`
+- Importe `logiciels` depuis `data/metiers` (objet legacy avec obat/axonaut)
+- `NoteDisplay` : 5 cercles colorés (w-3 h-3) + label texte (Absent/Faible/Moyen/Correct/Bon/Excellent)
+- Scores globaux pondérés (essentiel ×3, important ×2, confort ×1)
+- Slider taille équipe avec calcul prix dynamique
 
 ---
 
-## 9. Analytics en place
+## 8. Sitemap (`app/sitemap.ts`)
 
-| Outil | Ce qu'il mesure | Dashboard |
-|---|---|---|
-| Vercel Analytics | Page views, visiteurs, pays | vercel.com → project → Analytics |
-| Vercel Speed Insights | Core Web Vitals (LCP, CLS, FID) | vercel.com → project → Speed Insights |
-| Google Search Console | Indexation, mots-clés, clics SEO | search.google.com/search-console |
+BASE_URL = `https://btp-compare.fr` (sans www — correspond à la propriété Search Console)
+**~220 URLs** : home + 20 métiers + 80 problèmes + 80 tailles + 17 logiciels + 21 comparaisons
+
+**⚠️ Slug zingueur :** `gouttieres` (sans accent) dans le sitemap
+
+---
+
+## 9. Analytics & SEO
+
+| Outil | Dashboard |
+|---|---|
+| Vercel Analytics | vercel.com → Analytics |
+| Vercel Speed Insights | vercel.com → Speed Insights |
+| Google Search Console | Sitemap soumis : `https://btp-compare.fr/sitemap.xml` |
+| Impact.com | Site vérifié (meta `impact-site-verification` avec `content=`) |
+| Affilae | Profil créé, catégories SaaS BTP |
 
 ---
 
 ## 10. État des tâches
 
 ### ✅ Fait
-- [x] 17 logiciels avec fiches complètes
-- [x] 21 comparaisons A vs B
-- [x] 20 métiers avec pages complètes
-- [x] 80 pages problèmes (20 × 4)
-- [x] 80 pages taille entreprise (20 × 4)
-- [x] Sitemap dynamique (app/sitemap.ts)
-- [x] Lead capture Brevo (liste #3)
-- [x] Exit-intent popup centré
-- [x] Quiz 7 questions
-- [x] ROI Calculator
+- [x] 17 logiciels, 20 métiers, 21 comparaisons, 80 pages problèmes, 80 pages taille
+- [x] Sitemap 220 URLs soumis à Google Search Console
+- [x] Lead capture Brevo (liste #3) + exit-intent + quiz + ROI calculator
 - [x] Vercel Analytics + Speed Insights
-- [x] Design : cards initiales colorées, prix formatés, images métiers fallback
-- [x] Mention affilié légale ARPP dans footer global
-- [x] Seul bouton CTA = lienAffiliation (site officiel supprimé)
+- [x] Impact.com vérifié + Affilae profil créé
+- [x] Pages métier refaites : hero image pleine, Top 3 logiciels, 4 problématiques, 4 tailles
+- [x] Cards logiciels : initiales colorées, formatPrix, barre orange
+- [x] NoteDisplay : cercles visibles + labels (Faible/Moyen/Correct/Bon)
+- [x] Images métiers : 6 photos corrigées (électricien, carreleur, plaquiste, étancheur, zingueur, ascensoriste)
+- [x] Mention affilié ARPP dans footer global
+- [x] CLAUDE.md documentation complète
 
-### ❌ Priorité haute
-- [ ] **Liens affiliés manquants** — 15 logiciels sur 17 n'ont pas de vrai `lienAffiliation` (ou placeholder) → 0€ de revenu possible sans ça
-- [ ] **Sitemap soumis à Google Search Console** — sans ça les 200 pages ne sont pas indexées
-- [ ] **Clé Brevo à régénérer** — ancienne clé exposée dans l'historique de chat
+### ❌ Priorité haute — bloquant pour les revenus
+- [ ] **Liens affiliés** — récupérer sur Affilae/Impact : Abby, Tiime, Pennylane, Indy, Shine, Keobiz, Tolteck, Progbat, EBP, Sellsy → mettre dans `data/logiciels.ts`
+- [ ] **Clé Brevo à régénérer** — ancienne clé exposée dans historique de chat
 
 ### ⚠️ Priorité moyenne
-- [ ] Lead magnet PDF "Les 5 erreurs à éviter" — référencé dans exit-intent mais fichier inexistant
-- [ ] Nouvelles comparaisons incluant les 10 nouveaux logiciels (henrri, quickbooks, pennylane, etc.)
-- [ ] Pages blog/articles pour mots-clés de tête ("logiciel BTP gratuit", etc.)
-- [ ] Maillage interne entre pages logiciels ↔ métiers ↔ comparaisons
+- [ ] Lead magnet PDF "Les 5 erreurs à éviter" — référencé dans exit-intent, fichier inexistant
+- [ ] Nouvelles comparaisons avec les 10 nouveaux logiciels
+- [ ] Breadcrumb SEO sur toutes les pages
 
 ### 💡 Idées futures
-- [ ] Pages taille pour les 10 nouveaux logiciels dans les recommandations
-- [ ] Avis utilisateurs réels (formulaire de témoignage)
-- [ ] Fil d'Ariane (breadcrumb) pour le SEO
+- [ ] Pages blog pour mots-clés tête ("logiciel BTP gratuit", "logiciel devis artisan")
+- [ ] Avis utilisateurs réels (formulaire)
 - [ ] Schema.org Product + Review pour rich snippets Google
 
 ---
 
 ## 11. Conventions de code
 
-**TypeScript :**
-- Toujours utiliser les propriétés exactes de `Logiciel` : `pitch` (pas `description`), `pointsForts[].titre` (pas `points_forts`), `tarification.formules[0].prix` (pas `prix_indicatif`)
-- `lienAffiliation` est optionnel (`?`) → toujours vérifier avant utilisation
+```typescript
+// Toujours — propriétés exactes Logiciel
+logiciel.pitch           // ← PAS .description
+logiciel.pointsForts[0].titre  // ← PAS .points_forts
+logiciel.tarification.formules[0].prix  // ← PAS .prix_indicatif
+logiciel.lienAffiliation  // vérifier undefined avant usage
 
-**Commits :**
-- Style : `git commit -m "$(cat <<'EOF' ... EOF)"` avec HEREDOC
-- Co-author systématique : `Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>`
+// Commits
+git commit -m "$(cat <<'EOF'\n...\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>\nEOF\n)"
 
-**Git :**
-- Si `git push` rejeté (remote divergé) → `git pull --rebase origin main` puis `git push`
+// Si push rejeté
+git pull --rebase origin main && git push origin main
 
-**Imports dans les pages App Router :**
-- Pages logiciel : `import { logiciels } from '../../../data/logiciels'`
-- Pages métier : `import { metiers } from '../../data/metiers'`
-- Pas de `'use client'` sur les `page.tsx` (sont des Server Components) — `'use client'` uniquement sur les `*PageClient.tsx`
+// 'use client' uniquement sur *PageClient.tsx, pas sur page.tsx
+```
 
 ---
 
-## 12. Notes importantes
+## 12. Pièges connus
 
-- **`data.site`** = site officiel direct → NE PAS utiliser pour les CTAs (perte de tracking affilié)
-- **`data.lienAffiliation`** = lien affilié → TOUJOURS utiliser pour tous les boutons "Essayer", "Tester"
-- Le composant `<Analytics />` de `components/analytics.tsx` retourne `null` — Plausible a été supprimé
-- Les composants `<TransparencyBanner />` et `<AffiliateDisclosure />` retournent `null` — remplacés par une seule mention dans le footer de `layout.tsx`
-- La barre orange en haut de `LogicielPageClient` est `fixed z-[60]` pour passer au-dessus du header `z-50`
+- `data.site` ≠ `data.lienAffiliation` — utiliser UNIQUEMENT `lienAffiliation` pour les CTAs
+- `logiciels` exporté depuis `data/metiers.ts` = objet legacy `{obat, axonaut}` ≠ tableau `logiciels[]` de `data/logiciels.ts`
+- Barre orange dans LogicielPageClient = `fixed z-[60]` (au-dessus du header `z-50`)
+- `<Analytics />`, `<TransparencyBanner />`, `<AffiliateDisclosure />` retournent `null` — ne pas s'étonner
+- Meta tag Impact.com : attribut `content=` (pas `value=` — TypeScript rejette `value`)
