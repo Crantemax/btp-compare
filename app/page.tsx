@@ -85,9 +85,9 @@ const COMPARAISONS_PHARES = [
   { slug: 'obat-vs-axonaut', titre: 'Obat vs Axonaut', desc: 'Le spécialiste BTP face au généraliste tout-en-un', badge: '⭐ Le plus lu' },
   { slug: 'obat-vs-tolteck', titre: 'Obat vs Tolteck', desc: 'Deux solutions 100% BTP en détail', badge: null },
   { slug: 'obat-vs-batigest', titre: 'Obat vs Batigest', desc: 'Moderne vs solution historique', badge: null },
-  { slug: 'axonaut-vs-henrri', titre: 'Axonaut vs Henrri', desc: 'ERP complet face au freemium', badge: '🆕 Nouveau' },
-  { slug: 'obat-vs-quickbooks', titre: 'Obat vs QuickBooks', desc: 'BTP spécialisé vs comptabilité générale', badge: null },
-  { slug: 'obat-vs-pennylane', titre: 'Obat vs Pennylane', desc: 'Devis chantier vs comptabilité temps réel', badge: null },
+  { slug: 'axonaut-vs-tolteck', titre: 'Axonaut vs Tolteck', desc: 'ERP tout-en-un face au spécialiste BTP', badge: null },
+  { slug: 'obat-vs-ebp', titre: 'Obat vs EBP', desc: 'Solution moderne vs logiciel historique', badge: null },
+  { slug: 'axonaut-vs-sellsy', titre: 'Axonaut vs Sellsy', desc: 'Deux ERP généralistes en comparaison', badge: null },
 ];
 
 export default function HomePage() {
