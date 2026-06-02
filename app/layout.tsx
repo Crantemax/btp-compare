@@ -97,6 +97,7 @@ export default function RootLayout({
       <head>
         <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)" />
         <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+        <meta name="impact-site-verification" value="b605a696-fd11-4171-b856-17d60e6dd3fb" />
       </head>
       <body className="antialiased">
         <ThemeProvider defaultTheme="system" storageKey="btp-compare-theme">
