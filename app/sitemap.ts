@@ -2,10 +2,13 @@ import { MetadataRoute } from 'next';
 import { metiers } from '../data/metiers';
 import { logiciels } from '../data/logiciels';
 import { comparaisons } from '../data/comparaisons';
+import { articles } from '../data/articles';
 
 const BASE_URL = 'https://btp-compare.fr';
 
 const TAILLES = ['auto-entrepreneur', 'artisan-seul', 'equipe-2-5', 'pme-5-15'];
+
+const VILLES = ['paris', 'lyon', 'marseille', 'toulouse', 'bordeaux', 'nantes', 'lille', 'strasbourg', 'nice', 'rennes'];
 
 const PROBLEMES_PAR_METIER: Record<string, string[]> = {
   plombier:      ['depannage-urgent', 'salle-de-bain', 'chauffage', 'tva-10-pourcent'],
@@ -31,17 +34,21 @@ const PROBLEMES_PAR_METIER: Record<string, string[]> = {
 };
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  // Homepage
-  const home: MetadataRoute.Sitemap = [
-    {
-      url: BASE_URL,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 1.0,
-    },
+  // Homepage + blog index
+  const staticUrls: MetadataRoute.Sitemap = [
+    { url: BASE_URL, lastModified: new Date(), changeFrequency: 'weekly', priority: 1.0 },
+    { url: `${BASE_URL}/blog`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
   ];
 
-  // Pages métiers
+  // Articles blog (5 articles)
+  const articleUrls: MetadataRoute.Sitemap = articles.map(article => ({
+    url: `${BASE_URL}/blog/${article.slug}`,
+    lastModified: new Date(article.dateModification),
+    changeFrequency: 'monthly' as const,
+    priority: 0.7,
+  }));
+
+  // Pages métiers (20)
   const metierUrls: MetadataRoute.Sitemap = metiers.map((metier) => ({
     url: `${BASE_URL}/${metier.slug}`,
     lastModified: new Date(),
@@ -49,7 +56,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.9,
   }));
 
-  // Pages problèmes (20 × 4 = 80 pages)
+  // Pages problèmes (20 × 4 = 80)
   const problemeUrls: MetadataRoute.Sitemap = Object.entries(PROBLEMES_PAR_METIER).flatMap(
     ([metier, problemes]) =>
       problemes.map((probleme) => ({
@@ -60,7 +67,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       }))
   );
 
-  // Pages taille entreprise (20 × 4 = 80 pages)
+  // Pages taille entreprise (20 × 4 = 80)
   const tailleUrls: MetadataRoute.Sitemap = metiers.flatMap((metier) =>
     TAILLES.map((taille) => ({
       url: `${BASE_URL}/${metier.slug}/taille/${taille}`,
@@ -70,7 +77,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }))
   );
 
-  // Pages logiciels (17 pages)
+  // Pages villes (20 métiers × 10 villes = 200)
+  const villeUrls: MetadataRoute.Sitemap = metiers.flatMap((metier) =>
+    VILLES.map((ville) => ({
+      url: `${BASE_URL}/${metier.slug}/ville/${ville}`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    }))
+  );
+
+  // Pages logiciels (17)
   const logicielUrls: MetadataRoute.Sitemap = logiciels.map((logiciel) => ({
     url: `${BASE_URL}/logiciels/${logiciel.slug}`,
     lastModified: new Date(),
@@ -78,7 +95,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.9,
   }));
 
-  // Pages comparaisons (21 pages)
+  // Pages comparaisons 1v1 (21)
   const comparaisonUrls: MetadataRoute.Sitemap = Object.keys(comparaisons).map((slug) => ({
     url: `${BASE_URL}/comparer/${slug}`,
     lastModified: new Date(),
@@ -87,10 +104,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   return [
-    ...home,
+    ...staticUrls,
+    ...articleUrls,
     ...metierUrls,
     ...problemeUrls,
     ...tailleUrls,
+    ...villeUrls,
     ...logicielUrls,
     ...comparaisonUrls,
   ];

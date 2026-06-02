@@ -122,6 +122,9 @@ export default function HomePage() {
               <Link href="#quiz" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-smooth">
                 Quiz
               </Link>
+              <Link href="/blog" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-smooth">
+                Blog
+              </Link>
             </nav>
 
             <ThemeToggle />
