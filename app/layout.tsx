@@ -23,7 +23,7 @@ const dmSans = DM_Sans({
 });
 
 export const metadata = {
-  metadataBase: new URL('https://btp-compare.fr'),
+  metadataBase: new URL('https://www.btp-compare.fr'),
   title: {
     default: 'BTP-Compare — Comparateur indépendant de logiciels pour artisans du bâtiment',
     template: '%s | BTP-Compare',
