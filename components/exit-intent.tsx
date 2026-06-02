@@ -49,15 +49,16 @@ export function ExitIntent({ enabled = true, source = 'exit_intent' }: ExitInten
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={handleClose}
-            className="fixed inset-0 bg-black/40 z-40"
+            className="fixed inset-0 bg-black/50 z-40"
           />
 
-          {/* Modal */}
+          {/* Overlay centré avec flex */}
+          <div className="fixed inset-0 z-50 flex items-center justify-center px-4 pointer-events-none">
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md z-50 px-4"
+            className="w-full max-w-md pointer-events-auto"
           >
             <div className="bg-card border border-border rounded-2xl shadow-2xl p-6 space-y-4">
               {/* Header */}
@@ -108,6 +109,7 @@ export function ExitIntent({ enabled = true, source = 'exit_intent' }: ExitInten
               </button>
             </div>
           </motion.div>
+          </div>
         </>
       )}
     </AnimatePresence>

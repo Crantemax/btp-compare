@@ -102,6 +102,13 @@ export default function RootLayout({
           <Analytics />
           {children}
           <ExitIntent source="page_metier" />
+          {/* Mention légale affilié — obligatoire ARPP, une seule fois */}
+          <div className="border-t border-border/40 py-3 text-center">
+            <p className="text-xs text-muted-foreground/60 max-w-2xl mx-auto px-4">
+              Ce site contient des liens affiliés. Si vous souscrivez à un logiciel via nos liens, nous percevons une commission sans surcoût pour vous.{' '}
+              Nos analyses restent indépendantes — nous publions systématiquement les points faibles.
+            </p>
+          </div>
         </ThemeProvider>
       </body>
     </html>
