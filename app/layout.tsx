@@ -73,10 +73,26 @@ export const metadata = {
       'max-snippet': -1,
     },
   },
-  verification: {
-    google: 'à-remplir-avec-google-search-console',
-  },
   category: 'technology',
+};
+
+// Schemas globaux — identité du site (sitelinks + Knowledge Graph Google)
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'BTP-Compare',
+  url: 'https://btp-compare.fr',
+  logo: 'https://btp-compare.fr/opengraph-image',
+  description: 'Comparateur indépendant de logiciels pour artisans du bâtiment.',
+  areaServed: 'FR',
+};
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'BTP-Compare',
+  url: 'https://btp-compare.fr',
+  inLanguage: 'fr-FR',
 };
 
 export default function RootLayout({
@@ -90,6 +106,8 @@ export default function RootLayout({
         <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)" />
         <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
         <meta name="impact-site-verification" content="b605a696-fd11-4171-b856-17d60e6dd3fb" />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
       </head>
       <body className="antialiased">
         <ThemeProvider defaultTheme="system" storageKey="btp-compare-theme">
