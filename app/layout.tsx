@@ -55,14 +55,6 @@ export const metadata = {
     siteName: 'BTP-Compare',
     title: 'BTP-Compare — Comparateur indépendant de logiciels BTP',
     description: 'Analyses indépendantes et comparatifs interactifs. Plus de 1 500 avis testés.',
-    images: [
-      {
-        url: 'https://btp-compare.fr/og-image.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'BTP-Compare',
-      },
-    ],
   },
   twitter: {
     card: 'summary_large_image',

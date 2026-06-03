@@ -13,7 +13,7 @@ import {
   BookOpen, Search, HardHat, FileSearch, Eye,
   MessageSquare, ChevronRight,
   Scale, TrendingUp, Sparkles, Star,
-  BarChart3, Award, Layers
+  BarChart3, Award, Layers, Menu
 } from 'lucide-react';
 
 // ─── Helpers visuels ─────────────────────────────────────────────────────────
@@ -91,6 +91,7 @@ const COMPARAISONS_PHARES = [
 ];
 
 export default function HomePage() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   return (
     <div className="min-h-screen gradient-subtle">
 
@@ -127,8 +128,40 @@ export default function HomePage() {
               </Link>
             </nav>
 
-            <ThemeToggle />
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              <button
+                onClick={() => setMobileMenuOpen(v => !v)}
+                className="md:hidden p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                aria-label="Ouvrir le menu"
+                aria-expanded={mobileMenuOpen}
+              >
+                {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
+            </div>
           </div>
+
+          {/* Menu mobile déroulant */}
+          {mobileMenuOpen && (
+            <nav className="md:hidden border-t border-border py-3 flex flex-col gap-1">
+              {[
+                { href: '/logiciels', label: 'Logiciels' },
+                { href: '#metiers', label: 'Métiers' },
+                { href: '/comparer', label: 'Comparer' },
+                { href: '#quiz', label: 'Quiz' },
+                { href: '/blog', label: 'Blog' },
+              ].map(item => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="px-2 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+          )}
         </div>
       </header>
 
