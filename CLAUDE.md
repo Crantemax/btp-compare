@@ -29,13 +29,23 @@
 
 ```
 /                               → Homepage (page.tsx)
+/logiciels                      → Index logiciels (grille filtrable + recherche)
 /logiciels/[slug]               → Fiche logiciel (17 logiciels)
-/comparer/[slugs]               → Comparaison A-vs-B (21 comparaisons)
+/comparer                       → Index comparaisons (constructeur 2-3 logiciels + 21 comparatifs)
+/comparer/[slugs]               → Comparaison A-vs-B (21) OU A-vs-B-vs-C (3-way, 35 combos)
 /[metier]                       → Page métier (20 métiers)
 /[metier]/[probleme]            → Page problème (20 × 4 = 80 pages)
 /[metier]/taille/[taille]       → Page taille entreprise (20 × 4 = 80 pages)
-/legal/[slug]                   → Pages légales
+/[metier]/ville/[ville]         → Page ville (20 × 10 = 200 pages, SEO local)
+/blog                           → Index blog
+/blog/[slug]                    → Article (5 articles)
+/legal/[slug]                   → Pages légales (6)
 ```
+
+**Total : 474 pages générées (SSG).**
+**Schemas JSON-LD** : inline `<script type="application/ld+json">` (PAS via metadata.other — ne marchait pas). Organization+WebSite global (layout), SoftwareApplication/Review/Article/FAQ/Breadcrumb/ItemList selon page.
+**Image OG** : générée dynamiquement via `app/opengraph-image.tsx` (ImageResponse, edge).
+**Menu mobile** : burger sur homepage (`mobileMenuOpen` state).
 
 **⚠️ Conflit de routes résolu :** `/[metier]/[probleme]` et `/[metier]/taille/[taille]` coexistent grâce au préfixe statique `/taille/`.
 
@@ -74,7 +84,9 @@ interface Logiciel {
 **Liens affiliés configurés :**
 - Obat : `https://obat.com/?ref=btp_compare` ✅
 - Axonaut : `https://axonaut.com/?a=ADE1CH12F6` ✅
-- Abby, Tiime, Pennylane, Indy, Shine, Keobiz → **à récupérer sur Affilae/Impact et mettre à jour**
+- Abby : `https://c3po.link/QMcSuHysK5` ✅ (Affilae)
+- Tiime : `https://c3po.link/QuQWVjXPap` ✅ (Affilae)
+- Pennylane, Indy, Shine, Keobiz, Tolteck, Progbat, EBP, Sellsy → **à récupérer**
 - Autres : `lienAffiliation` absent → 0€ de revenu
 
 ### `data/metiers.ts`
