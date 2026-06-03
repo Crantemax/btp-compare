@@ -34,9 +34,11 @@ const PROBLEMES_PAR_METIER: Record<string, string[]> = {
 };
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  // Homepage + blog index
+  // Homepage + pages index
   const staticUrls: MetadataRoute.Sitemap = [
     { url: BASE_URL, lastModified: new Date(), changeFrequency: 'weekly', priority: 1.0 },
+    { url: `${BASE_URL}/logiciels`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${BASE_URL}/comparer`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
     { url: `${BASE_URL}/blog`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
   ];
 

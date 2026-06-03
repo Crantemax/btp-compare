@@ -110,14 +110,14 @@ export default function HomePage() {
             </Link>
 
             <nav className="hidden md:flex items-center space-x-8">
-              <Link href="#logiciels" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-smooth">
+              <Link href="/logiciels" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-smooth">
                 Logiciels
               </Link>
               <Link href="#metiers" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-smooth">
                 Métiers
               </Link>
-              <Link href="#comparaisons" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-smooth">
-                Comparaisons
+              <Link href="/comparer" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-smooth">
+                Comparer
               </Link>
               <Link href="#quiz" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-smooth">
                 Quiz
@@ -836,7 +836,7 @@ export default function HomePage() {
       ═══════════════════════════════════════════════════════ */}
       <footer className="border-t border-border py-12">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-8 mb-12">
+          <div className="grid md:grid-cols-5 gap-8 mb-12">
             <div className="md:col-span-2">
               <div className="flex items-center space-x-2 mb-4">
                 <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white text-sm font-bold">
@@ -869,6 +869,15 @@ export default function HomePage() {
                     Voir les {metiers.length} métiers →
                   </Link>
                 </li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-semibold text-foreground mb-4">Ressources</h3>
+              <ul className="space-y-2">
+                <li><Link href="/logiciels" className="text-sm text-muted-foreground hover:text-foreground transition-smooth">Tous les logiciels</Link></li>
+                <li><Link href="/comparer" className="text-sm text-muted-foreground hover:text-foreground transition-smooth">Comparer les logiciels</Link></li>
+                <li><Link href="/blog" className="text-sm text-muted-foreground hover:text-foreground transition-smooth">Blog & guides</Link></li>
+                <li><Link href="/#quiz" className="text-sm text-muted-foreground hover:text-foreground transition-smooth">Quiz personnalisé</Link></li>
               </ul>
             </div>
             <div>
